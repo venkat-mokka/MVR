@@ -49,6 +49,8 @@ namespace DMLAutomationProcess.Models
         public int PrefixID { get; set; }
 
         [Display(Name = "Aadhaar Number")]
+        [StringLength(12, MinimumLength = 12, ErrorMessage = "Aadhaar number must be exactly 12 digits.")]
+        [RegularExpression(@"^\d{12}$", ErrorMessage = "Aadhaar number must be exactly 12 digits.")]
         public long? AadhaarNo { get; set; }
 
         [Display(Name = "ABHA Number")]
@@ -147,6 +149,7 @@ namespace DMLAutomationProcess.Models
         [Key]
         public int ID { get; set; }
         public required string Name { get; set; }
+        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
         public virtual required Unit Units { get; set; }
     }
     public class Unit

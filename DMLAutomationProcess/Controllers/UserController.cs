@@ -200,59 +200,16 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<IActionResult> Registration()
         {
-            try
-            {
-                var model = new OPRegistration
-                {
-                    UHID = DateTime.Now.ToString("yyyyMMdd") + "0002",
-                    OPID = "OP." + DateTime.Now.ToString("yyMMdd") + "0002",
-                    FirstName = "V",
-                    LastName = "M",
-                    Age = 35,
-                    DOB = DateTime.Now,
-                    Email = "MV.doe@example.com",
-                    Phone = "987654321",
-                    PrefixID = 1,
-                    AadhaarNo = 123456789012,
-                    AbhaNo = 987654321012345,
-                    PatientTypeID = null,
-                    DepartmentID = null,
-                    SpecialityID = null,
-                    DoctorID = null,
-                    FeeTypeID = null,
-                    YearID = null
-                };
+            OpRegistrationViewModel opRegistrationViewModel = new OpRegistrationViewModel();
+            OPRegistration oPRegistrations = new OPRegistration();
 
-                // Create parameters for the stored procedure
-                var parameters = new[]
-                {
-                    new SqlParameter("@UHID", model?.UHID),
-                    new SqlParameter("@OPID", model?.OPID),
-                    new SqlParameter("@FirstName", model?.FirstName),
-                    new SqlParameter("@LastName", model?.LastName),
-                    new SqlParameter("@Age", model?.Age),
-                    new SqlParameter("@DOB", model?.DOB),
-                    new SqlParameter("@Email", model?.Email),
-                    new SqlParameter("@Phone", model?.Phone),
-                    new SqlParameter("@PrefixID", model?.PrefixID),
-                    new SqlParameter("@AadhaarNo", model?.AadhaarNo),
-                    new SqlParameter("@AbhaNo", model?.AbhaNo),
-                    new SqlParameter("@PatientTypeID", DBNull.Value),
-                    new SqlParameter("@DepartmentID", DBNull.Value),
-                    new SqlParameter("@SpecialityID", DBNull.Value),
-                    new SqlParameter("@DoctorID", DBNull.Value),
-                    new SqlParameter("@FeeTypeID", DBNull.Value),
-                    new SqlParameter("@YearID", DBNull.Value)
-                    };
+            oPRegistrations.UHID = DateTime.Now.ToString("yyyyMMdd") + "0001";
+            oPRegistrations.OPID = "OP." + DateTime.Now.ToString("yyMMdd") + "0001";
+            oPRegistrations.VisitDate = DateTime.Now;
+            opRegistrationViewModel.OPRegistrations = oPRegistrations;
 
-                _context.Database.ExecuteSqlRaw("EXEC InsertOPPatient @UHID, @OPID, @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
-            }
-            catch (Exception ex)
-            {
-
-            }
             await BindData();
-            return View();
+            return View(opRegistrationViewModel);
         }
 
         public async Task<bool> BindData()
@@ -312,6 +269,12 @@ namespace DMLAutomationProcess.Controllers
                 Value = r.ID.ToString()
 
             }).ToListAsync();
+            ViewBag.Units = await _context.Units.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
 
             return true;
         }
@@ -319,74 +282,55 @@ namespace DMLAutomationProcess.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(OPRegistration models)
         {
-            if (models != null)
+            try
             {
                 var model = new OPRegistration
                 {
-                    UHID = DateTime.Now.ToString("yyyyMMdd") + "0002",
-                    OPID = "OP." + DateTime.Now.ToString("yyMMdd") + "0002",
-                    FirstName = "MMM",
-                    LastName = "VVV",
-                    Age = 30,
+                    FirstName = "V",
+                    LastName = "M",
+                    Age = 35,
                     DOB = DateTime.Now,
-                    Email = "mm.doe@example.com",
-                    Phone = "0123456789",
+                    Email = "MV.doe@example.com",
+                    Phone = "987654321",
                     PrefixID = 1,
                     AadhaarNo = 123456789012,
                     AbhaNo = 987654321012345,
-                    //PatientTypeID = 1,
-                    //DepartmentID = 1,
-                    //SpecialityID = 1,
-                    //DoctorID = 1,
-                    //FeeTypeID = 1,
-                    //YearID = 1
+                    PatientTypeID = null,
+                    DepartmentID = null,
+                    SpecialityID = null,
+                    DoctorID = null,
+                    FeeTypeID = null,
+                    YearID = null
                 };
 
                 // Create parameters for the stored procedure
                 var parameters = new[]
                 {
-                    new SqlParameter("@UHID", model.UHID),
-                    new SqlParameter("@OPID", model.OPID),
-                    new SqlParameter("@FirstName", model.FirstName),
-                    new SqlParameter("@LastName", model.LastName),
-                    new SqlParameter("@Age", model.Age),
-                    new SqlParameter("@DOB", model.DOB),
-                    new SqlParameter("@Email", model.Email),
-                    new SqlParameter("@Phone", model.Phone),
-                    new SqlParameter("@PrefixID", model.PrefixID),
-                    new SqlParameter("@AadhaarNo", model.AadhaarNo),
-                    new SqlParameter("@AbhaNo", model.AbhaNo),
-                    new SqlParameter("@PatientTypeID", model.PatientTypeID),
-                    new SqlParameter("@DepartmentID", model.DepartmentID),
-                    new SqlParameter("@SpecialityID", model.SpecialityID),
-                    new SqlParameter("@DoctorID", model.DoctorID),
-                    new SqlParameter("@FeeTypeID", model.FeeTypeID),
-                    new SqlParameter("@YearID", model.YearID)
+                    new SqlParameter("@FirstName", model?.FirstName),
+                    new SqlParameter("@LastName", model?.LastName),
+                    new SqlParameter("@Age", model?.Age),
+                    new SqlParameter("@DOB", model?.DOB),
+                    new SqlParameter("@Email", model?.Email),
+                    new SqlParameter("@Phone", model?.Phone),
+                    new SqlParameter("@PrefixID", model?.PrefixID),
+                    new SqlParameter("@AadhaarNo", model?.AadhaarNo),
+                    new SqlParameter("@AbhaNo", model?.AbhaNo),
+                    new SqlParameter("@PatientTypeID", DBNull.Value),
+                    new SqlParameter("@DepartmentID", DBNull.Value),
+                    new SqlParameter("@SpecialityID", DBNull.Value),
+                    new SqlParameter("@DoctorID", DBNull.Value),
+                    new SqlParameter("@FeeTypeID", DBNull.Value),
+                    new SqlParameter("@YearID", DBNull.Value)
                     };
 
-                // Manage the transaction in .NET
-                using (var transaction = _context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        // Execute the stored procedure
-                        _context.Database.ExecuteSqlRaw("EXEC InsertOPPatient @UHID, @OPID, @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
+                _context.Database.ExecuteSqlRaw("EXEC InsertOPPatient @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
+            }
+            catch (Exception ex)
+            {
 
-                        // Commit the transaction
-                        transaction.Commit();
-                    }
-                    catch (Exception ex)
-                    {
-                        // Rollback the transaction in case of an error
-                        transaction.Rollback();
-                        // Log or handle the exception as needed
-                        throw; // Optionally re-throw to let higher-level logic handle it
-                    }
-                }
             }
             return View();
         }
-
 
         [HttpPost]
         public JsonResult Test(string Prefix)
