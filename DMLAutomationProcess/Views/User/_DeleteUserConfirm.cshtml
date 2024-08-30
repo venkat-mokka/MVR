@@ -1,0 +1,52 @@
+﻿@model EditUserViewModel
+@using DMLAutomationProcess.Models
+
+@if (Model != null)
+{
+    <form asp-action="DeleteUserConfirm" asp-controller="User" data-ajax="true" data-ajax-method="POST" data-ajax-update="#UpdateID" data-ajax-loading="#LoadingID" data-ajax-complete="ModalClose1" data-ajax-success="ModalClose">
+        <div class="modal fade in dilogbox_sec" id="myModal" role="dialog" aria-hidden="false" style="display: block;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" onclick="ModalClose3()">&times;</button>
+                        <h4 class="modal-title">Delete User Confirm ?</h4>
+                        @Html.HiddenFor(m => m.Id)
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" action="">
+                            <div class="col-sm-12 text-center">
+                                <section class="col-sm-10">
+                                    Are you sure want to delete this user "<strong>@Model.UserName </strong>" Permanently?
+                                </section>
+                                <section class="col-sm-10">
+                                    <b>If you delete this, then associated information will also get deleted.</b>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary"> Delete</button>
+                        <button type="button" class="btn btn-default" onclick="ModalClose3()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<style>
+    .modal-dialog {
+        position: absolute;
+        z-index: 9999999;
+        margin: 0px auto;
+        left: 32%;
+    }
+
+    #mymodal {
+        opacity: 0.5;
+    }
+</style>
+

@@ -1,0 +1,40 @@
+﻿@model ApplicationRoleViewModel
+@using DMLAutomationProcess.Models
+<form asp-action="AddRole" asp-controller="Account" data-ajax="true" data-ajax-method="POST" data-ajax-update="#UpdateID" data-ajax-loading="#LoadingID" data-ajax-complete="ModalClose1" data-ajax-success="ModalClose">
+    <div class="modal fade in" id="myModal" role="dialog" aria-hidden="false" style="display: block;">
+        <div class="modal-dialog" style="width:930px !important;">
+            <!-- Modal content-->
+            <div class="modal-content modal-add">
+                <div class="modal-header">
+                    <button type="button" class="close" onclick="ModalClose1()">&times;</button>
+                    <h4 class="modal-title">Add Role</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" action="">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">  Role Name<span class="text-danger">*</span>:</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Role Name" })
+                                @Html.ValidationMessageFor(model => model.RoleName, null, new { @class = "text-danger RoleName" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary"> Add</button>
+                        <button type="button" class="btn btn-default" onclick="ModalClose1()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</form>
+<style>
+    #mymodal {
+        opacity: 0.5;
+    }
+</style>
+

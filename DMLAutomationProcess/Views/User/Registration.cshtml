@@ -1,0 +1,66 @@
+﻿@model RegisterViewModel
+@using DMLAutomationProcess.Models
+@{
+    ViewBag.Title = "Registration";
+}
+<div class="row">
+    <div class="form-group">
+        <div class="col-sm-12">
+            <label class="control-label col-sm-4">  UserName<span class="text-danger">*</span>:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Enter UserName" })
+            </div>
+            <label class="control-label col-sm-4">  UserName<span class="text-danger">*</span>:</label>
+            <div class="col-sm-6">
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Enter UserName" })
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
+    <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
+    <script type="text/javascript">
+        $('#table1').DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1]
+            }]
+        });
+              
+
+        $("#UserName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/User/Test",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        // Map the response data to the format required by the autocomplete widget
+                        response($.map(data, function (item) {
+                            // Use console.log for debugging if needed
+                            console.log(item.Name);
+                            return { label: item.Name, value: item.Name };
+                        }));
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching autocomplete data:", error);
+                        response([]); // Return an empty array in case of an error
+                    }
+                });
+            },
+            minLength: 2, // Minimum length of the input to trigger autocomplete
+            messages: {
+                noResults: "No results found",
+                results: function (amount) {
+                    return amount + " result(s) found";
+                }
+            }
+        });
+    </script>
+}
