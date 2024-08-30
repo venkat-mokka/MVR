@@ -11,201 +11,324 @@
                 <div class="box-header" style="text-align:center">
                     <h3 class="box-title">OP Registration (NEW)</h3>
                 </div>
-                <div class="box-body" style="height:550px !important">
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.UHID, new { @class = "form-control", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.UHID, null, new { @class = "text-danger" })
+                <div class="box-body" style="height:1050px !important">
+                    <form asp-action="Registration" asp-controller="User" method="post">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.UHID, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.UHID, null, new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">OP<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.OPID, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.OPID, null, new { @class = "text-danger" })
+                                </div>
+
                             </div>
 
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">OP<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.OPID, new { @class = "form-control", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.OPID, null, new { @class = "text-danger" })
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Visit Date<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.VisitDate, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.VisitDate, null, new { @class = "text-danger" })
+                                </div>
                             </div>
-
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Visit Date<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.VisitDate, new { @class = "form-control", @readonly = "readonly" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.VisitDate, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <label class="control-label">Is MLC Case:</label>
-                                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
-                                    @Html.CheckBoxFor(model => model.OPRegistrations.IsActive)
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Is MLC Case:</label>
+                                    <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                        @Html.CheckBoxFor(model => model.OPRegistrations.IsMlcCase.Value)
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <br />
-                    <div class="clearfix"></div>
-                    <br />
-                    <div class="form-group">
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <label class="control-label">Title<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.PrefixID, null, new { @class = "text-danger" })
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <label class="control-label">Title<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.PrefixID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">First Name<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.FirstName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter FirstName" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.FirstName, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Middle Name:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.MiddleName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter MiddleName" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Last Name<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.LastName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter LastName" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.LastName, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <label class="control-label">Age<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.Age, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Age" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.Age, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <label class="control-label" style="visibility:hidden;">Years</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.Years, new SelectList(ViewBag.Years, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.Years, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <div class="input-group">
+                                    <label class="control-label">Gender</label>
+                                    @Html.DropDownListFor(model => model.GenderID, new SelectList(ViewBag.Genders, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.GenderID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">DOB</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.DOB, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter DOB" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.DOB, null, new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">First Name<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.FirstName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter FirstName" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.FirstName, null, new { @class = "text-danger" })
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Patient Type<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.PatientTypeID, new SelectList(ViewBag.PatientTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.PatientTypeID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Departments<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.DepartmentID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Speciality<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.SpecialityID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Unit<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.UnitID, new SelectList(ViewBag.Units, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.UnitID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Doctor<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.DoctorID, null, new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Middle Name:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.MiddleName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter MiddleName" })
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Fee Type<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.FeeTypeID, new SelectList(ViewBag.FeeTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.FeeTypeID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Mobile No:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.Phone, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Mobile No" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Aadhar No:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.AadhaarNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.AadhaarNo, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Abha No:</label>
+                                    @Html.TextBoxFor(model => model.OPRegistrations.AbhaNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Abha No" })
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Last Name<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.LastName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter LastName" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.LastName, null, new { @class = "text-danger" })
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group" id="FatherNameDiv">
+                                    <label class="control-label">Father Name:</label>
+                                    @Html.TextBoxFor(model => model.ContactDetails.FatherName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No" })
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.FatherName, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            @* <div class="col-md-3">
+                            <div class="input-group" id="HusbandNameDiv" style="display:none">
+                            <label class="control-label">Husband Name:</label>
+                            @Html.TextBoxFor(model => model.ContactDetails.HusbandName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No" })
+                            @Html.ValidationMessageFor(model => model.ContactDetails.HusbandName, null, new { @class = "text-danger" })
+                            </div>
+                            </div> *@
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Marital Status<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.ContactDetails.MaritalStatusID, new SelectList(ViewBag.MaritalStatuss, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.MaritalStatusID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Religion<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.ContactDetails.ReligionID, new SelectList(ViewBag.Religions, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.ReligionID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Caste<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.ContactDetails.Caste, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.Caste, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Blood Group<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.ContactDetails.BloodGroupID, new SelectList(ViewBag.BloodGroups, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.BloodGroupID, null, new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <label class="control-label">Age<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.Age, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Age" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.Age, null, new { @class = "text-danger" })
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Other Id Proof<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.ContactDetails.IdProofID, new SelectList(ViewBag.IdProofs, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.IdProofID, null, new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <label class="control-label" style="visibility:hidden;">Years</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.Years, new SelectList(ViewBag.Years, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.Years, null, new { @class = "text-danger" })
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Village<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.ContactDetails.VillageID, new SelectList(ViewBag.Villages, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.VillageID, null, new { @class = "text-danger" })
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="input-group">
-                                <label class="control-label">Gender</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.Prefixs.GenderID, new SelectList(ViewBag.Genders, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.Prefixs.GenderID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">DOB</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.DOB, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter DOB" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.DOB, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="clearfix"></div>
-                    <br />
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <label class="control-label">Patient Type<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.PatientTypeID, new SelectList(ViewBag.PatientTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.PatientTypeID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Departments<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.DepartmentID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Speciality<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.SpecialityID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Unit<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.Specialitys.Units.ID, new SelectList(ViewBag.Units, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.Specialitys.Units.ID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Doctor<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.DoctorID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="clearfix"></div>
-                    <br />
-                    <div class="form-group">
-                        <div class="col-md-3">
-                            <div class="input-group">
-                                <label class="control-label">Fee Type<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.FeeTypeID, new SelectList(ViewBag.FeeTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.FeeTypeID, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Mobile No:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.Phone, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Mobile No" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Aadhar No:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.AadhaarNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
-                                @Html.ValidationMessageFor(model => model.OPRegistrations.AadhaarNo, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <label class="control-label">Abha No:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.AbhaNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Abha No" })
-                            </div>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="clearfix"></div>
-                    <br />
 
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Mandal<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.MandalID, new SelectList(ViewBag.Mandals, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.MandalID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">District<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.DistrictID, new SelectList(ViewBag.Districts, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.DistrictID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">State<span class="text-danger"> *</span>:</label>
+                                    @Html.DropDownListFor(model => model.StateID, new SelectList(ViewBag.States, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.StateID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
 
-                    <br />
-                    <br />
-                    <div class="clearfix"></div>
-                    <br />
-                    <div class="box-footer">
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Pincode<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.ContactDetails.Pincode, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.Pincode, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Alternate Mobile Number<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.ContactDetails.AltMobileNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.AltMobileNo, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <label class="control-label">Ref. By<span class="text-danger"> *</span>:</label>
+                                    @Html.TextBoxFor(model => model.ContactDetails.RefBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                                    @Html.ValidationMessageFor(model => model.ContactDetails.RefBy, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Is Emergency Case:</label>
+                                    <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+                                        @Html.CheckBoxFor(model => model.ContactDetails.IsEmergencyCase)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary">Register / Print</button>
+                        <br />
+                        <div class="form-group">
                         </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary">Clear</button>
+                        <br />
+                        <br />
+                        <div class="clearfix"></div>
+                        <br />
+                        <div class="box-footer">
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary">Register / Print</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary">Clear</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary">Update</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary">Search</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-primary">Print</button>
+                            </div>
                         </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary">Update</button>
-                        </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary">Search</button>
-                        </div>
-                        <div class="col-sm-2">
-                            <button type="button" class="btn btn-primary">Print</button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

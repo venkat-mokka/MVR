@@ -23,6 +23,8 @@ namespace DMLAutomationProcess.Models
         [Required]
         public DateTime VisitDate { get; set; }
 
+        public bool? IsMlcCase { get; set; }
+
         [Required]
         [Display(Name = "First Name")]
         public string? FirstName { get; set; }
@@ -86,7 +88,7 @@ namespace DMLAutomationProcess.Models
         public virtual Doctor? Doctors { get; set; }
         public virtual FeeType? FeeTypes { get; set; }
         public virtual Year? Years { get; set; }
-        public virtual ICollection<ContactDetail> ContactDetails { get; set; }
+        public virtual ICollection<ContactDetail>? ContactDetails { get; set; }
     }
 
     public class ContactDetail
@@ -97,6 +99,8 @@ namespace DMLAutomationProcess.Models
         public string? FatherName { get; set; }
         public string? HusbandName { get; set; }
         public string? Caste { get; set; }
+        public int? Pincode { get; set; }
+        public int? AltMobileNo { get; set; }
         public bool IsEmergencyCase { get; set; }
         public string? RefBy { get; set; }
         public int? MaritalStatusID { get; set; }
@@ -158,7 +162,7 @@ namespace DMLAutomationProcess.Models
         public int ID { get; set; }
         public int SpecialityID { get; set; }
         public required string Name { get; set; }
-        public virtual required ICollection<Speciality> Speciality { get; set; }
+        public virtual Speciality? Specialitys { get; set; }
     }
     public class Doctor
     {

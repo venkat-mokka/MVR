@@ -182,7 +182,7 @@ namespace DMLAutomationProcess.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialityID = table.Column<int>(type: "int", nullable: false),
+                    SpecialityID = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -392,6 +392,7 @@ namespace DMLAutomationProcess.Migrations
                     UHID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     OPID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     VisitDate = table.Column<DateTime>(type: "datetime2", maxLength: 20, nullable: false),
+                    IsMlcCase = table.Column<bool>(type: "bit", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -400,7 +401,7 @@ namespace DMLAutomationProcess.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     PrefixID = table.Column<int>(type: "int", nullable: false),
-                    AadhaarNo = table.Column<long>(type: "bigint", nullable: true),
+                    AadhaarNo = table.Column<long>(type: "bigint", maxLength: 12, nullable: true),
                     AbhaNo = table.Column<long>(type: "bigint", nullable: true),
                     PatientTypeID = table.Column<int>(type: "int", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DMLAutomationProcess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830025536_InitialContext")]
+    [Migration("20240830141147_InitialContext")]
     partial class InitialContext
     {
         /// <inheritdoc />
@@ -283,6 +283,7 @@ namespace DMLAutomationProcess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<long?>("AadhaarNo")
+                        .HasMaxLength(12)
                         .HasColumnType("bigint");
 
                     b.Property<long?>("AbhaNo")
@@ -314,6 +315,9 @@ namespace DMLAutomationProcess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsMlcCase")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
@@ -484,7 +488,7 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpecialityID")
+                    b.Property<int?>("SpecialityID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -878,7 +882,7 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired();
 
                     b.HasOne("DMLAutomationProcess.Models.Speciality", "Specialitys")
-                        .WithMany()
+                        .WithMany("OPRegistrations")
                         .HasForeignKey("SpecialityID");
 
                     b.HasOne("DMLAutomationProcess.Models.Year", "Years")
@@ -914,7 +918,7 @@ namespace DMLAutomationProcess.Migrations
             modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
                 {
                     b.HasOne("DMLAutomationProcess.Models.Unit", "Units")
-                        .WithMany("Speciality")
+                        .WithMany("Specialitys")
                         .HasForeignKey("UnitsID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1049,6 +1053,11 @@ namespace DMLAutomationProcess.Migrations
                     b.Navigation("ContactDetails");
                 });
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
+                {
+                    b.Navigation("OPRegistrations");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
                 {
                     b.Navigation("Countrys");
@@ -1056,7 +1065,7 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
                 {
-                    b.Navigation("Speciality");
+                    b.Navigation("Specialitys");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>

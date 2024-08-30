@@ -1,4 +1,5 @@
 ﻿using DMLAutomationProcess.Models;
+using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,11 +17,13 @@ namespace DMLAutomationProcess.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-        public UserController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        private readonly TelemetryClient _telemetryClient;
+        public UserController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, TelemetryClient telemetryClient)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
+            _telemetryClient = telemetryClient;
         }
 
         #region Manage Users
@@ -214,6 +217,8 @@ namespace DMLAutomationProcess.Controllers
 
         public async Task<bool> BindData()
         {
+            // Patient Demographic Details 
+
             ViewBag.Prefixs = await _context.Prefixs.Select(r => new SelectListItem
             {
                 Text = r.Name,
@@ -276,6 +281,68 @@ namespace DMLAutomationProcess.Controllers
 
             }).ToListAsync();
 
+
+            // Patient Contact Details 
+            ViewBag.MaritalStatuss = await _context.MaritalStatuss.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
+            ViewBag.Religions = await _context.Religions.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
+            ViewBag.BloodGroups = await _context.BloodGroups.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+            ViewBag.IdProofs = await _context.IdProofs.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
+            ViewBag.Villages = await _context.Villages.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
+            ViewBag.Mandals = await _context.Mandals.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
+            ViewBag.Districts = await _context.Districts.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+            ViewBag.States = await _context.States.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+            ViewBag.Countrys = await _context.Countrys.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.ID.ToString()
+
+            }).ToListAsync();
+
             return true;
         }
 
@@ -323,11 +390,11 @@ namespace DMLAutomationProcess.Controllers
                     new SqlParameter("@YearID", DBNull.Value)
                     };
 
-                _context.Database.ExecuteSqlRaw("EXEC InsertOPPatient @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
+                await _context.Database.ExecuteSqlRawAsync("EXEC InsertOPPatient @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
             }
             catch (Exception ex)
             {
-
+                _telemetryClient.TrackException(ex);
             }
             return View();
         }
