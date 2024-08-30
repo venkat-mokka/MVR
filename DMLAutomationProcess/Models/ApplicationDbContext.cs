@@ -20,6 +20,7 @@ namespace DMLAutomationProcess.Models
         public DbSet<PatientType> PatientTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Speciality> Specialitys { get; set; }
+        public DbSet<Unit> Units { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<FeeType> FeeTypes { get; set; }
         public DbSet<Year> Years { get; set; }

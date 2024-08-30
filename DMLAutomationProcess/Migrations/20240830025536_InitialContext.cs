@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DMLAutomationProcess.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialContext : Migration
+    public partial class InitialContext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -177,16 +177,17 @@ namespace DMLAutomationProcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialitys",
+                name: "Units",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    SpecialityID = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialitys", x => x.ID);
+                    table.PrimaryKey("PK_Units", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -338,6 +339,26 @@ namespace DMLAutomationProcess.Migrations
                         name: "FK_Prefixs_Genders_GenderID",
                         column: x => x.GenderID,
                         principalTable: "Genders",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Specialitys",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitsID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialitys", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Specialitys_Units_UnitsID",
+                        column: x => x.UnitsID,
+                        principalTable: "Units",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -671,6 +692,11 @@ namespace DMLAutomationProcess.Migrations
                 column: "GenderID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Specialitys_UnitsID",
+                table: "Specialitys",
+                column: "UnitsID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_States_DistrictID",
                 table: "States",
                 column: "DistrictID");
@@ -750,6 +776,9 @@ namespace DMLAutomationProcess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genders");
+
+            migrationBuilder.DropTable(
+                name: "Units");
 
             migrationBuilder.DropTable(
                 name: "Mandals");

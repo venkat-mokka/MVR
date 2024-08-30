@@ -6,8 +6,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @*   <title>@ViewData["Title"] - RVMH</title> *@
-    <title>@ViewData["Title"] - NBH</title>
+    <title>@ViewData["Title"] - RVMH</title>
+    @* <title>@ViewData["Title"] - NBH</title> *@
     <link href="~/Content/css/fonts.css" rel="stylesheet" />
     <link href="~/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/assets/bootstrap/css/OCA_Custome.css" rel="stylesheet" />
@@ -24,7 +24,7 @@
             <span class="fa fa-bars"></span>
         </button>
         <a href="@Url.Action("Index", "Home")" class="navbar-brand">
-            <img style="width:70px; height:33px;" src="../images/rvm123.png" />
+            <img style="width:70px; height:33px;" src="../images/rvm.png" />
         </a>
         @if (@User.Identity.IsAuthenticated)
         {
@@ -58,33 +58,33 @@
             </ul>
         }
 
-      @*   @if (User.Identity.IsAuthenticated)
-        { *@
+        @if (User.Identity.IsAuthenticated)
+        {
             <ul class="nav oca-nav navbar-collapse collapse" id="nav-vertical">
-               @*  @if (User.IsInRole("Admin"))
-                { *@
+                @if (User.IsInRole("Admin"))
+                {
                     <li class="">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bars"></i>
-                         
+                            <span>OP DEPARTMENT</span>
                             <b class="arrow fa fa-caret-down"></b>
                         </a>
                         <ul class="dropdown-menu dropdown-navbar">
                             <li>
-                        <a href='@Url.Action("Registration", "User")' onclick="loading()">
+                                <a href='@Url.Action("Registration", "User")' onclick="loading()">
                                     <i class="fa fa-book"></i>
-                                    <span>OP</span>
+                                    <span>OP Registration</span>
                                 </a>
                             </li>
                             <li>
                                 <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
                                     <i class="fa fa-plus"></i>
-                                    <span>IP</span>
+                                    <span>IP Registration</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                  @*   <li class="">
+                    <li class="">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-dollar"></i>
                             <span>BILLING</span>
@@ -167,10 +167,10 @@
                                 </a>
                             </li>
                         </ul>
-                    </li> *@
-               @*  } *@
+                    </li>
+                }
             </ul>
-      @*   } *@
+        }
     </div>
     <!-- END Navbar -->
     <div class="container" id="main-container">

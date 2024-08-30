@@ -437,7 +437,12 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UnitsID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("UnitsID");
 
                     b.ToTable("Specialitys");
                 });
@@ -462,6 +467,26 @@ namespace DMLAutomationProcess.Migrations
                     b.HasIndex("DistrictID");
 
                     b.ToTable("States");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpecialityID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Units");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
@@ -850,7 +875,7 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired();
 
                     b.HasOne("DMLAutomationProcess.Models.Speciality", "Specialitys")
-                        .WithMany("OPRegistrations")
+                        .WithMany()
                         .HasForeignKey("SpecialityID");
 
                     b.HasOne("DMLAutomationProcess.Models.Year", "Years")
@@ -881,6 +906,17 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired();
 
                     b.Navigation("Genders");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Unit", "Units")
+                        .WithMany("Speciality")
+                        .HasForeignKey("UnitsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
@@ -1010,14 +1046,14 @@ namespace DMLAutomationProcess.Migrations
                     b.Navigation("ContactDetails");
                 });
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
-                {
-                    b.Navigation("OPRegistrations");
-                });
-
             modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
                 {
                     b.Navigation("Countrys");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
+                {
+                    b.Navigation("Speciality");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>

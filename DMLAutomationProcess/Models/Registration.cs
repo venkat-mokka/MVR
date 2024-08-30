@@ -147,7 +147,15 @@ namespace DMLAutomationProcess.Models
         [Key]
         public int ID { get; set; }
         public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public virtual required Unit Units { get; set; }
+    }
+    public class Unit
+    {
+        [Key]
+        public int ID { get; set; }
+        public int SpecialityID { get; set; }
+        public required string Name { get; set; }
+        public virtual required ICollection<Speciality> Speciality { get; set; }
     }
     public class Doctor
     {
