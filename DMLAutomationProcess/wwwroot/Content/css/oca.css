@@ -22,7 +22,6 @@ body {
     color: #393939;
     -webkit-font-smoothing: antialiased;
     background: #efefef;
-    background-image: url(../images/oca-login-bg.png);
 }
 
 ::-moz-selection {
@@ -6306,8 +6305,8 @@ div.tagsinput {
 .login-page:before,
 .error-page:before,
 #main-content {
-    /*   background-image: url('../images/oca-login-bg.png');
-    height:500px;*/
+       background-image: url('../images/rvm.png');
+    height:500px;
 }
 /* Content Background */
 .box > .box-title {

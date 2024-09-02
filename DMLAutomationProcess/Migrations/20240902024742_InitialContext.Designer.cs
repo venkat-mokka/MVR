@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DMLAutomationProcess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830141147_InitialContext")]
+    [Migration("20240902024742_InitialContext")]
     partial class InitialContext
     {
         /// <inheritdoc />
@@ -25,253 +25,194 @@ namespace DMLAutomationProcess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.AgeType", b =>
+                {
+                    b.Property<int>("AgeTypeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AgeTypeID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("AgeTypeID");
+
+                    b.ToTable("AgeType");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.BloodGroup", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("BloodGroupID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BloodGroupID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("BloodGroupID");
 
-                    b.ToTable("BloodGroups");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.ContactDetail", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int?>("BloodGroupID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Caste")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FatherName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HusbandName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("IdProofID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsEmergencyCase")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MaritalStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OPRegistrationID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RefBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ReligionID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VillageID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("BloodGroupID");
-
-                    b.HasIndex("IdProofID");
-
-                    b.HasIndex("MaritalStatusID");
-
-                    b.HasIndex("OPRegistrationID");
-
-                    b.HasIndex("ReligionID");
-
-                    b.HasIndex("VillageID");
-
-                    b.ToTable("ContactDetails");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.Country", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StateID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("StateID");
-
-                    b.ToTable("Countrys");
+                    b.ToTable("BloodGroup");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Department", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("DepartmentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("DepartmentID");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("DistrictID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("MandalID")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistrictID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.Property<int>("StateID")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MandalID");
+                    b.HasKey("DistrictID");
 
-                    b.ToTable("Districts");
+                    b.HasIndex("StateID");
+
+                    b.ToTable("District");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Doctor", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("DoctorID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DoctorID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("DoctorID");
 
-                    b.ToTable("Doctors");
+                    b.ToTable("Doctor");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.FeeType", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("FeeTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeeTypeID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("FeeTypeID");
 
-                    b.ToTable("FeeTypes");
+                    b.ToTable("FeeType");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Gender", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("GenderID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GenderID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("GenderID");
 
-                    b.ToTable("Genders");
+                    b.ToTable("Gender");
                 });
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.IdProof", b =>
+            modelBuilder.Entity("DMLAutomationProcess.Models.IDProofType", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("IDProofTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IDProofTypeID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("IDProofTypeID");
 
-                    b.ToTable("IdProofs");
+                    b.ToTable("IDProofType");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Mandal", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("MandalID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MandalID"));
+
+                    b.Property<int>("DistrictID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("VillageID")
-                        .HasColumnType("int");
+                    b.HasKey("MandalID");
 
-                    b.HasKey("ID");
+                    b.HasIndex("DistrictID");
 
-                    b.HasIndex("VillageID");
-
-                    b.ToTable("Mandals");
+                    b.ToTable("Mandal");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.MaritalStatus", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("MaritalStatusID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaritalStatusID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("MaritalStatusID");
 
-                    b.ToTable("MaritalStatuss");
+                    b.ToTable("MaritalStatus");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.OPRegistration", b =>
@@ -282,20 +223,7 @@ namespace DMLAutomationProcess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<long?>("AadhaarNo")
-                        .HasMaxLength(12)
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("AbhaNo")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("Age")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DOB")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("DepartmentID")
@@ -304,58 +232,36 @@ namespace DMLAutomationProcess.Migrations
                     b.Property<int?>("DoctorID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("FeeTypeID")
                         .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsMlcCase")
+                    b.Property<bool?>("IsEmergencyCase")
                         .HasColumnType("bit");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("IsMlcCase")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OPID")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("PatientTypeID")
+                    b.Property<int>("PatientID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Phone")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<int>("PrefixID")
-                        .HasColumnType("int");
+                    b.Property<string>("ReferredBy")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("SpecialityID")
                         .HasColumnType("int");
 
-                    b.Property<string>("UHID")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<DateTime>("VisitDate")
-                        .HasMaxLength(20)
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("YearID")
-                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -365,172 +271,318 @@ namespace DMLAutomationProcess.Migrations
 
                     b.HasIndex("FeeTypeID");
 
+                    b.HasIndex("PatientID");
+
+                    b.HasIndex("SpecialityID");
+
+                    b.ToTable("OPRegistration");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Patient", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<long?>("AadhaarNo")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("AbhaNo")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AgeTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("AlternateMobileNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("BloodGroupID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Caste")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FatherName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("GenderID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("HusbandName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("IDProof")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("IDProofTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("MaritalStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MiddleName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("MobileNumber")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("PatientTypeID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PrefixID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReligionID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UHID")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<int?>("VillageID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AgeTypeID");
+
+                    b.HasIndex("BloodGroupID");
+
+                    b.HasIndex("GenderID");
+
+                    b.HasIndex("IDProofTypeID");
+
+                    b.HasIndex("MaritalStatusID");
+
                     b.HasIndex("PatientTypeID");
 
                     b.HasIndex("PrefixID");
 
-                    b.HasIndex("SpecialityID");
+                    b.HasIndex("ReligionID");
 
-                    b.HasIndex("YearID");
+                    b.HasIndex("VillageID");
 
-                    b.ToTable("OPRegistrations");
+                    b.ToTable("Patient");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.PatientAddress", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Mandal")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("PatientID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PinCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Village")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PatientID");
+
+                    b.ToTable("PatientAddress");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.PatientType", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("PatientTypeID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PatientTypeID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("PatientTypeID");
 
-                    b.ToTable("PatientTypes");
+                    b.ToTable("PatientType");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Prefix", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("PrefixID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrefixID"));
 
                     b.Property<int>("GenderID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("PrefixID");
 
                     b.HasIndex("GenderID");
 
-                    b.ToTable("Prefixs");
+                    b.ToTable("Prefix");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Religion", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("ReligionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReligionID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("ReligionID");
 
-                    b.ToTable("Religions");
+                    b.ToTable("Religion");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("SpecialityID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecialityID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UnitsID")
+                    b.Property<int>("UnitID")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("SpecialityID");
 
-                    b.HasIndex("UnitsID");
+                    b.HasIndex("UnitID");
 
-                    b.ToTable("Specialitys");
+                    b.ToTable("Speciality");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("StateID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("DistrictID")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StateID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("ID");
+                    b.HasKey("StateID");
 
-                    b.HasIndex("DistrictID");
-
-                    b.ToTable("States");
+                    b.ToTable("State");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("UnitID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("SpecialityID")
-                        .HasColumnType("int");
+                    b.HasKey("UnitID");
 
-                    b.HasKey("ID");
-
-                    b.ToTable("Units");
+                    b.ToTable("Unit");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("VillageID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VillageID"));
+
+                    b.Property<int>("MandalID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Pincode")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("VillageID");
 
-                    b.ToTable("Villages");
-                });
+                    b.HasIndex("MandalID");
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.Year", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Years");
+                    b.ToTable("Village");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -785,156 +837,166 @@ namespace DMLAutomationProcess.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.ContactDetail", b =>
+            modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
                 {
-                    b.HasOne("DMLAutomationProcess.Models.BloodGroup", "BloodGroups")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("BloodGroupID");
-
-                    b.HasOne("DMLAutomationProcess.Models.IdProof", "IdProofs")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("IdProofID");
-
-                    b.HasOne("DMLAutomationProcess.Models.MaritalStatus", "MaritalStatuss")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("MaritalStatusID");
-
-                    b.HasOne("DMLAutomationProcess.Models.OPRegistration", "OPRegistrations")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("OPRegistrationID");
-
-                    b.HasOne("DMLAutomationProcess.Models.Religion", "Religions")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("ReligionID");
-
-                    b.HasOne("DMLAutomationProcess.Models.Village", "Villages")
-                        .WithMany("ContactDetails")
-                        .HasForeignKey("VillageID");
-
-                    b.Navigation("BloodGroups");
-
-                    b.Navigation("IdProofs");
-
-                    b.Navigation("MaritalStatuss");
-
-                    b.Navigation("OPRegistrations");
-
-                    b.Navigation("Religions");
-
-                    b.Navigation("Villages");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.Country", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.State", "States")
-                        .WithMany("Countrys")
+                    b.HasOne("DMLAutomationProcess.Models.State", "State")
+                        .WithMany("Districts")
                         .HasForeignKey("StateID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("States");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.Mandal", "Mandals")
-                        .WithMany("Districts")
-                        .HasForeignKey("MandalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Mandals");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Mandal", b =>
                 {
-                    b.HasOne("DMLAutomationProcess.Models.Village", "Villages")
+                    b.HasOne("DMLAutomationProcess.Models.District", "District")
                         .WithMany("Mandals")
-                        .HasForeignKey("VillageID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Villages");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.OPRegistration", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.Department", "Departments")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("DepartmentID");
-
-                    b.HasOne("DMLAutomationProcess.Models.Doctor", "Doctors")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("DoctorID");
-
-                    b.HasOne("DMLAutomationProcess.Models.FeeType", "FeeTypes")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("FeeTypeID");
-
-                    b.HasOne("DMLAutomationProcess.Models.PatientType", "PatientTypes")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("PatientTypeID");
-
-                    b.HasOne("DMLAutomationProcess.Models.Prefix", "Prefixs")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("PrefixID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DMLAutomationProcess.Models.Speciality", "Specialitys")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("SpecialityID");
-
-                    b.HasOne("DMLAutomationProcess.Models.Year", "Years")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("YearID");
-
-                    b.Navigation("Departments");
-
-                    b.Navigation("Doctors");
-
-                    b.Navigation("FeeTypes");
-
-                    b.Navigation("PatientTypes");
-
-                    b.Navigation("Prefixs");
-
-                    b.Navigation("Specialitys");
-
-                    b.Navigation("Years");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.Prefix", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.Gender", "Genders")
-                        .WithMany("Prefixs")
-                        .HasForeignKey("GenderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Genders");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.Unit", "Units")
-                        .WithMany("Specialitys")
-                        .HasForeignKey("UnitsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Units");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
-                {
-                    b.HasOne("DMLAutomationProcess.Models.District", "Districts")
-                        .WithMany("States")
                         .HasForeignKey("DistrictID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Districts");
+                    b.Navigation("District");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.OPRegistration", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Department", "Department")
+                        .WithMany("OPRegistrations")
+                        .HasForeignKey("DepartmentID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Doctor", "Doctor")
+                        .WithMany("OPRegistrations")
+                        .HasForeignKey("DoctorID");
+
+                    b.HasOne("DMLAutomationProcess.Models.FeeType", "FeeType")
+                        .WithMany("OPRegistrations")
+                        .HasForeignKey("FeeTypeID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.Speciality", "Speciality")
+                        .WithMany("OPRegistrations")
+                        .HasForeignKey("SpecialityID");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("FeeType");
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Speciality");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Patient", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.AgeType", "AgeType")
+                        .WithMany("Patients")
+                        .HasForeignKey("AgeTypeID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.BloodGroup", "BloodGroup")
+                        .WithMany("Patients")
+                        .HasForeignKey("BloodGroupID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Gender", "Gender")
+                        .WithMany()
+                        .HasForeignKey("GenderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.IDProofType", "IDProofType")
+                        .WithMany("Patients")
+                        .HasForeignKey("IDProofTypeID");
+
+                    b.HasOne("DMLAutomationProcess.Models.MaritalStatus", "MaritalStatus")
+                        .WithMany("Patients")
+                        .HasForeignKey("MaritalStatusID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.PatientType", "PatientType")
+                        .WithMany("Patients")
+                        .HasForeignKey("PatientTypeID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Prefix", "Prefix")
+                        .WithMany("Patients")
+                        .HasForeignKey("PrefixID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Religion", "Religion")
+                        .WithMany("Patients")
+                        .HasForeignKey("ReligionID");
+
+                    b.HasOne("DMLAutomationProcess.Models.Village", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("VillageID");
+
+                    b.Navigation("AgeType");
+
+                    b.Navigation("BloodGroup");
+
+                    b.Navigation("Gender");
+
+                    b.Navigation("IDProofType");
+
+                    b.Navigation("MaritalStatus");
+
+                    b.Navigation("PatientType");
+
+                    b.Navigation("Prefix");
+
+                    b.Navigation("Religion");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.PatientAddress", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Patient", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Prefix", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Gender", "Gender")
+                        .WithMany("Prefixes")
+                        .HasForeignKey("GenderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Gender");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Unit", "Unit")
+                        .WithMany("Specialities")
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Mandal", "Mandal")
+                        .WithMany("Villages")
+                        .HasForeignKey("MandalID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Mandal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -988,9 +1050,14 @@ namespace DMLAutomationProcess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.AgeType", b =>
+                {
+                    b.Navigation("Patients");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.BloodGroup", b =>
                 {
-                    b.Navigation("ContactDetails");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Department", b =>
@@ -1000,7 +1067,7 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
                 {
-                    b.Navigation("States");
+                    b.Navigation("Mandals");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Doctor", b =>
@@ -1015,42 +1082,37 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Gender", b =>
                 {
-                    b.Navigation("Prefixs");
+                    b.Navigation("Prefixes");
                 });
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.IdProof", b =>
+            modelBuilder.Entity("DMLAutomationProcess.Models.IDProofType", b =>
                 {
-                    b.Navigation("ContactDetails");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Mandal", b =>
                 {
-                    b.Navigation("Districts");
+                    b.Navigation("Villages");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.MaritalStatus", b =>
                 {
-                    b.Navigation("ContactDetails");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.OPRegistration", b =>
-                {
-                    b.Navigation("ContactDetails");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.PatientType", b =>
                 {
-                    b.Navigation("OPRegistrations");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Prefix", b =>
                 {
-                    b.Navigation("OPRegistrations");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Religion", b =>
                 {
-                    b.Navigation("ContactDetails");
+                    b.Navigation("Patients");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
@@ -1060,24 +1122,17 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.State", b =>
                 {
-                    b.Navigation("Countrys");
+                    b.Navigation("Districts");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
                 {
-                    b.Navigation("Specialitys");
+                    b.Navigation("Specialities");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
                 {
-                    b.Navigation("ContactDetails");
-
-                    b.Navigation("Mandals");
-                });
-
-            modelBuilder.Entity("DMLAutomationProcess.Models.Year", b =>
-                {
-                    b.Navigation("OPRegistrations");
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

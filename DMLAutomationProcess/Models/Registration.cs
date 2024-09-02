@@ -1,268 +1,447 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DMLAutomationProcess.Models
 {
+    [Table("Patient")]
+    public class Patient
+    {
+        [Key]
+        public int ID { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string UHID { get; set; }
+
+        public long? AadhaarNo { get; set; }
+
+        [Required]
+        public int GenderID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+
+        [MaxLength(50)]
+        public string? MiddleName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string FatherName { get; set; }
+
+        [MaxLength(50)]
+        public string? HusbandName { get; set; }
+
+        [Required]
+        public int PrefixID { get; set; }
+
+        [Required]
+        public int MaritalStatusID { get; set; }
+
+        [Required]
+        public int Age { get; set; }
+
+        [Required]
+        public int AgeTypeID { get; set; }
+
+        public DateTime? DOB { get; set; }
+
+        public long? MobileNumber { get; set; }
+
+        public long? AlternateMobileNumber { get; set; }
+
+        [MaxLength(100)]
+        public string? Email { get; set; }
+
+        public int? ReligionID { get; set; }
+
+        [MaxLength(50)]
+        public string? Caste { get; set; }
+
+        public int? BloodGroupID { get; set; }
+
+        public int? IDProofTypeID { get; set; }
+
+        [MaxLength(50)]
+        public string? IDProof { get; set; }
+
+        public long? AbhaNo { get; set; }
+
+        public int? PatientTypeID { get; set; }
+        public int? VillageID { get; set; }
+
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+        // Navigation properties
+        [ForeignKey("PrefixID")]
+        public virtual Prefix? Prefix { get; set; }
+
+        [ForeignKey("GenderID")]
+        public virtual Gender? Gender { get; set; }
+
+        [ForeignKey("MaritalStatusID")]
+        public virtual MaritalStatus? MaritalStatus { get; set; }
+
+        [ForeignKey("AgeTypeID")]
+        public virtual AgeType? AgeType { get; set; }
+
+        [ForeignKey("ReligionID")]
+        public virtual Religion? Religion { get; set; }
+
+        [ForeignKey("BloodGroupID")]
+        public virtual BloodGroup? BloodGroup { get; set; }
+
+        [ForeignKey("IDProofTypeID")]
+        public virtual IDProofType? IDProofType { get; set; }
+
+        [ForeignKey("PatientTypeID")]
+        public virtual PatientType? PatientType { get; set; }
+    }
+
+    [Table("PatientAddress")]
+    public class PatientAddress
+    {
+        [Key]
+        public int ID { get; set; }
+
+        [Required]
+        public int PatientID { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Village { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Mandal { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string District { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string State { get; set; }
+
+        [Required]
+        public int PinCode { get; set; }
+
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+        // Navigation property
+        [ForeignKey("PatientID")]
+        public virtual Patient? Patient { get; set; }
+    }
+
+    [Table("OPRegistration")]
     public class OPRegistration
     {
         [Key]
         public int ID { get; set; }
 
-        [Display(Name = "UHID")]
-        [StringLength(20)]
         [Required]
-        public string? UHID { get; set; }
+        public int PatientID { get; set; }
 
-        [Display(Name = "OP")]
-        [StringLength(20)]
         [Required]
-        public string? OPID { get; set; }
+        [MaxLength(20)]
+        public string OPID { get; set; }
 
-        [Display(Name = "VisitDate")]
-        [StringLength(20)]
         [Required]
         public DateTime VisitDate { get; set; }
 
         public bool? IsMlcCase { get; set; }
 
-        [Required]
-        [Display(Name = "First Name")]
-        public string? FirstName { get; set; }
+        public bool? IsEmergencyCase { get; set; }
 
-        public string? MiddleName { get; set; }
-
-        [Required]
-        [Display(Name = "Last Name")]
-        public string? LastName { get; set; }
-
-        public int? Age { get; set; }
-
-        [Display(Name = "Date of Birth")]
-        public DateTime? DOB { get; set; }
-
-        [EmailAddress]
-        public string? Email { get; set; }
-
-        [Display(Name = "Phone")]
-        [StringLength(15)] // Assuming a format for phone numbers
-        public string? Phone { get; set; }
-
-        [Display(Name = "Prefix")]
-        public int PrefixID { get; set; }
-
-        [Display(Name = "Aadhaar Number")]
-        [StringLength(12, MinimumLength = 12, ErrorMessage = "Aadhaar number must be exactly 12 digits.")]
-        [RegularExpression(@"^\d{12}$", ErrorMessage = "Aadhaar number must be exactly 12 digits.")]
-        public long? AadhaarNo { get; set; }
-
-        [Display(Name = "ABHA Number")]
-        public long? AbhaNo { get; set; }
-
-        [Display(Name = "Patient Type")]
-        public int? PatientTypeID { get; set; }
-
-        [Display(Name = "Department")]
         public int? DepartmentID { get; set; }
 
-        [Display(Name = "Speciality")]
         public int? SpecialityID { get; set; }
 
-        [Display(Name = "Doctor")]
         public int? DoctorID { get; set; }
 
-        [Display(Name = "Fee Type")]
         public int? FeeTypeID { get; set; }
 
-        [Display(Name = "Year")]
-        public int? YearID { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string ReferredBy { get; set; }
 
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
+        [Required]
         public bool IsActive { get; set; } = true;
 
         // Navigation properties
-        public virtual Prefix? Prefixs { get; set; }
-        public virtual PatientType? PatientTypes { get; set; }
-        public virtual Department? Departments { get; set; }
-        public virtual Speciality? Specialitys { get; set; }
-        public virtual Doctor? Doctors { get; set; }
-        public virtual FeeType? FeeTypes { get; set; }
-        public virtual Year? Years { get; set; }
-        public virtual ICollection<ContactDetail>? ContactDetails { get; set; }
+        [ForeignKey("PatientID")]
+        public virtual Patient? Patient { get; set; }
+
+        [ForeignKey("DepartmentID")]
+        public virtual Department? Department { get; set; }
+
+        [ForeignKey("SpecialityID")]
+        public virtual Speciality? Speciality { get; set; }
+
+        [ForeignKey("DoctorID")]
+        public virtual Doctor? Doctor { get; set; }
+
+        [ForeignKey("FeeTypeID")]
+        public virtual FeeType? FeeType { get; set; }
     }
 
-    public class ContactDetail
-    {
-        [Key]
-        public int ID { get; set; }
-        public int? OPRegistrationID { get; set; }
-        public string? FatherName { get; set; }
-        public string? HusbandName { get; set; }
-        public string? Caste { get; set; }
-        public int? Pincode { get; set; }
-        public int? AltMobileNo { get; set; }
-        public bool IsEmergencyCase { get; set; }
-        public string? RefBy { get; set; }
-        public int? MaritalStatusID { get; set; }
-        public int? ReligionID { get; set; }
-        public int? BloodGroupID { get; set; }
-        public int? IdProofID { get; set; }
-        public int? VillageID { get; set; }
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
-        public bool IsActive { get; set; } = true;
-        public virtual OPRegistration? OPRegistrations { get; set; }
-        public virtual MaritalStatus? MaritalStatuss { get; set; }
-        public virtual Religion? Religions { get; set; }
-        public virtual BloodGroup? BloodGroups { get; set; }
-        public virtual IdProof? IdProofs { get; set; }
-        public virtual Village? Villages { get; set; }
-    }
-
+    [Table("Prefix")]
     public class Prefix
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public int GenderID { get; set; }
-        public virtual required Gender Genders { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int PrefixID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public int? GenderID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("GenderID")]
+        public virtual Gender? Gender { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("Gender")]
     public class Gender
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<Prefix> Prefixs { get; set; }
+        public int GenderID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Prefix> Prefixes { get; set; }
     }
+
+    [Table("PatientType")]
     public class PatientType
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int PatientTypeID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("Department")]
     public class Department
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int DepartmentID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
     }
+
+    [Table("Speciality")]
     public class Speciality
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
-        public virtual required Unit Units { get; set; }
+        public int SpecialityID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public int UnitID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("UnitID")]
+        public virtual Unit? Unit { get; set; }
+
+        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
     }
+
+    [Table("Unit")]
     public class Unit
     {
         [Key]
-        public int ID { get; set; }
-        public int SpecialityID { get; set; }
-        public required string Name { get; set; }
-        public virtual Speciality? Specialitys { get; set; }
+        public int UnitID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Speciality>? Specialities { get; set; }
     }
+
+    [Table("Doctor")]
     public class Doctor
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int DoctorID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
     }
+
+    [Table("FeeType")]
     public class FeeType
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int FeeTypeID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
     }
-    public class Year
+
+    [Table("AgeType")]
+    public class AgeType
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<OPRegistration> OPRegistrations { get; set; }
+        public int AgeTypeID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("MaritalStatus")]
     public class MaritalStatus
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<ContactDetail> ContactDetails { get; set; }
+        public int MaritalStatusID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("Religion")]
     public class Religion
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<ContactDetail> ContactDetails { get; set; }
+        public int ReligionID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("BloodGroup")]
     public class BloodGroup
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<ContactDetail> ContactDetails { get; set; }
+        public int BloodGroupID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
-    public class IdProof
+
+    [Table("IDProofType")]
+    public class IDProofType
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public virtual required ICollection<ContactDetail> ContactDetails { get; set; }
+        public int IDProofTypeID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("Village")]
     public class Village
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
+        public int VillageID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public int MandalID { get; set; }
+
         public int Pincode { get; set; }
-        public virtual required ICollection<ContactDetail> ContactDetails { get; set; }
-        public virtual required ICollection<Mandal> Mandals { get; set; }
+
+        // Navigation properties
+        [ForeignKey("MandalID")]
+        public virtual Mandal? Mandal { get; set; }
+
+        public virtual ICollection<Patient> Patients { get; set; }
     }
+
+    [Table("Mandal")]
     public class Mandal
     {
         [Key]
-        public int ID { get; set; }
-        public int VillageID { get; set; }
-        public required string Name { get; set; }
-        public virtual required Village Villages { get; set; }
-        public virtual required ICollection<District> Districts { get; set; }
+        public int MandalID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public int DistrictID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("DistrictID")]
+        public virtual District? District { get; set; }
+
+        public virtual ICollection<Village> Villages { get; set; }
     }
 
+    [Table("District")]
     public class District
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public int MandalID { get; set; }
-        public virtual required Mandal Mandals { get; set; }
-        public virtual required ICollection<State> States { get; set; }
+        public int DistrictID { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        public int StateID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("StateID")]
+        public virtual State? State { get; set; }
+
+        public virtual ICollection<Mandal> Mandals { get; set; }
     }
 
+    [Table("State")]
     public class State
     {
         [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
-        public int DistrictID { get; set; }
-        public virtual required District Districts { get; set; }
-        public virtual required ICollection<Country> Countrys { get; set; }
-    }
-    public class Country
-    {
-        [Key]
-        public int ID { get; set; }
-        public required string Name { get; set; }
         public int StateID { get; set; }
-        public virtual required State States { get; set; }
-    }
 
-    public class City
-    {
-        public int Id { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
+
+        public virtual ICollection<District> Districts { get; set; }
     }
 }

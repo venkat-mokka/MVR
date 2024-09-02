@@ -12,6 +12,19 @@ namespace DMLAutomationProcess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AgeType",
+                columns: table => new
+                {
+                    AgeTypeID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AgeType", x => x.AgeTypeID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -60,161 +73,146 @@ namespace DMLAutomationProcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BloodGroups",
+                name: "BloodGroup",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    BloodGroupID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BloodGroups", x => x.ID);
+                    table.PrimaryKey("PK_BloodGroup", x => x.BloodGroupID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departments",
+                name: "Department",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    DepartmentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departments", x => x.ID);
+                    table.PrimaryKey("PK_Department", x => x.DepartmentID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Doctors",
+                name: "Doctor",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    DoctorID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Doctors", x => x.ID);
+                    table.PrimaryKey("PK_Doctor", x => x.DoctorID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "FeeTypes",
+                name: "FeeType",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    FeeTypeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FeeTypes", x => x.ID);
+                    table.PrimaryKey("PK_FeeType", x => x.FeeTypeID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Genders",
+                name: "Gender",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    GenderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Genders", x => x.ID);
+                    table.PrimaryKey("PK_Gender", x => x.GenderID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdProofs",
+                name: "IDProofType",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    IDProofTypeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdProofs", x => x.ID);
+                    table.PrimaryKey("PK_IDProofType", x => x.IDProofTypeID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "MaritalStatuss",
+                name: "MaritalStatus",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    MaritalStatusID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MaritalStatuss", x => x.ID);
+                    table.PrimaryKey("PK_MaritalStatus", x => x.MaritalStatusID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PatientTypes",
+                name: "PatientType",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    PatientTypeID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PatientTypes", x => x.ID);
+                    table.PrimaryKey("PK_PatientType", x => x.PatientTypeID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Religions",
+                name: "Religion",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    ReligionID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Religions", x => x.ID);
+                    table.PrimaryKey("PK_Religion", x => x.ReligionID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Units",
+                name: "State",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    StateID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecialityID = table.Column<int>(type: "int", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Units", x => x.ID);
+                    table.PrimaryKey("PK_State", x => x.StateID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Villages",
+                name: "Unit",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    UnitID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Pincode = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Villages", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Years",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Years", x => x.ID);
+                    table.PrimaryKey("PK_Unit", x => x.UnitID);
                 });
 
             migrationBuilder.CreateTable(
@@ -324,246 +322,262 @@ namespace DMLAutomationProcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Prefixs",
+                name: "Prefix",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    PrefixID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     GenderID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prefixs", x => x.ID);
+                    table.PrimaryKey("PK_Prefix", x => x.PrefixID);
                     table.ForeignKey(
-                        name: "FK_Prefixs_Genders_GenderID",
+                        name: "FK_Prefix_Gender_GenderID",
                         column: x => x.GenderID,
-                        principalTable: "Genders",
-                        principalColumn: "ID",
+                        principalTable: "Gender",
+                        principalColumn: "GenderID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialitys",
+                name: "District",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    DistrictID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnitsID = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StateID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialitys", x => x.ID);
+                    table.PrimaryKey("PK_District", x => x.DistrictID);
                     table.ForeignKey(
-                        name: "FK_Specialitys_Units_UnitsID",
-                        column: x => x.UnitsID,
-                        principalTable: "Units",
-                        principalColumn: "ID",
+                        name: "FK_District_State_StateID",
+                        column: x => x.StateID,
+                        principalTable: "State",
+                        principalColumn: "StateID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mandals",
+                name: "Speciality",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    SpecialityID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    VillageID = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    UnitID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Mandals", x => x.ID);
+                    table.PrimaryKey("PK_Speciality", x => x.SpecialityID);
                     table.ForeignKey(
-                        name: "FK_Mandals_Villages_VillageID",
-                        column: x => x.VillageID,
-                        principalTable: "Villages",
-                        principalColumn: "ID",
+                        name: "FK_Speciality_Unit_UnitID",
+                        column: x => x.UnitID,
+                        principalTable: "Unit",
+                        principalColumn: "UnitID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OPRegistrations",
+                name: "Mandal",
+                columns: table => new
+                {
+                    MandalID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DistrictID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mandal", x => x.MandalID);
+                    table.ForeignKey(
+                        name: "FK_Mandal_District_DistrictID",
+                        column: x => x.DistrictID,
+                        principalTable: "District",
+                        principalColumn: "DistrictID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Village",
+                columns: table => new
+                {
+                    VillageID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MandalID = table.Column<int>(type: "int", nullable: false),
+                    Pincode = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Village", x => x.VillageID);
+                    table.ForeignKey(
+                        name: "FK_Village_Mandal_MandalID",
+                        column: x => x.MandalID,
+                        principalTable: "Mandal",
+                        principalColumn: "MandalID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patient",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UHID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    OPID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    VisitDate = table.Column<DateTime>(type: "datetime2", maxLength: 20, nullable: false),
-                    IsMlcCase = table.Column<bool>(type: "bit", nullable: true),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MiddleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: true),
+                    AadhaarNo = table.Column<long>(type: "bigint", nullable: true),
+                    GenderID = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    MiddleName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FatherName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HusbandName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    MaritalStatusID = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    AgeTypeID = table.Column<int>(type: "int", nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
-                    PrefixID = table.Column<int>(type: "int", nullable: false),
-                    AadhaarNo = table.Column<long>(type: "bigint", maxLength: 12, nullable: true),
+                    MobileNumber = table.Column<long>(type: "bigint", nullable: true),
+                    AlternateMobileNumber = table.Column<long>(type: "bigint", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ReligionID = table.Column<int>(type: "int", nullable: true),
+                    Caste = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    BloodGroupID = table.Column<int>(type: "int", nullable: true),
+                    IDProofTypeID = table.Column<int>(type: "int", nullable: true),
+                    IDProof = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     AbhaNo = table.Column<long>(type: "bigint", nullable: true),
                     PatientTypeID = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PrefixID = table.Column<int>(type: "int", nullable: true),
+                    VillageID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Patient_AgeType_AgeTypeID",
+                        column: x => x.AgeTypeID,
+                        principalTable: "AgeType",
+                        principalColumn: "AgeTypeID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patient_BloodGroup_BloodGroupID",
+                        column: x => x.BloodGroupID,
+                        principalTable: "BloodGroup",
+                        principalColumn: "BloodGroupID");
+                    table.ForeignKey(
+                        name: "FK_Patient_Gender_GenderID",
+                        column: x => x.GenderID,
+                        principalTable: "Gender",
+                        principalColumn: "GenderID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patient_IDProofType_IDProofTypeID",
+                        column: x => x.IDProofTypeID,
+                        principalTable: "IDProofType",
+                        principalColumn: "IDProofTypeID");
+                    table.ForeignKey(
+                        name: "FK_Patient_MaritalStatus_MaritalStatusID",
+                        column: x => x.MaritalStatusID,
+                        principalTable: "MaritalStatus",
+                        principalColumn: "MaritalStatusID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Patient_PatientType_PatientTypeID",
+                        column: x => x.PatientTypeID,
+                        principalTable: "PatientType",
+                        principalColumn: "PatientTypeID");
+                    table.ForeignKey(
+                        name: "FK_Patient_Prefix_PrefixID",
+                        column: x => x.PrefixID,
+                        principalTable: "Prefix",
+                        principalColumn: "PrefixID");
+                    table.ForeignKey(
+                        name: "FK_Patient_Religion_ReligionID",
+                        column: x => x.ReligionID,
+                        principalTable: "Religion",
+                        principalColumn: "ReligionID");
+                    table.ForeignKey(
+                        name: "FK_Patient_Village_VillageID",
+                        column: x => x.VillageID,
+                        principalTable: "Village",
+                        principalColumn: "VillageID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OPRegistration",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    OPID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    VisitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsMlcCase = table.Column<bool>(type: "bit", nullable: true),
+                    IsEmergencyCase = table.Column<bool>(type: "bit", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),
                     SpecialityID = table.Column<int>(type: "int", nullable: true),
                     DoctorID = table.Column<int>(type: "int", nullable: true),
                     FeeTypeID = table.Column<int>(type: "int", nullable: true),
-                    YearID = table.Column<int>(type: "int", nullable: true),
+                    ReferredBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OPRegistrations", x => x.ID);
+                    table.PrimaryKey("PK_OPRegistration", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_OPRegistrations_Departments_DepartmentID",
+                        name: "FK_OPRegistration_Department_DepartmentID",
                         column: x => x.DepartmentID,
-                        principalTable: "Departments",
-                        principalColumn: "ID");
+                        principalTable: "Department",
+                        principalColumn: "DepartmentID");
                     table.ForeignKey(
-                        name: "FK_OPRegistrations_Doctors_DoctorID",
+                        name: "FK_OPRegistration_Doctor_DoctorID",
                         column: x => x.DoctorID,
-                        principalTable: "Doctors",
-                        principalColumn: "ID");
+                        principalTable: "Doctor",
+                        principalColumn: "DoctorID");
                     table.ForeignKey(
-                        name: "FK_OPRegistrations_FeeTypes_FeeTypeID",
+                        name: "FK_OPRegistration_FeeType_FeeTypeID",
                         column: x => x.FeeTypeID,
-                        principalTable: "FeeTypes",
-                        principalColumn: "ID");
+                        principalTable: "FeeType",
+                        principalColumn: "FeeTypeID");
                     table.ForeignKey(
-                        name: "FK_OPRegistrations_PatientTypes_PatientTypeID",
-                        column: x => x.PatientTypeID,
-                        principalTable: "PatientTypes",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_OPRegistrations_Prefixs_PrefixID",
-                        column: x => x.PrefixID,
-                        principalTable: "Prefixs",
+                        name: "FK_OPRegistration_Patient_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patient",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OPRegistrations_Specialitys_SpecialityID",
+                        name: "FK_OPRegistration_Speciality_SpecialityID",
                         column: x => x.SpecialityID,
-                        principalTable: "Specialitys",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_OPRegistrations_Years_YearID",
-                        column: x => x.YearID,
-                        principalTable: "Years",
-                        principalColumn: "ID");
+                        principalTable: "Speciality",
+                        principalColumn: "SpecialityID");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Districts",
+                name: "PatientAddress",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MandalID = table.Column<int>(type: "int", nullable: false)
+                    PatientID = table.Column<int>(type: "int", nullable: false),
+                    Village = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Mandal = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    District = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PinCode = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Districts", x => x.ID);
+                    table.PrimaryKey("PK_PatientAddress", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Districts_Mandals_MandalID",
-                        column: x => x.MandalID,
-                        principalTable: "Mandals",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContactDetails",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OPRegistrationID = table.Column<int>(type: "int", nullable: true),
-                    FatherName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HusbandName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Caste = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsEmergencyCase = table.Column<bool>(type: "bit", nullable: false),
-                    RefBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MaritalStatusID = table.Column<int>(type: "int", nullable: true),
-                    ReligionID = table.Column<int>(type: "int", nullable: true),
-                    BloodGroupID = table.Column<int>(type: "int", nullable: true),
-                    IdProofID = table.Column<int>(type: "int", nullable: true),
-                    VillageID = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ContactDetails", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_BloodGroups_BloodGroupID",
-                        column: x => x.BloodGroupID,
-                        principalTable: "BloodGroups",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_IdProofs_IdProofID",
-                        column: x => x.IdProofID,
-                        principalTable: "IdProofs",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_MaritalStatuss_MaritalStatusID",
-                        column: x => x.MaritalStatusID,
-                        principalTable: "MaritalStatuss",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_OPRegistrations_OPRegistrationID",
-                        column: x => x.OPRegistrationID,
-                        principalTable: "OPRegistrations",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_Religions_ReligionID",
-                        column: x => x.ReligionID,
-                        principalTable: "Religions",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_ContactDetails_Villages_VillageID",
-                        column: x => x.VillageID,
-                        principalTable: "Villages",
-                        principalColumn: "ID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "States",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DistrictID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_States", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_States_Districts_DistrictID",
-                        column: x => x.DistrictID,
-                        principalTable: "Districts",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Countrys",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StateID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Countrys", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Countrys_States_StateID",
-                        column: x => x.StateID,
-                        principalTable: "States",
+                        name: "FK_PatientAddress_Patient_PatientID",
+                        column: x => x.PatientID,
+                        principalTable: "Patient",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -608,99 +622,104 @@ namespace DMLAutomationProcess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_BloodGroupID",
-                table: "ContactDetails",
-                column: "BloodGroupID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_IdProofID",
-                table: "ContactDetails",
-                column: "IdProofID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_MaritalStatusID",
-                table: "ContactDetails",
-                column: "MaritalStatusID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_OPRegistrationID",
-                table: "ContactDetails",
-                column: "OPRegistrationID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_ReligionID",
-                table: "ContactDetails",
-                column: "ReligionID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContactDetails_VillageID",
-                table: "ContactDetails",
-                column: "VillageID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Countrys_StateID",
-                table: "Countrys",
+                name: "IX_District_StateID",
+                table: "District",
                 column: "StateID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Districts_MandalID",
-                table: "Districts",
-                column: "MandalID");
+                name: "IX_Mandal_DistrictID",
+                table: "Mandal",
+                column: "DistrictID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mandals_VillageID",
-                table: "Mandals",
-                column: "VillageID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_DepartmentID",
-                table: "OPRegistrations",
+                name: "IX_OPRegistration_DepartmentID",
+                table: "OPRegistration",
                 column: "DepartmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_DoctorID",
-                table: "OPRegistrations",
+                name: "IX_OPRegistration_DoctorID",
+                table: "OPRegistration",
                 column: "DoctorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_FeeTypeID",
-                table: "OPRegistrations",
+                name: "IX_OPRegistration_FeeTypeID",
+                table: "OPRegistration",
                 column: "FeeTypeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_PatientTypeID",
-                table: "OPRegistrations",
-                column: "PatientTypeID");
+                name: "IX_OPRegistration_PatientID",
+                table: "OPRegistration",
+                column: "PatientID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_PrefixID",
-                table: "OPRegistrations",
-                column: "PrefixID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_SpecialityID",
-                table: "OPRegistrations",
+                name: "IX_OPRegistration_SpecialityID",
+                table: "OPRegistration",
                 column: "SpecialityID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OPRegistrations_YearID",
-                table: "OPRegistrations",
-                column: "YearID");
+                name: "IX_Patient_AgeTypeID",
+                table: "Patient",
+                column: "AgeTypeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Prefixs_GenderID",
-                table: "Prefixs",
+                name: "IX_Patient_BloodGroupID",
+                table: "Patient",
+                column: "BloodGroupID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_GenderID",
+                table: "Patient",
                 column: "GenderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specialitys_UnitsID",
-                table: "Specialitys",
-                column: "UnitsID");
+                name: "IX_Patient_IDProofTypeID",
+                table: "Patient",
+                column: "IDProofTypeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_States_DistrictID",
-                table: "States",
-                column: "DistrictID");
+                name: "IX_Patient_MaritalStatusID",
+                table: "Patient",
+                column: "MaritalStatusID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_PatientTypeID",
+                table: "Patient",
+                column: "PatientTypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_PrefixID",
+                table: "Patient",
+                column: "PrefixID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_ReligionID",
+                table: "Patient",
+                column: "ReligionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_VillageID",
+                table: "Patient",
+                column: "VillageID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PatientAddress_PatientID",
+                table: "PatientAddress",
+                column: "PatientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prefix_GenderID",
+                table: "Prefix",
+                column: "GenderID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Speciality_UnitID",
+                table: "Speciality",
+                column: "UnitID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Village_MandalID",
+                table: "Village",
+                column: "MandalID");
         }
 
         /// <inheritdoc />
@@ -722,10 +741,10 @@ namespace DMLAutomationProcess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ContactDetails");
+                name: "OPRegistration");
 
             migrationBuilder.DropTable(
-                name: "Countrys");
+                name: "PatientAddress");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -734,58 +753,58 @@ namespace DMLAutomationProcess.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "BloodGroups");
+                name: "Department");
 
             migrationBuilder.DropTable(
-                name: "IdProofs");
+                name: "Doctor");
 
             migrationBuilder.DropTable(
-                name: "MaritalStatuss");
+                name: "FeeType");
 
             migrationBuilder.DropTable(
-                name: "OPRegistrations");
+                name: "Speciality");
 
             migrationBuilder.DropTable(
-                name: "Religions");
+                name: "Patient");
 
             migrationBuilder.DropTable(
-                name: "States");
+                name: "Unit");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "AgeType");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "BloodGroup");
 
             migrationBuilder.DropTable(
-                name: "FeeTypes");
+                name: "IDProofType");
 
             migrationBuilder.DropTable(
-                name: "PatientTypes");
+                name: "MaritalStatus");
 
             migrationBuilder.DropTable(
-                name: "Prefixs");
+                name: "PatientType");
 
             migrationBuilder.DropTable(
-                name: "Specialitys");
+                name: "Prefix");
 
             migrationBuilder.DropTable(
-                name: "Years");
+                name: "Religion");
 
             migrationBuilder.DropTable(
-                name: "Districts");
+                name: "Village");
 
             migrationBuilder.DropTable(
-                name: "Genders");
+                name: "Gender");
 
             migrationBuilder.DropTable(
-                name: "Units");
+                name: "Mandal");
 
             migrationBuilder.DropTable(
-                name: "Mandals");
+                name: "District");
 
             migrationBuilder.DropTable(
-                name: "Villages");
+                name: "State");
         }
     }
 }
