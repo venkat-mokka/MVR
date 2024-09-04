@@ -5,23 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DMLAutomationProcess.Models
 {
 
-
     public class OpRegistrationViewModel
     {
         public Patient? Patients { get; set; }
         public PatientAddress? PatientAddresss { get; set; }
         public OPRegistration? OPRegistrations { get; set; }
-        public int VillageID { get; set; }
-        public int UnitID { get; set; }
-        public int GenderID { get; set; }
         [Required]
-        public string? VillageName { get; set; }
+        public string? UnitName { get; set; }
         [Required]
-        public string? MandalName { get; set; }
-        [Required]
-        public string? DistrictName { get; set; }
-        [Required]
-        public string? StateName { get; set; }
+        public int DoctorID { get; set; }
+        public string UnitIds { get; set; }
     }
     public class UHIDAndOPIDDto
     {

@@ -162,8 +162,6 @@ namespace DMLAutomationProcess.Models
 
         public int? SpecialityID { get; set; }
 
-        public int? DoctorID { get; set; }
-
         public int? FeeTypeID { get; set; }
 
         [Required]
@@ -184,9 +182,6 @@ namespace DMLAutomationProcess.Models
 
         [ForeignKey("SpecialityID")]
         public virtual Speciality? Speciality { get; set; }
-
-        [ForeignKey("DoctorID")]
-        public virtual Doctor? Doctor { get; set; }
 
         [ForeignKey("FeeTypeID")]
         public virtual FeeType? FeeType { get; set; }
@@ -248,6 +243,46 @@ namespace DMLAutomationProcess.Models
         public string Name { get; set; }
 
         public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
+        public virtual ICollection<DepartmentDayUnitMapping> DepartmentDayUnitMappings { get; set; }
+    }
+
+    [Table("DaywiseSchedule")]
+    public class DaywiseSchedule
+    {
+        [Key]
+        public int DayID { get; set; }
+
+        [StringLength(10)]
+        public string Name { get; set; }
+
+        // Navigation property
+        public virtual ICollection<DepartmentDayUnitMapping> DepartmentDayUnitMappings { get; set; }
+    }
+
+    [Table("DepartmentDayUnitMapping")]
+    public class DepartmentDayUnitMapping
+    {
+        [Key]
+        public int DepartmentDayUnitMappingID { get; set; }
+
+        [Required]
+        public int DepartmentID { get; set; }
+
+        [Required]
+        public int DayID { get; set; }
+
+        [Required]
+        public int UnitID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("DepartmentID")]
+        public virtual Department Departments { get; set; }
+
+        [ForeignKey("DayID")]
+        public virtual DaywiseSchedule DaywiseSchedules { get; set; }
+
+        [ForeignKey("UnitID")]
+        public virtual Unit Units { get; set; }
     }
 
     [Table("Speciality")]
@@ -259,12 +294,6 @@ namespace DMLAutomationProcess.Models
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
-        public int UnitID { get; set; }
-
-        // Navigation properties
-        [ForeignKey("UnitID")]
-        public virtual Unit? Unit { get; set; }
 
         public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
     }
@@ -279,7 +308,8 @@ namespace DMLAutomationProcess.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
-        public virtual ICollection<Speciality>? Specialities { get; set; }
+        public virtual ICollection<DepartmentDayUnitMapping> DepartmentDayUnitMappings { get; set; }
+        public virtual ICollection<UnitDoctorMapping> UnitDoctorMappings { get; set; }
     }
 
     [Table("Doctor")]
@@ -291,8 +321,27 @@ namespace DMLAutomationProcess.Models
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+        public virtual ICollection<UnitDoctorMapping> UnitDoctorMappings { get; set; }
+    }
 
-        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
+    [Table("UnitDoctorMapping")]
+    public class UnitDoctorMapping
+    {
+        [Key]
+        public int UnitDoctorMappingID { get; set; }
+
+        [Required]
+        public int UnitID { get; set; }
+
+        [Required]
+        public int DoctorID { get; set; }
+
+        // Navigation properties
+        [ForeignKey("UnitID")]
+        public virtual Unit Units { get; set; }
+
+        [ForeignKey("DoctorID")]
+        public virtual Doctor Doctors { get; set; }
     }
 
     [Table("FeeType")]

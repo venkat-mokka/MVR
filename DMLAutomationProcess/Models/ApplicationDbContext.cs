@@ -23,8 +23,11 @@ namespace DMLAutomationProcess.Models
         public DbSet<PatientType> PatientTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Speciality> Specialities { get; set; }
+        public DbSet<DaywiseSchedule> DaywiseSchedules { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<DepartmentDayUnitMapping> DepartmentDayUnitMappings { get; set; }
+        public DbSet<UnitDoctorMapping> UnitDoctorMappings { get; set; }
         public DbSet<FeeType> FeeTypes { get; set; }
         public DbSet<AgeType> AgeTypes { get; set; }
         public DbSet<MaritalStatus> MaritalStatuses { get; set; }

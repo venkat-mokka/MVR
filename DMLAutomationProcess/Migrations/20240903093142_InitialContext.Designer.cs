@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DMLAutomationProcess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240902024742_InitialContext")]
+    [Migration("20240903093142_InitialContext")]
     partial class InitialContext
     {
         /// <inheritdoc />
@@ -61,6 +61,24 @@ namespace DMLAutomationProcess.Migrations
                     b.ToTable("BloodGroup");
                 });
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.Day", b =>
+                {
+                    b.Property<int>("DayID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DayID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("DayID");
+
+                    b.ToTable("Day");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.Department", b =>
                 {
                     b.Property<int>("DepartmentID")
@@ -77,6 +95,34 @@ namespace DMLAutomationProcess.Migrations
                     b.HasKey("DepartmentID");
 
                     b.ToTable("Department");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.DepartmentDayUnitMapping", b =>
+                {
+                    b.Property<int>("DepartmentDayUnitMappingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentDayUnitMappingID"));
+
+                    b.Property<int>("DayID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DepartmentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DepartmentDayUnitMappingID");
+
+                    b.HasIndex("DayID");
+
+                    b.HasIndex("DepartmentID");
+
+                    b.HasIndex("UnitID");
+
+                    b.ToTable("DepartmentDayUnitMapping");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
@@ -229,9 +275,6 @@ namespace DMLAutomationProcess.Migrations
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DoctorID")
-                        .HasColumnType("int");
-
                     b.Property<int?>("FeeTypeID")
                         .HasColumnType("int");
 
@@ -266,8 +309,6 @@ namespace DMLAutomationProcess.Migrations
                     b.HasKey("ID");
 
                     b.HasIndex("DepartmentID");
-
-                    b.HasIndex("DoctorID");
 
                     b.HasIndex("FeeTypeID");
 
@@ -360,7 +401,7 @@ namespace DMLAutomationProcess.Migrations
                     b.Property<int?>("PatientTypeID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PrefixID")
+                    b.Property<int>("PrefixID")
                         .HasColumnType("int");
 
                     b.Property<int?>("ReligionID")
@@ -467,7 +508,7 @@ namespace DMLAutomationProcess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrefixID"));
 
-                    b.Property<int>("GenderID")
+                    b.Property<int?>("GenderID")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -513,12 +554,7 @@ namespace DMLAutomationProcess.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("UnitID")
-                        .HasColumnType("int");
-
                     b.HasKey("SpecialityID");
-
-                    b.HasIndex("UnitID");
 
                     b.ToTable("Speciality");
                 });
@@ -557,6 +593,29 @@ namespace DMLAutomationProcess.Migrations
                     b.HasKey("UnitID");
 
                     b.ToTable("Unit");
+                });
+
+            modelBuilder.Entity("DMLAutomationProcess.Models.UnitDoctorMapping", b =>
+                {
+                    b.Property<int>("UnitDoctorMappingID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitDoctorMappingID"));
+
+                    b.Property<int>("DoctorID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("UnitDoctorMappingID");
+
+                    b.HasIndex("DoctorID");
+
+                    b.HasIndex("UnitID");
+
+                    b.ToTable("UnitDoctorMapping");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
@@ -837,6 +896,33 @@ namespace DMLAutomationProcess.Migrations
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.DepartmentDayUnitMapping", b =>
+                {
+                    b.HasOne("DMLAutomationProcess.Models.Day", "Days")
+                        .WithMany("DepartmentDayUnitMappings")
+                        .HasForeignKey("DayID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.Department", "Departments")
+                        .WithMany("DepartmentDayUnitMappings")
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.Unit", "Units")
+                        .WithMany("DepartmentDayUnitMappings")
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Days");
+
+                    b.Navigation("Departments");
+
+                    b.Navigation("Units");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.District", b =>
                 {
                     b.HasOne("DMLAutomationProcess.Models.State", "State")
@@ -865,10 +951,6 @@ namespace DMLAutomationProcess.Migrations
                         .WithMany("OPRegistrations")
                         .HasForeignKey("DepartmentID");
 
-                    b.HasOne("DMLAutomationProcess.Models.Doctor", "Doctor")
-                        .WithMany("OPRegistrations")
-                        .HasForeignKey("DoctorID");
-
                     b.HasOne("DMLAutomationProcess.Models.FeeType", "FeeType")
                         .WithMany("OPRegistrations")
                         .HasForeignKey("FeeTypeID");
@@ -884,8 +966,6 @@ namespace DMLAutomationProcess.Migrations
                         .HasForeignKey("SpecialityID");
 
                     b.Navigation("Department");
-
-                    b.Navigation("Doctor");
 
                     b.Navigation("FeeType");
 
@@ -928,7 +1008,9 @@ namespace DMLAutomationProcess.Migrations
 
                     b.HasOne("DMLAutomationProcess.Models.Prefix", "Prefix")
                         .WithMany("Patients")
-                        .HasForeignKey("PrefixID");
+                        .HasForeignKey("PrefixID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DMLAutomationProcess.Models.Religion", "Religion")
                         .WithMany("Patients")
@@ -970,22 +1052,28 @@ namespace DMLAutomationProcess.Migrations
                 {
                     b.HasOne("DMLAutomationProcess.Models.Gender", "Gender")
                         .WithMany("Prefixes")
-                        .HasForeignKey("GenderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenderID");
 
                     b.Navigation("Gender");
                 });
 
-            modelBuilder.Entity("DMLAutomationProcess.Models.Speciality", b =>
+            modelBuilder.Entity("DMLAutomationProcess.Models.UnitDoctorMapping", b =>
                 {
-                    b.HasOne("DMLAutomationProcess.Models.Unit", "Unit")
-                        .WithMany("Specialities")
+                    b.HasOne("DMLAutomationProcess.Models.Doctor", "Doctors")
+                        .WithMany("UnitDoctorMappings")
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DMLAutomationProcess.Models.Unit", "Units")
+                        .WithMany("UnitDoctorMappings")
                         .HasForeignKey("UnitID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Unit");
+                    b.Navigation("Doctors");
+
+                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>
@@ -1060,8 +1148,15 @@ namespace DMLAutomationProcess.Migrations
                     b.Navigation("Patients");
                 });
 
+            modelBuilder.Entity("DMLAutomationProcess.Models.Day", b =>
+                {
+                    b.Navigation("DepartmentDayUnitMappings");
+                });
+
             modelBuilder.Entity("DMLAutomationProcess.Models.Department", b =>
                 {
+                    b.Navigation("DepartmentDayUnitMappings");
+
                     b.Navigation("OPRegistrations");
                 });
 
@@ -1072,7 +1167,7 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Doctor", b =>
                 {
-                    b.Navigation("OPRegistrations");
+                    b.Navigation("UnitDoctorMappings");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.FeeType", b =>
@@ -1127,7 +1222,9 @@ namespace DMLAutomationProcess.Migrations
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Unit", b =>
                 {
-                    b.Navigation("Specialities");
+                    b.Navigation("DepartmentDayUnitMappings");
+
+                    b.Navigation("UnitDoctorMappings");
                 });
 
             modelBuilder.Entity("DMLAutomationProcess.Models.Village", b =>

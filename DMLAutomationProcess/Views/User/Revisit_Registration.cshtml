@@ -1,7 +1,7 @@
 ﻿@model OpRegistrationViewModel
 @using DMLAutomationProcess.Models
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "REVISIT Registration";
 }
 <!-- Main content -->
 <section class="content">
@@ -9,18 +9,19 @@
         <div class="col-md-12">
             <div class="box box-danger">
                 <div class="box-header" style="text-align:center">
-                    <h3 class="box-title">OP Registration (NEW)</h3>
+                    <h3 class="box-title">OP Registration <span id="VisitType">(NEW)</span></h3>
                 </div>
                 <div class="box-body" style="height:1050px !important">
                     <form asp-action="Registration" asp-controller="User" method="post">
+                        @Html.HiddenFor(model => model.Patients.ID)
+                        @Html.HiddenFor(model => model.OPRegistrations.ID)
                         <div class="form-group">
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
-                                    @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control", @readonly = "readonly" })
+                                    @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Patients.UHID, null, new { @class = "text-danger" })
                                 </div>
-
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
@@ -28,7 +29,6 @@
                                     @Html.TextBoxFor(model => model.OPRegistrations.OPID, new { @class = "form-control", @readonly = "readonly" })
                                     @Html.ValidationMessageFor(model => model.OPRegistrations.OPID, null, new { @class = "text-danger" })
                                 </div>
-
                             </div>
 
                             <div class="col-md-2">
@@ -54,7 +54,7 @@
                             <div class="col-md-1">
                                 <div class="input-group">
                                     <label class="control-label">Title<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text", Model.Patients.PrefixID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.PrefixID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -88,14 +88,14 @@
                             <div class="col-md-1">
                                 <div class="input-group">
                                     <label class="control-label" style="visibility:hidden;">Years</label>
-                                    @Html.DropDownListFor(model => model.Patients.AgeTypeID, new SelectList(ViewBag.AgeTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.AgeTypeID, new SelectList(ViewBag.AgeTypes, "Value", "Text", Model.Patients.AgeTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.AgeTypeID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-1">
                                 <div class="input-group">
                                     <label class="control-label">Gender</label>
-                                    @Html.DropDownListFor(model => model.Patients.GenderID, new SelectList(ViewBag.Genders, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.GenderID, new SelectList(ViewBag.Genders, "Value", "Text", Model.Patients.GenderID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.GenderID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -114,39 +114,38 @@
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <label class="control-label">Patient Type<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.PatientTypeID, new SelectList(ViewBag.PatientTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.PatientTypeID, new SelectList(ViewBag.PatientTypes, "Value", "Text", Model.Patients.PatientTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.PatientTypeID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Departments<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.OPRegistrations.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text", Model.OPRegistrations.DepartmentID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.OPRegistrations.DepartmentID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Speciality<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text", Model.OPRegistrations.SpecialityID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.OPRegistrations.SpecialityID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                           @*  <div class="col-md-2">
                                 <div class="input-group">
-                                    @Html.HiddenFor(model => model.UnitIds)
                                     <label class="control-label">Unit<span class="text-danger"> *</span>:</label>
-                                    @Html.TextBoxFor(model => model.UnitName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Unit" })
-                                    @Html.ValidationMessageFor(model => model.UnitName, null, new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.OPRegistrations.Speciality.UnitID, new SelectList(ViewBag.Units, "Value", "Text", Model.OPRegistrations.Speciality.UnitID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.Speciality.UnitID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Doctor<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                    @Html.ValidationMessageFor(model => model.DoctorID, null, new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.OPRegistrations.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text", Model.OPRegistrations.DoctorID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.DoctorID, null, new { @class = "text-danger" })
                                 </div>
-                            </div>
+                            </div> *@
                         </div>
                         <br />
                         <div class="clearfix"></div>
@@ -155,7 +154,7 @@
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <label class="control-label">Fee Type<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.OPRegistrations.FeeTypeID, new SelectList(ViewBag.FeeTypes, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.DropDownListFor(model => model.OPRegistrations.FeeTypeID, new SelectList(ViewBag.FeeTypes, "Value", "Text", Model.OPRegistrations.FeeTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.OPRegistrations.FeeTypeID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -198,14 +197,14 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Marital Status<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.MaritalStatusID, new SelectList(ViewBag.MaritalStatuss, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.MaritalStatusID, new SelectList(ViewBag.MaritalStatuss, "Value", "Text", Model.Patients.MaritalStatusID), new { @class = "form-control" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.MaritalStatusID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Religion<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.ReligionID, new SelectList(ViewBag.Religions, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.ReligionID, new SelectList(ViewBag.Religions, "Value", "Text", Model.Patients.ReligionID), new { @class = "form-control" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.ReligionID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -219,7 +218,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Blood Group<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.BloodGroupID, new SelectList(ViewBag.BloodGroups, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.BloodGroupID, new SelectList(ViewBag.BloodGroups, "Value", "Text", Model.Patients.BloodGroupID), new { @class = "form-control" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.BloodGroupID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -231,7 +230,7 @@
                             <div class="col-md-3">
                                 <div class="input-group">
                                     <label class="control-label">Other Id Proof<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.Patients.IDProofTypeID, new SelectList(ViewBag.IdProofs, "Value", "Text"), new { @class = "form-control" }) <i></i>
+                                    @Html.DropDownListFor(model => model.Patients.IDProofTypeID, new SelectList(ViewBag.IdProofs, "Value", "Text", Model.Patients.IDProofTypeID), new { @class = "form-control" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.Patients.IDProofTypeID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -352,6 +351,19 @@
             }]
         });
 
+        $('#Patients_UHID').on('blur', function () {
+            var patients_UHID = $(this).val();
+            alert(patients_UHID)
+        });
+
+        var oPRegistrations_ID = $("#OPRegistrations_ID").val();
+        if (oPRegistrations_ID != null && oPRegistrations_ID != "") {
+            $("#VisitType").text("(REVISIT)")
+        } else {
+            $("#VisitType").text("(NEW)")
+        }
+
+
         $("#PatientAddresss_Village").autocomplete({
             source: function (request, response) {
                 $.ajax({
@@ -425,35 +437,6 @@
                 $dobInput.val(formattedDOB);
             } else {
                 $dobInput.val('');
-            }
-        });
-
-        $("#OPRegistrations_DepartmentID").change(function () {
-            var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
-            if (departmentID != null) {
-                var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
-                $.get(url, { departmentID: departmentID }, function (data) {
-                    var parts = data.split('^');
-                    $("#UnitName").val(parts[0])
-                    // Assign the first part to UnitName
-                    var unitName = $("#UnitName").val();
-                    // Assign the second part to UnitIds
-                    $("#UnitIds").val(parts[1]);
-                    var unitIds = $("#UnitIds").val();
-                    if (unitName != null && unitIds != null) {
-                        var ddlsource = "#DoctorID";
-                        var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
-                        $.getJSON(urls, { unitIds: unitIds }, function (data) {
-                            $(ddlsource).empty();
-                            $("#DoctorID").val('');
-                            $.each(data, function (index, optionData) {
-                                $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
-                            });
-                        });
-                    } else {
-                        $("#DoctorID").val('');
-                    }
-                });
             }
         });
 

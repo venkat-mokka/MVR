@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace DMLAutomationProcess.Controllers
 {
@@ -196,6 +197,7 @@ namespace DMLAutomationProcess.Controllers
         }
         #endregion
 
+        #region New OP Registration
         [HttpGet]
         public async Task<IActionResult> Registration()
         {
@@ -203,12 +205,9 @@ namespace DMLAutomationProcess.Controllers
             OPRegistration oPRegistration = new OPRegistration();
             Patient patient = new Patient();
 
-            //var result = await _context.OPRegistrations
-            //                      .FromSqlRaw("EXEC [GetUHIDAndOPID]")
-            //                      .FirstOrDefaultAsync();
-
             patient.UHID = DateTime.Now.ToString("yyyyMMdd") + "0001";
             oPRegistration.OPID = "OP." + DateTime.Now.ToString("yyMMdd") + "0001";
+            oPRegistration.ReferredBy = "Self";
             oPRegistration.VisitDate = DateTime.Now;
 
             opRegistrationViewModel.Patients = patient;
@@ -274,7 +273,6 @@ namespace DMLAutomationProcess.Controllers
             return Json(result);
         }
 
-
         public async Task<bool> BindData()
         {
             // Patient Demographic Details 
@@ -317,12 +315,10 @@ namespace DMLAutomationProcess.Controllers
 
             }).ToListAsync();
 
-            ViewBag.Doctors = await _context.Doctors.Select(r => new SelectListItem
+            ViewBag.Doctors = new List<SelectListItem>
             {
-                Text = r.Name,
-                Value = r.DoctorID.ToString()
-
-            }).ToListAsync();
+                new SelectListItem { Text = "", Value = "" }
+            };
 
             ViewBag.FeeTypes = await _context.FeeTypes.Select(r => new SelectListItem
             {
@@ -335,12 +331,6 @@ namespace DMLAutomationProcess.Controllers
             {
                 Text = r.Name,
                 Value = r.AgeTypeID.ToString()
-
-            }).ToListAsync();
-            ViewBag.Units = await _context.Units.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.UnitID.ToString()
 
             }).ToListAsync();
 
@@ -376,15 +366,65 @@ namespace DMLAutomationProcess.Controllers
             return true;
         }
 
+        [HttpGet]
+        public async Task<string> GetFormattedUnitNames(int departmentID)
+        {
+            // Get the current day name
+            var currentDayName = DateTime.Now.AddDays(-1).ToString("dddd").Substring(0, 3).ToUpper();
+            var unitNames = await _context.DepartmentDayUnitMappings
+                .Where(mapping =>
+                    mapping.Departments.DepartmentID == departmentID &&
+                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
+                )
+                .OrderBy(mapping => mapping.Units.Name)
+                //.Select(mapping => mapping.Units.Name)
+                .Select(mapping => new { UnitName = mapping.Units.Name, UnitID = mapping.Units.UnitID })
+                .ToListAsync();
+
+            var formattedUnitNames = unitNames.Any()
+                ? "UNIT -" + string.Join(" & ", unitNames.Select((unit, index) =>
+                    index == 0 ? unit.UnitName.Replace("UNIT -", "").Trim() : unit.UnitName.Replace("UNIT -", "").Trim()))
+                : string.Empty;
+
+            // Format Unit IDs: Just join them with commas
+            var formattedUnitIds = unitNames.Any()
+                ? string.Join(",", unitNames.Select(unit => unit.UnitID.ToString()))
+                : string.Empty;
+
+            var formattedUnitNamesAndUnitIds = formattedUnitNames + "^" + formattedUnitIds;
+
+            return formattedUnitNamesAndUnitIds;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetDoctorsByUnit(string unitIds)
+        {
+            // Split unitIds into a list of integers
+            var unitIdList = unitIds.Split(',')
+                                     .Select(id => int.Parse(id))
+                                     .ToList();
+
+            // Query the database
+            var result = await _context.UnitDoctorMappings
+                .Where(v => unitIdList.Contains(v.UnitID))  // Use the list of unit IDs for filtering
+                .Include(v => v.Doctors)
+                .Select(v => new SelectListItem
+                {
+                    Text = v.Doctors.Name,                // Set Text as the doctor's name
+                    Value = v.DoctorID.ToString()         // Set Value as the doctor's ID
+                }).OrderBy(a => a.Text)
+                .ToListAsync();
+
+            // Return the result as JSON
+            return Json(result);
+        }
+
+
+
         [HttpPost]
         public async Task<IActionResult> Registration(OpRegistrationViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                // Return the view with validation errors
-                return View(viewModel);
-            }
-
             try
             {
                 // Ensure the patient and address data are inserted or updated first
@@ -400,7 +440,6 @@ namespace DMLAutomationProcess.Controllers
                     _context.PatientAddresses.Add(viewModel.PatientAddresss);
                     await _context.SaveChangesAsync();
                 }
-
                 if (viewModel.OPRegistrations != null)
                 {
                     // Create parameters for the stored procedure
@@ -413,7 +452,7 @@ namespace DMLAutomationProcess.Controllers
                 new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
                 new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
                 new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
-                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+                //new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
                 new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
                 new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
                 new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
@@ -421,9 +460,13 @@ namespace DMLAutomationProcess.Controllers
             };
 
                     // Execute the stored procedure
+                    //await _context.Database.ExecuteSqlRawAsync(
+                    //    "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                    //    parameters);
+
                     await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
-                        parameters);
+                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                       parameters);
                 }
 
                 // Redirect to a confirmation or index page after successful execution
@@ -437,86 +480,46 @@ namespace DMLAutomationProcess.Controllers
                 return View(viewModel); // Return the view with the error message
             }
         }
+        #endregion
 
+        [HttpGet]
+        public async Task<IActionResult> Revisit_Registration()
+        {
+            await BindData();
+            // Create a new instance of the ViewModel
+            var opRegistrationViewModel = new OpRegistrationViewModel();
 
-        //[HttpPost]
-        //public async Task<IActionResult> Registration(OpRegistrationViewModel model)
-        //{
-        //    try
-        //    {
-        //        var Patients = new Patient
-        //        {
-        //            AbhaNo = model.Patient;
-        //        };
+            // Query the Patient by UHID
+            var patient = await _context.Patients
+                .Where(x => x.UHID == "202409020001")
+                .SingleOrDefaultAsync();
 
-        //        var PatientAddress = new PatientAddress
-        //        {
-        //            FirstName = models.pa
-        //        };
-        //        var model = new OPRegistration
-        //        {
-        //            FirstName = "V",
-        //            LastName = "M",
-        //            Age = 35,
-        //            DOB = DateTime.Now,
-        //            Email = "MV.doe@example.com",
-        //            Phone = "987654321",
-        //            PrefixID = 1,
-        //            AadhaarNo = 123456789012,
-        //            AbhaNo = 987654321012345,
-        //            PatientTypeID = null,
-        //            DepartmentID = null,
-        //            SpecialityID = null,
-        //            DoctorID = null,
-        //            FeeTypeID = null,
-        //            YearID = null
-        //        };
+            if (patient == null)
+            {
+                // Handle the case where the patient is not found
+                // You might redirect to an error page or show a message
+                return NotFound("Patient not found.");
+            }
 
-        //        // Create parameters for the stored procedure
-        //        var parameters = new[]
-        //        {
-        //            new SqlParameter("@FirstName", model?.FirstName),
-        //            new SqlParameter("@LastName", model?.LastName),
-        //            new SqlParameter("@Age", model?.Age),
-        //            new SqlParameter("@DOB", model?.DOB),
-        //            new SqlParameter("@Email", model?.Email),
-        //            new SqlParameter("@Phone", model?.Phone),
-        //            new SqlParameter("@PrefixID", model?.PrefixID),
-        //            new SqlParameter("@AadhaarNo", model?.AadhaarNo),
-        //            new SqlParameter("@AbhaNo", model?.AbhaNo),
-        //            new SqlParameter("@PatientTypeID", DBNull.Value),
-        //            new SqlParameter("@DepartmentID", DBNull.Value),
-        //            new SqlParameter("@SpecialityID", DBNull.Value),
-        //            new SqlParameter("@DoctorID", DBNull.Value),
-        //            new SqlParameter("@FeeTypeID", DBNull.Value),
-        //            new SqlParameter("@YearID", DBNull.Value)
-        //            };
+            // Query the PatientAddress and OPRegistration for the found patient
+            var patientAddress = await _context.PatientAddresses
+                .Where(x => x.PatientID == patient.ID)
+                .SingleOrDefaultAsync();
 
-        //        await _context.Database.ExecuteSqlRawAsync("EXEC InsertOPPatient @FirstName, @LastName, @Age, @DOB, @Email, @Phone, @PrefixID, @AadhaarNo, @AbhaNo, @PatientTypeID, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @YearID", parameters);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _telemetryClient.TrackException(ex);
-        //    }
-        //    return View();
-        //}
+            var opRegistration = await _context.OPRegistrations
+                .Where(x => x.PatientID == patient.ID)
+                .Include(a => a.Speciality)
+                //.ThenInclude(m => m.Unit)
+                .SingleOrDefaultAsync();
 
-        //[HttpGet]
-        //public JsonResult GetMandalByVillageID(int VillageID)
-        //{
-        //    List<CollectionDetails> model = _context.Mandals.Where(a => a.VillageID == VillageID).Select(a => new CollectionDetails()
-        //    {
-        //        ID = a.MandalID,
-        //        Name = a.Name
-        //    }).ToList();
+            // Assign the retrieved data to the ViewModel
+            opRegistrationViewModel.Patients = patient;
+            opRegistrationViewModel.PatientAddresss = patientAddress;
+            opRegistrationViewModel.OPRegistrations = opRegistration;
 
-        //    if (model != null)
-        //    {
-        //        var result = model.Select(a => new SelectListItem { Text = a.Name, Value = a.ID.ToString() }).ToList();
-        //        return Json(result);
-        //    }
-        //    return Json(null);
-        //}
+            // Return the View with the populated ViewModel
+            return View(opRegistrationViewModel);
+        }
 
     }
 }

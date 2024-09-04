@@ -86,6 +86,19 @@ namespace DMLAutomationProcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Day",
+                columns: table => new
+                {
+                    DayID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Day", x => x.DayID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Department",
                 columns: table => new
                 {
@@ -187,6 +200,19 @@ namespace DMLAutomationProcess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Religion", x => x.ReligionID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Speciality",
+                columns: table => new
+                {
+                    SpecialityID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Speciality", x => x.SpecialityID);
                 });
 
             migrationBuilder.CreateTable(
@@ -328,7 +354,7 @@ namespace DMLAutomationProcess.Migrations
                     PrefixID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    GenderID = table.Column<int>(type: "int", nullable: false)
+                    GenderID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -337,8 +363,7 @@ namespace DMLAutomationProcess.Migrations
                         name: "FK_Prefix_Gender_GenderID",
                         column: x => x.GenderID,
                         principalTable: "Gender",
-                        principalColumn: "GenderID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "GenderID");
                 });
 
             migrationBuilder.CreateTable(
@@ -362,19 +387,58 @@ namespace DMLAutomationProcess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Speciality",
+                name: "DepartmentDayUnitMapping",
                 columns: table => new
                 {
-                    SpecialityID = table.Column<int>(type: "int", nullable: false)
+                    DepartmentDayUnitMappingID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    DepartmentID = table.Column<int>(type: "int", nullable: false),
+                    DayID = table.Column<int>(type: "int", nullable: false),
                     UnitID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Speciality", x => x.SpecialityID);
+                    table.PrimaryKey("PK_DepartmentDayUnitMapping", x => x.DepartmentDayUnitMappingID);
                     table.ForeignKey(
-                        name: "FK_Speciality_Unit_UnitID",
+                        name: "FK_DepartmentDayUnitMapping_Day_DayID",
+                        column: x => x.DayID,
+                        principalTable: "Day",
+                        principalColumn: "DayID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DepartmentDayUnitMapping_Department_DepartmentID",
+                        column: x => x.DepartmentID,
+                        principalTable: "Department",
+                        principalColumn: "DepartmentID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DepartmentDayUnitMapping_Unit_UnitID",
+                        column: x => x.UnitID,
+                        principalTable: "Unit",
+                        principalColumn: "UnitID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitDoctorMapping",
+                columns: table => new
+                {
+                    UnitDoctorMappingID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UnitID = table.Column<int>(type: "int", nullable: false),
+                    DoctorID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitDoctorMapping", x => x.UnitDoctorMappingID);
+                    table.ForeignKey(
+                        name: "FK_UnitDoctorMapping_Doctor_DoctorID",
+                        column: x => x.DoctorID,
+                        principalTable: "Doctor",
+                        principalColumn: "DoctorID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UnitDoctorMapping_Unit_UnitID",
                         column: x => x.UnitID,
                         principalTable: "Unit",
                         principalColumn: "UnitID",
@@ -436,6 +500,7 @@ namespace DMLAutomationProcess.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     FatherName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     HusbandName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    PrefixID = table.Column<int>(type: "int", nullable: false),
                     MaritalStatusID = table.Column<int>(type: "int", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     AgeTypeID = table.Column<int>(type: "int", nullable: false),
@@ -450,9 +515,8 @@ namespace DMLAutomationProcess.Migrations
                     IDProof = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     AbhaNo = table.Column<long>(type: "bigint", nullable: true),
                     PatientTypeID = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PrefixID = table.Column<int>(type: "int", nullable: true),
-                    VillageID = table.Column<int>(type: "int", nullable: true)
+                    VillageID = table.Column<int>(type: "int", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -494,7 +558,8 @@ namespace DMLAutomationProcess.Migrations
                         name: "FK_Patient_Prefix_PrefixID",
                         column: x => x.PrefixID,
                         principalTable: "Prefix",
-                        principalColumn: "PrefixID");
+                        principalColumn: "PrefixID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Patient_Religion_ReligionID",
                         column: x => x.ReligionID,
@@ -520,7 +585,6 @@ namespace DMLAutomationProcess.Migrations
                     IsEmergencyCase = table.Column<bool>(type: "bit", nullable: true),
                     DepartmentID = table.Column<int>(type: "int", nullable: true),
                     SpecialityID = table.Column<int>(type: "int", nullable: true),
-                    DoctorID = table.Column<int>(type: "int", nullable: true),
                     FeeTypeID = table.Column<int>(type: "int", nullable: true),
                     ReferredBy = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -534,11 +598,6 @@ namespace DMLAutomationProcess.Migrations
                         column: x => x.DepartmentID,
                         principalTable: "Department",
                         principalColumn: "DepartmentID");
-                    table.ForeignKey(
-                        name: "FK_OPRegistration_Doctor_DoctorID",
-                        column: x => x.DoctorID,
-                        principalTable: "Doctor",
-                        principalColumn: "DoctorID");
                     table.ForeignKey(
                         name: "FK_OPRegistration_FeeType_FeeTypeID",
                         column: x => x.FeeTypeID,
@@ -622,6 +681,21 @@ namespace DMLAutomationProcess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DepartmentDayUnitMapping_DayID",
+                table: "DepartmentDayUnitMapping",
+                column: "DayID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentDayUnitMapping_DepartmentID",
+                table: "DepartmentDayUnitMapping",
+                column: "DepartmentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DepartmentDayUnitMapping_UnitID",
+                table: "DepartmentDayUnitMapping",
+                column: "UnitID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_District_StateID",
                 table: "District",
                 column: "StateID");
@@ -635,11 +709,6 @@ namespace DMLAutomationProcess.Migrations
                 name: "IX_OPRegistration_DepartmentID",
                 table: "OPRegistration",
                 column: "DepartmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OPRegistration_DoctorID",
-                table: "OPRegistration",
-                column: "DoctorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OPRegistration_FeeTypeID",
@@ -712,8 +781,13 @@ namespace DMLAutomationProcess.Migrations
                 column: "GenderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Speciality_UnitID",
-                table: "Speciality",
+                name: "IX_UnitDoctorMapping_DoctorID",
+                table: "UnitDoctorMapping",
+                column: "DoctorID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitDoctorMapping_UnitID",
+                table: "UnitDoctorMapping",
                 column: "UnitID");
 
             migrationBuilder.CreateIndex(
@@ -741,10 +815,16 @@ namespace DMLAutomationProcess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DepartmentDayUnitMapping");
+
+            migrationBuilder.DropTable(
                 name: "OPRegistration");
 
             migrationBuilder.DropTable(
                 name: "PatientAddress");
+
+            migrationBuilder.DropTable(
+                name: "UnitDoctorMapping");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -753,10 +833,10 @@ namespace DMLAutomationProcess.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Day");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
+                name: "Department");
 
             migrationBuilder.DropTable(
                 name: "FeeType");
@@ -766,6 +846,9 @@ namespace DMLAutomationProcess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Patient");
+
+            migrationBuilder.DropTable(
+                name: "Doctor");
 
             migrationBuilder.DropTable(
                 name: "Unit");
