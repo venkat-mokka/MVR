@@ -143,8 +143,8 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <label class="control-label">Doctor<span class="text-danger"> *</span>:</label>
-                                    @Html.DropDownListFor(model => model.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                    @Html.ValidationMessageFor(model => model.DoctorID, null, new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.OPRegistrations.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.OPRegistrations.DoctorID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
@@ -352,6 +352,8 @@
             }]
         });
 
+        setTimeout('$(".autohide").hide()', 2000);
+
         $("#PatientAddresss_Village").autocomplete({
             source: function (request, response) {
                 $.ajax({
@@ -441,17 +443,17 @@
                     $("#UnitIds").val(parts[1]);
                     var unitIds = $("#UnitIds").val();
                     if (unitName != null && unitIds != null) {
-                        var ddlsource = "#DoctorID";
+                        var ddlsource = "#OPRegistrations_DoctorID";
                         var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
                         $.getJSON(urls, { unitIds: unitIds }, function (data) {
                             $(ddlsource).empty();
-                            $("#DoctorID").val('');
+                            $("#OPRegistrations_DoctorID").val('');
                             $.each(data, function (index, optionData) {
                                 $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
                             });
                         });
                     } else {
-                        $("#DoctorID").val('');
+                        $("#OPRegistrations_DoctorID").val('');
                     }
                 });
             }

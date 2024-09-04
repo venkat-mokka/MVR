@@ -159,6 +159,7 @@ namespace DMLAutomationProcess.Models
         public bool? IsEmergencyCase { get; set; }
 
         public int? DepartmentID { get; set; }
+        public int? DoctorID { get; set; }
 
         public int? SpecialityID { get; set; }
 
@@ -179,6 +180,8 @@ namespace DMLAutomationProcess.Models
 
         [ForeignKey("DepartmentID")]
         public virtual Department? Department { get; set; }
+        [ForeignKey("DoctorID")]
+        public virtual Doctor? Doctor { get; set; }
 
         [ForeignKey("SpecialityID")]
         public virtual Speciality? Speciality { get; set; }
@@ -321,6 +324,7 @@ namespace DMLAutomationProcess.Models
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
+        public virtual ICollection<OPRegistration> OPRegistrations { get; set; }
         public virtual ICollection<UnitDoctorMapping> UnitDoctorMappings { get; set; }
     }
 

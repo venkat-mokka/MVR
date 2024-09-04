@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Maui.Graphics;
 using System.Security.Cryptography;
 
 namespace DMLAutomationProcess.Controllers
@@ -197,25 +198,7 @@ namespace DMLAutomationProcess.Controllers
         }
         #endregion
 
-        #region New OP Registration
-        [HttpGet]
-        public async Task<IActionResult> Registration()
-        {
-            OpRegistrationViewModel opRegistrationViewModel = new OpRegistrationViewModel();
-            OPRegistration oPRegistration = new OPRegistration();
-            Patient patient = new Patient();
-
-            patient.UHID = DateTime.Now.ToString("yyyyMMdd") + "0001";
-            oPRegistration.OPID = "OP." + DateTime.Now.ToString("yyMMdd") + "0001";
-            oPRegistration.ReferredBy = "Self";
-            oPRegistration.VisitDate = DateTime.Now;
-
-            opRegistrationViewModel.Patients = patient;
-            opRegistrationViewModel.OPRegistrations = oPRegistration;
-
-            await BindData();
-            return View(opRegistrationViewModel);
-        }
+        #region OP New & Revisit Registrations
 
         [HttpGet]
         public async Task<JsonResult> GetVillageNamesByAutoSerach(string term)
@@ -250,7 +233,6 @@ namespace DMLAutomationProcess.Controllers
 
             return Json(result);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> GetMandalByVillageName(string villageName)
@@ -396,7 +378,6 @@ namespace DMLAutomationProcess.Controllers
             return formattedUnitNamesAndUnitIds;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetDoctorsByUnit(string unitIds)
         {
@@ -420,14 +401,99 @@ namespace DMLAutomationProcess.Controllers
             return Json(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Registration()
+        {
+            OpRegistrationViewModel opRegistrationViewModel = new OpRegistrationViewModel();
+            OPRegistration oPRegistration = new OPRegistration();
+            Patient patient = new Patient();
 
+            patient.UHID = await GetNewUHID();
+            oPRegistration.OPID = await GetNewOPID();
+            oPRegistration.ReferredBy = "Self";
+            oPRegistration.VisitDate = DateTime.Now;
+
+            opRegistrationViewModel.Patients = patient;
+            opRegistrationViewModel.OPRegistrations = oPRegistration;
+
+            await BindData();
+            return View(opRegistrationViewModel);
+        }
+
+        public async Task<string> GetNewUHID()
+        {
+            // Step 1: Get the maximum UHID
+            var maxUHID = await _context.Patients
+                .OrderByDescending(p => p.UHID)
+                .Select(p => p.UHID)
+                .FirstOrDefaultAsync();
+
+            // Step 2: Handle case when no UHID exists
+            if (maxUHID == null)
+            {
+                // Generate UHID for the current day, starting with "0001"
+                return DateTime.Now.ToString("yyyyMMdd") + "0001";
+            }
+
+            // Extract the numeric part from maxUHID
+            var numericPart = maxUHID.Substring(8); // XXXX
+
+            if (!int.TryParse(numericPart, out var currentMaxNumber))
+            {
+                throw new InvalidOperationException("UHID format is not as expected.");
+            }
+
+            var nextNumber = currentMaxNumber + 1;
+            var nextUHIDNumericPart = nextNumber.ToString("D4"); // Pad with leading zeros
+
+            // Generate the new UHID with today's date
+            var nextUHID = DateTime.Now.ToString("yyyyMMdd") + nextUHIDNumericPart;
+
+            return nextUHID;
+        }
+
+        public async Task<string> GetNewOPID()
+        {
+            // Step 1: Get the maximum OPID
+            var maxOPID = await _context.OPRegistrations
+                .OrderByDescending(p => p.OPID)
+                .Select(p => p.OPID)
+                .FirstOrDefaultAsync();
+
+            // Step 2: Handle case when no OPID exists
+            if (maxOPID == null)
+            {
+                // Assuming your initial OPID format is "OP.yyMMdd0001"
+                // Adjust the date part as needed
+                return "OP." + DateTime.Now.ToString("yyMMdd") + "0001";
+            }
+
+            // Remove the "OP." prefix and extract the numeric part
+            var numericPartString = maxOPID.Substring(9); // Assuming "OP.yyMMdd" is 8 characters long
+
+            // Try parsing the numeric part to long
+            if (!long.TryParse(numericPartString, out var numericPart))
+            {
+                throw new InvalidOperationException("OPID format is not as expected.");
+            }
+
+            // Increment the numeric value by 1
+            numericPart += 1;
+
+            // Convert the incremented number to a string with leading zeros (assuming 4-digit format)
+            var incrementedNumericPartString = numericPart.ToString("D4"); // Pads with leading zeros
+
+            // Generate the new OPID with today's date and incremented number
+            var nextOPID = "OP." + DateTime.Now.ToString("yyMMdd") + incrementedNumericPartString;
+
+            return nextOPID;
+        }
 
         [HttpPost]
         public async Task<IActionResult> Registration(OpRegistrationViewModel viewModel)
         {
             try
             {
-                // Ensure the patient and address data are inserted or updated first
                 if (viewModel.Patients != null)
                 {
                     _context.Patients.Add(viewModel.Patients);
@@ -440,6 +506,7 @@ namespace DMLAutomationProcess.Controllers
                     _context.PatientAddresses.Add(viewModel.PatientAddresss);
                     await _context.SaveChangesAsync();
                 }
+
                 if (viewModel.OPRegistrations != null)
                 {
                     // Create parameters for the stored procedure
@@ -451,75 +518,193 @@ namespace DMLAutomationProcess.Controllers
                 new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
                 new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
                 new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
                 new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
-                //new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
                 new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
                 new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
                 new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
                 new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive)
             };
 
-                    // Execute the stored procedure
-                    //await _context.Database.ExecuteSqlRawAsync(
-                    //    "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @SpecialityID, @DoctorID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
-                    //    parameters);
-
                     await _context.Database.ExecuteSqlRawAsync(
-                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
                        parameters);
                 }
 
-                // Redirect to a confirmation or index page after successful execution
-                return RedirectToAction("Success"); // Adjust as needed
+                TempData["Success"] = "New UHID " + viewModel.Patients?.UHID + " Created Successfully";
+                await BindData();
+                return RedirectToAction("Registration");
             }
             catch (Exception ex)
             {
-                // Log the exception and add an error message to the model state
                 _telemetryClient.TrackException(ex);
-                ModelState.AddModelError("", "An error occurred while processing your request. Please try again later.");
-                return View(viewModel); // Return the view with the error message
+                TempData["Error"] = "An error occurred while processing UHID " + (viewModel.Patients?.UHID ?? "unknown") + ".";
+                return View();
             }
         }
-        #endregion
 
         [HttpGet]
-        public async Task<IActionResult> Revisit_Registration()
+        public async Task<IActionResult> Revisit_Registration(string? redirect = null)
         {
-            await BindData();
-            // Create a new instance of the ViewModel
             var opRegistrationViewModel = new OpRegistrationViewModel();
-
-            // Query the Patient by UHID
-            var patient = await _context.Patients
-                .Where(x => x.UHID == "202409020001")
-                .SingleOrDefaultAsync();
-
-            if (patient == null)
+            await BindData();
+            if (redirect != null)
             {
-                // Handle the case where the patient is not found
-                // You might redirect to an error page or show a message
-                return NotFound("Patient not found.");
+                // Query the Patient by UHID
+                var patient = await _context.Patients
+                    .Where(x => x.UHID == "")
+                    .FirstOrDefaultAsync();
+
+                if (patient != null)
+                {
+
+                    // Query the PatientAddress and OPRegistration for the found patient
+                    var patientAddress = await _context.PatientAddresses
+                        .Where(x => x.PatientID == patient.ID)
+                        .FirstOrDefaultAsync();
+
+                    var opRegistration = await _context.OPRegistrations
+                        .Where(x => x.PatientID == patient.ID).OrderByDescending(a => a.ID)
+                        .Include(a => a.Speciality)
+                        .Include(a => a.Department)
+                        .FirstOrDefaultAsync();
+                }
+
+                Patient patients = new Patient();
+                PatientAddress patientAddresss = new PatientAddress();
+                OPRegistration OpRegistrations = new OPRegistration();
+
+                OpRegistrations.VisitDate = DateTime.Now;
+
+                OpRegistrations.OPID = await GetNewOPID();
+                OpRegistrations.VisitDate = DateTime.Now;
+
+                // Assign the retrieved data to the ViewModel
+                opRegistrationViewModel.Patients = patients;
+                opRegistrationViewModel.PatientAddresss = patientAddresss;
+                opRegistrationViewModel.OPRegistrations = OpRegistrations;
             }
+            else
+            {
+                Patient patients = new Patient();
+                PatientAddress patientAddresss = new PatientAddress();
+                OPRegistration OpRegistrations = new OPRegistration();
 
-            // Query the PatientAddress and OPRegistration for the found patient
-            var patientAddress = await _context.PatientAddresses
-                .Where(x => x.PatientID == patient.ID)
-                .SingleOrDefaultAsync();
+                OpRegistrations.VisitDate = DateTime.Now;
 
-            var opRegistration = await _context.OPRegistrations
-                .Where(x => x.PatientID == patient.ID)
-                .Include(a => a.Speciality)
-                //.ThenInclude(m => m.Unit)
-                .SingleOrDefaultAsync();
-
-            // Assign the retrieved data to the ViewModel
-            opRegistrationViewModel.Patients = patient;
-            opRegistrationViewModel.PatientAddresss = patientAddress;
-            opRegistrationViewModel.OPRegistrations = opRegistration;
-
-            // Return the View with the populated ViewModel
+                opRegistrationViewModel.Patients = patients;
+                opRegistrationViewModel.PatientAddresss = patientAddresss;
+                opRegistrationViewModel.OPRegistrations = OpRegistrations;
+            }
             return View(opRegistrationViewModel);
         }
 
+        public async Task<string> GetOpIdListAsync(int numIDs)
+        {
+            // Define the output parameter
+            var outputParameter = new SqlParameter
+            {
+                ParameterName = "@result",
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+                Size = -1, // Max size for NVARCHAR
+                Direction = System.Data.ParameterDirection.Output
+            };
+
+            // Execute the stored procedure
+            await _context.Database.ExecuteSqlRawAsync("EXEC GenerateOPIDList @numIDs, @result OUTPUT",
+                new SqlParameter("@numIDs", numIDs),
+                outputParameter);
+
+            // Retrieve the output value
+            return (string)outputParameter.Value;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult?> BindRevisitDetailsByUHID(string UHID)
+        {
+            if (!string.IsNullOrEmpty(UHID))
+            {
+                await BindData();
+                // Create a new instance of the ViewModel
+                var opRegistrationViewModel = new OpRegistrationViewModel();
+
+                // Query the Patient by UHID
+                var patient = await _context.Patients
+                    .Where(x => x.UHID == UHID)
+                    .FirstOrDefaultAsync();
+
+                // Query the PatientAddress and OPRegistration for the found patient
+                var patientAddress = await _context.PatientAddresses
+                    .Where(x => x.PatientID == patient.ID)
+                    .FirstOrDefaultAsync();
+
+                var opRegistration = await _context.OPRegistrations
+                    .Where(x => x.PatientID == patient.ID).OrderByDescending(a => a.ID)
+                    .Include(a => a.Speciality)
+                    .Include(a => a.Department)
+                    .FirstOrDefaultAsync();
+
+                // Assign the retrieved data to the ViewModel
+                opRegistrationViewModel.Patients = patient;
+                opRegistrationViewModel.PatientAddresss = patientAddress;
+                opRegistration.OPID = await GetNewOPID();
+                opRegistration.VisitDate = DateTime.Now;
+                opRegistrationViewModel.OPRegistrations = opRegistration;
+
+                return PartialView("_BindRevisit_Registration", opRegistrationViewModel);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Revisit_Registration(OpRegistrationViewModel viewModel)
+        {
+            try
+            {
+                if (viewModel.Patients?.ID != 0)
+                {
+                    if (viewModel.OPRegistrations != null)
+                    {
+                        // Create parameters for the stored procedure
+                        var parameters = new[]
+                        {
+                new SqlParameter("@PatientID", viewModel.Patients?.ID),
+                new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
+                new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
+                new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
+                new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
+                new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+                new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
+                new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
+                new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
+                new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
+                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive)
+            };
+
+                        await _context.Database.ExecuteSqlRawAsync(
+                           "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                           parameters);
+                    }
+
+                    TempData["Success"] = "Revisit UHID " + viewModel.Patients?.UHID + " Updated Successfully";
+
+                    await BindData();
+                    return RedirectToAction("Revisit_Registration", new { redirect = "redirect" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _telemetryClient.TrackException(ex);
+                TempData["Error"] = "An error occurred while processing UHID " + (viewModel.Patients?.UHID ?? "unknown") + ".";
+                return View();
+            }
+            return View();
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,475 @@
+﻿@model OpRegistrationViewModel
+@using DMLAutomationProcess.Models
+@{
+    ViewBag.Title = "REVISIT Registration";
+}
+<!-- Main content -->
+
+<form asp-action="Revisit_Registration" asp-controller="User" method="post">
+    @Html.HiddenFor(model => model.Patients.ID)
+    @Html.HiddenFor(model => model.OPRegistrations.ID)
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patients.UHID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">OP<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.OPRegistrations.OPID, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.OPRegistrations.OPID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Visit Date<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.OPRegistrations.VisitDate, new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.OPRegistrations.VisitDate, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Is MLC Case:</label>
+                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+                    @Html.CheckBoxFor(model => model.OPRegistrations.IsMlcCase.Value)
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-1">
+            <div class="input-group">
+                <label class="control-label">Title<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text", Model.Patients.PrefixID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.PrefixID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">First Name<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.FirstName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter FirstName" })
+                @Html.ValidationMessageFor(model => model.Patients.FirstName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Middle Name:</label>
+                @Html.TextBoxFor(model => model.Patients.MiddleName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter MiddleName" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Last Name<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.LastName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter LastName" })
+                @Html.ValidationMessageFor(model => model.Patients.LastName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="input-group">
+                <label class="control-label">Age<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.Age, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Age" })
+                @Html.ValidationMessageFor(model => model.Patients.Age, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="input-group">
+                <label class="control-label" style="visibility:hidden;">Years</label>
+                @Html.DropDownListFor(model => model.Patients.AgeTypeID, new SelectList(ViewBag.AgeTypes, "Value", "Text", Model.Patients.AgeTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.AgeTypeID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-1">
+            <div class="input-group">
+                <label class="control-label">Gender</label>
+                @Html.DropDownListFor(model => model.Patients.GenderID, new SelectList(ViewBag.Genders, "Value", "Text", Model.Patients.GenderID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.GenderID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">DOB</label>
+                @Html.TextBoxFor(model => model.Patients.DOB, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter DOB" })
+                @Html.ValidationMessageFor(model => model.Patients.DOB, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Patient Type<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.PatientTypeID, new SelectList(ViewBag.PatientTypes, "Value", "Text", Model.Patients.PatientTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.PatientTypeID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Departments<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.OPRegistrations.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text", Model.OPRegistrations.DepartmentID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.OPRegistrations.DepartmentID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Speciality<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text", Model.OPRegistrations.SpecialityID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.OPRegistrations.SpecialityID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                @Html.HiddenFor(model => model.UnitIds)
+                <label class="control-label">Unit<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.UnitName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Unit" })
+                @Html.ValidationMessageFor(model => model.UnitName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Doctor<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.OPRegistrations.DoctorID, new SelectList(ViewBag.Doctors, "Value", "Text", Model.OPRegistrations.DoctorID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.OPRegistrations.DoctorID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Fee Type<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.OPRegistrations.FeeTypeID, new SelectList(ViewBag.FeeTypes, "Value", "Text", Model.OPRegistrations.FeeTypeID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                @Html.ValidationMessageFor(model => model.OPRegistrations.FeeTypeID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Mobile No:</label>
+                @Html.TextBoxFor(model => model.Patients.MobileNumber, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Mobile No" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Aadhar No:</label>
+                @Html.TextBoxFor(model => model.Patients.AadhaarNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Aadhar No", @maxlength = "12", @pattern = @"\d{12}" })
+                @Html.ValidationMessageFor(model => model.Patients.AadhaarNo, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Abha No:</label>
+                @Html.TextBoxFor(model => model.Patients.AbhaNo, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Abha No" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group" id="FatherNameDiv">
+                <label class="control-label">Father Name:</label>
+                @Html.TextBoxFor(model => model.Patients.FatherName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Father Name" })
+                @Html.ValidationMessageFor(model => model.Patients.FatherName, null, new { @class = "text-danger" })
+            </div>
+            <div class="input-group" id="HusbandNameDiv" style="display:none">
+                <label class="control-label">Husband Name:</label>
+                @Html.TextBoxFor(model => model.Patients.HusbandName, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Husband Name" })
+                @Html.ValidationMessageFor(model => model.Patients.HusbandName, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Marital Status<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.MaritalStatusID, new SelectList(ViewBag.MaritalStatuss, "Value", "Text", Model.Patients.MaritalStatusID), new { @class = "form-control" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.MaritalStatusID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Religion<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.ReligionID, new SelectList(ViewBag.Religions, "Value", "Text", Model.Patients.ReligionID), new { @class = "form-control" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.ReligionID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Caste<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.Caste, new { @class = "form-control", @autocomplete = "off", @placeholder = "Caste" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.Caste, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Blood Group<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.BloodGroupID, new SelectList(ViewBag.BloodGroups, "Value", "Text", Model.Patients.BloodGroupID), new { @class = "form-control" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.BloodGroupID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Other Id Proof<span class="text-danger"> *</span>:</label>
+                @Html.DropDownListFor(model => model.Patients.IDProofTypeID, new SelectList(ViewBag.IdProofs, "Value", "Text", Model.Patients.IDProofTypeID), new { @class = "form-control" }) <i></i>
+                @Html.ValidationMessageFor(model => model.Patients.IDProofTypeID, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                @Html.HiddenFor(model => model.Patients.VillageID)
+                <label class="control-label">Village<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.PatientAddresss.Village, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Village Name" }) <i></i>
+                @Html.ValidationMessageFor(model => model.PatientAddresss.Village, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Mandal<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.PatientAddresss.Mandal, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Mandal Name", @readonly = "readonly" }) <i></i>
+                @Html.ValidationMessageFor(model => model.PatientAddresss.Mandal, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">District<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.PatientAddresss.District, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter District Name", @readonly = "readonly" }) <i></i>
+                @Html.ValidationMessageFor(model => model.PatientAddresss.District, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">State<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.PatientAddresss.State, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter State Name", @readonly = "readonly" }) <i></i>
+                @Html.ValidationMessageFor(model => model.PatientAddresss.State, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Pincode<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.PatientAddresss.PinCode, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter PinCode", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.PatientAddresss.PinCode, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Alternate Mobile Number<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.Patients.AlternateMobileNumber, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Alt Mobile No", @maxlength = "12", @pattern = @"\d{12}" })
+                @Html.ValidationMessageFor(model => model.Patients.AlternateMobileNumber, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <label class="control-label">Ref. By<span class="text-danger"> *</span>:</label>
+                @Html.TextBoxFor(model => model.OPRegistrations.ReferredBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Ref. By", @maxlength = "12", @pattern = @"\d{12}" })
+                @Html.ValidationMessageFor(model => model.OPRegistrations.ReferredBy, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <label class="control-label">Is Emergency Case:</label>
+                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+                    @Html.CheckBoxFor(model => model.OPRegistrations.IsEmergencyCase.Value)
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+    </div>
+    <br />
+    <br />
+    <div class="clearfix"></div>
+    <br />
+    <div class="box-footer">
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Register / Print</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Clear</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Update</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Search</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-primary">Print</button>
+        </div>
+    </div>
+</form>
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@* <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> *@
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" />
+<script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
+<script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        setTimeout('$(".autohide").hide()', 2000);
+
+        // $("#PatientAddresss_Village").autocomplete({
+        //     source: function (request, response) {
+        //         $.ajax({
+        //             url: '@Url.Action("GetVillageNamesByAutoSerach", "User")',
+        //             type: 'GET',
+        //             dataType: "json",
+        //             data: {
+        //                 term: request.term
+        //             },
+        //             success: function (data) {
+        //                 response(data);
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 console.error("AJAX Error: " + status + error);
+        //             }
+        //         });
+        //     },
+        //     select: function (event, ui) {
+        //     }
+        // });
+
+
+        $('#Patients_Age').on('input', function () {
+            var age = $(this).val();
+            var $dobInput = $('#Patients_DOB');
+
+            if (age && !isNaN(age)) {
+                var today = new Date();
+                var dobYear = today.getFullYear() - parseInt(age, 10);
+                var dobMonth = today.getMonth(); // Month is zero-based
+                var dobDay = today.getDate();
+
+                // Calculate DOB
+                var dob = new Date(dobYear, dobMonth, dobDay);
+
+                // Format DOB as DD-MM-YYYY
+                var day = String(dob.getDate()).padStart(2, '0');
+                var month = String(dob.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+                var year = dob.getFullYear();
+
+                var formattedDOB = `${day}-${month}-${year}`;
+
+                $dobInput.val(formattedDOB);
+            } else {
+                $dobInput.val('');
+            }
+        });
+
+        var patients_ID = $("#Patients_ID").val();
+        if (patients_ID != "0") {
+            var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
+            if (departmentID != null) {
+                var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
+                $.get(url, { departmentID: departmentID }, function (data) {
+                    var parts = data.split('^');
+                    $("#UnitName").val(parts[0])
+                    // Assign the first part to UnitName
+                    var unitName = $("#UnitName").val();
+                    // Assign the second part to UnitIds
+                    $("#UnitIds").val(parts[1]);
+                    var unitIds = $("#UnitIds").val();
+                    if (unitName != null && unitIds != null) {
+                        var ddlsource = "#OPRegistrations_DoctorID";
+                        var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
+                        $.getJSON(urls, { unitIds: unitIds }, function (data) {
+                            $(ddlsource).empty();
+                            $("#OPRegistrations_DoctorID").val('');
+                            $.each(data, function (index, optionData) {
+                                $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                            });
+                            $("#OPRegistrations_DoctorID").val(@Model.OPRegistrations.DoctorID);
+                        });
+                    } else {
+                        $("#OPRegistrations_DoctorID").val('');
+                    }
+                });
+            }
+        }
+
+        $("#OPRegistrations_DepartmentID").change(function () {
+            var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
+            if (departmentID != null) {
+                var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
+                $.get(url, { departmentID: departmentID }, function (data) {
+                    var parts = data.split('^');
+                    $("#UnitName").val(parts[0])
+                    // Assign the first part to UnitName
+                    var unitName = $("#UnitName").val();
+                    // Assign the second part to UnitIds
+                    $("#UnitIds").val(parts[1]);
+                    var unitIds = $("#UnitIds").val();
+                    if (unitName != null && unitIds != null) {
+                        var ddlsource = "#OPRegistrations_DoctorID";
+                        var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
+                        $.getJSON(urls, { unitIds: unitIds }, function (data) {
+                            $(ddlsource).empty();
+                            $("#OPRegistrations_DoctorID").val('');
+                            $.each(data, function (index, optionData) {
+                                $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                            });
+                        });
+                    } else {
+                        $("#OPRegistrations_DoctorID").val('');
+                    }
+                });
+            }
+        });
+
+
+        $("#PatientAddresss_Village").change(function () {
+            var villageName = $("#PatientAddresss_Village").val();
+            if (villageName != null) {
+                var url1 = '@Url.Content("~/")' + "User/GetMandalByVillageName";
+                $.getJSON(url1, { villageName: villageName }, function (data) {
+                    $("#PatientAddresss_Mandal").val('');
+                    $("#atientAddresss_District").val('');
+                    $("#PatientAddresss_State").val('');
+                    $("#PatientAddresss_PinCode").val('');
+                    $.each(data, function (index, optionData) {
+                        $("#Patients_VillageID").val(optionData.villageID);
+                        $("#PatientAddresss_Mandal").val(optionData.mandalName);
+                        $("#PatientAddresss_District").val(optionData.districtName);
+                        $("#PatientAddresss_State").val(optionData.stateName);
+                        $("#PatientAddresss_PinCode").val(optionData.pinCode);
+                    });
+                });
+            } else {
+                $("#PatientAddresss_Mandal").val('');
+                $("#atientAddresss_District").val('');
+                $("#PatientAddresss_State").val('');
+                $("#PatientAddresss_PinCode").val('');
+            }
+        });
+    });
+</script>

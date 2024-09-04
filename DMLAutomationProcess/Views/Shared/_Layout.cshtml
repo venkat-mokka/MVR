@@ -23,7 +23,7 @@
             <span class="fa fa-bars"></span>
         </button>
         <a href="@Url.Action("Index", "Home")" class="navbar-brand">
-            <img style="width:70px; height:33px;" src="../images/rvm.png" />
+            <img style="width:70px; height:33px;" src="../images/rvm123.png" />
         </a>
         @if (@User.Identity.IsAuthenticated)
         {
@@ -65,87 +65,90 @@
                     <li class="">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bars"></i>
-                            <span>OP DEPARTMENT</span>
+                            @*  <span>OP DEPARTMENT</span> *@
+                            <span>KK</span>
                             <b class="arrow fa fa-caret-down"></b>
                         </a>
                         <ul class="dropdown-menu dropdown-navbar">
                             <li>
                                 <a href='@Url.Action("Registration", "User")' onclick="loading()">
                                     <i class="fa fa-book"></i>
-                                    <span>OP New Registration</span>
+                                    @* <span>OP New Registration</span> *@
+                                    <span>OO</span>
                                 </a>
                             </li>
                             <li>
                                 <a href='@Url.Action("Revisit_Registration", "User")' onclick="loading()">
                                     <i class="fa fa-plus"></i>
-                                    <span>OP Revisit Registration</span>
+                                    @*    <span>OP Revisit Registration</span> *@
+                                    <span>MM</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-dollar"></i>
-                            <span>BILLING</span>
-                            <b class="arrow fa fa-caret-down"></b>
-                        </a>
-                        <ul class="dropdown-menu dropdown-navbar">
-                            <li>
-                                <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
-                                    <i class="fa fa-book"></i>
-                                    <span>OP</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
-                                    <i class="fa fa-plus"></i>
-                                    <span>IP</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-users"></i>
-                            <span>IP DEPARTMENT</span>
-                            <b class="arrow fa fa-caret-down"></b>
-                        </a>
-                        <ul class="dropdown-menu dropdown-navbar">
-                            <li>
-                                <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
-                                    <i class="fa fa-book"></i>
-                                    <span>OP</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
-                                    <i class="fa fa-plus"></i>
-                                    <span>IP</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-check-book"></i>
-                            <span>CASUALITY</span>
-                            <b class="arrow fa fa-caret-down"></b>
-                        </a>
-                        <ul class="dropdown-menu dropdown-navbar">
-                            <li>
-                                <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
-                                    <i class="fa fa-book"></i>
-                                    <span>OP</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
-                                    <i class="fa fa-plus"></i>
-                                    <span>IP</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @*       <li class="">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-dollar"></i>
+            <span>BILLING</span>
+            <b class="arrow fa fa-caret-down"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-navbar">
+            <li>
+            <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
+            <i class="fa fa-book"></i>
+            <span>OP</span>
+            </a>
+            </li>
+            <li>
+            <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
+            <i class="fa fa-plus"></i>
+            <span>IP</span>
+            </a>
+            </li>
+            </ul>
+            </li>
+            <li class="">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-users"></i>
+            <span>IP DEPARTMENT</span>
+            <b class="arrow fa fa-caret-down"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-navbar">
+            <li>
+            <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
+            <i class="fa fa-book"></i>
+            <span>OP</span>
+            </a>
+            </li>
+            <li>
+            <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
+            <i class="fa fa-plus"></i>
+            <span>IP</span>
+            </a>
+            </li>
+            </ul>
+            </li>
+            <li class="">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-check-book"></i>
+            <span>CASUALITY</span>
+            <b class="arrow fa fa-caret-down"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-navbar">
+            <li>
+            <a href='@Url.Action("ManageRoles", "Account")' onclick="loading()">
+            <i class="fa fa-book"></i>
+            <span>OP</span>
+            </a>
+            </li>
+            <li>
+            <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
+            <i class="fa fa-plus"></i>
+            <span>IP</span>
+            </a>
+            </li>
+            </ul>
+            </li> *@
                     <li class="">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bars"></i>
@@ -163,6 +166,27 @@
                                 <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
                                     <i class="fa fa-users"></i>
                                     <span>Manage Users</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-users"></i>
+                            <span>OP Patient Porting</span>
+                            <b class="arrow fa fa-caret-down"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-navbar">
+                            <li>
+                                <a href='@Url.Action("ManageRoles", "User")' onclick="loading()">
+                                    <i class="fa fa-user"></i>
+                                    <span>New Patient</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("ManageUsers", "User")' onclick="loading()">
+                                    <i class="fa fa-user"></i>
+                                    <span>Revist Patient</span>
                                 </a>
                             </li>
                         </ul>

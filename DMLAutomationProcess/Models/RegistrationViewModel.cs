@@ -12,8 +12,8 @@ namespace DMLAutomationProcess.Models
         public OPRegistration? OPRegistrations { get; set; }
         [Required]
         public string? UnitName { get; set; }
-        [Required]
-        public int DoctorID { get; set; }
+        //[Required]
+        //public int DoctorID { get; set; }
         public string UnitIds { get; set; }
     }
     public class UHIDAndOPIDDto
