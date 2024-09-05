@@ -305,7 +305,13 @@ INSERT INTO Doctor (Name) VALUES ('Dr.Venkateswar Reddy Vaddula');
 
 
 INSERT INTO Speciality (Name) VALUES
-('General surgery'); 
+('General medicine - Cardiology')
+INSERT INTO Speciality (Name) VALUES
+('General medicine - Gastroenterology')
+INSERT INTO Speciality (Name) VALUES
+('General Surgery - Urology')
+INSERT INTO Speciality (Name) VALUES
+('Orthopedics - Neuro Surgery'); 
 
 INSERT INTO Day (Name) VALUES 
 ('SUN'),

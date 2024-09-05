@@ -353,6 +353,7 @@ namespace DMLAutomationProcess.Controllers
         {
             // Get the current day name
             var currentDayName = DateTime.Now.AddDays(-1).ToString("dddd").Substring(0, 3).ToUpper();
+            //currentDayName = "TUE";
             var unitNames = await _context.DepartmentDayUnitMappings
                 .Where(mapping =>
                     mapping.Departments.DepartmentID == departmentID &&
@@ -422,17 +423,20 @@ namespace DMLAutomationProcess.Controllers
 
         public async Task<string> GetNewUHID()
         {
-            // Step 1: Get the maximum UHID
+            // Get the current date in YYYYMMDD format
+            var currentDatePart = DateTime.Now.ToString("yyyyMMdd");
+
+            // Get the maximum UHID for the current date
             var maxUHID = await _context.Patients
+                .Where(p => p.UHID.StartsWith(currentDatePart))
                 .OrderByDescending(p => p.UHID)
                 .Select(p => p.UHID)
                 .FirstOrDefaultAsync();
 
-            // Step 2: Handle case when no UHID exists
+            // Handle the case when no UHID exists for today
             if (maxUHID == null)
             {
-                // Generate UHID for the current day, starting with "0001"
-                return DateTime.Now.ToString("yyyyMMdd") + "0001";
+                return currentDatePart + "0001";
             }
 
             // Extract the numeric part from maxUHID
@@ -443,16 +447,61 @@ namespace DMLAutomationProcess.Controllers
                 throw new InvalidOperationException("UHID format is not as expected.");
             }
 
+            // Increment the numeric part for today's UHID
             var nextNumber = currentMaxNumber + 1;
             var nextUHIDNumericPart = nextNumber.ToString("D4"); // Pad with leading zeros
 
-            // Generate the new UHID with today's date
-            var nextUHID = DateTime.Now.ToString("yyyyMMdd") + nextUHIDNumericPart;
-
-            return nextUHID;
+            return currentDatePart + nextUHIDNumericPart;
         }
 
         public async Task<string> GetNewOPID()
+        {
+            // Get the current date in "yyMMdd" format
+            var currentDatePart = DateTime.Now.ToString("yyMMdd");
+
+            // Get the maximum OPID for the current date
+            var maxOPID = await _context.OPRegistrations
+                .Where(p => p.OPID.StartsWith("OP." + currentDatePart))
+                .OrderByDescending(p => p.OPID)
+                .Select(p => p.OPID)
+                .FirstOrDefaultAsync();
+
+            // Handle the case when no OPID exists for today
+            if (maxOPID == null)
+            {
+                // Generate OPID for the current day, starting with "0001"
+                return "OP." + currentDatePart + "0001";
+            }
+
+            // Ensure that the OPID format is as expected
+            if (!maxOPID.StartsWith("OP.") || maxOPID.Length != 13)
+            {
+                throw new InvalidOperationException("OPID format is not as expected.");
+            }
+
+            // Extract the numeric part from maxOPID
+            var numericPartString = maxOPID.Substring(9); // Extract "0001"
+
+            // Try parsing the numeric part to an integer
+            if (!int.TryParse(numericPartString, out var numericPart))
+            {
+                throw new InvalidOperationException("Numeric part of OPID is not as expected.");
+            }
+
+            // Increment the numeric value by 1
+            numericPart += 1;
+
+            // Convert the incremented number to a string with leading zeros (assuming 4-digit format)
+            var incrementedNumericPartString = numericPart.ToString("D4"); // Pads with leading zeros
+
+            // Generate the new OPID with today's date and incremented number
+            var nextOPID = "OP." + currentDatePart + incrementedNumericPartString;
+
+            return nextOPID;
+        }
+
+
+        public async Task<string> GetNewOPID1()
         {
             // Step 1: Get the maximum OPID
             var maxOPID = await _context.OPRegistrations

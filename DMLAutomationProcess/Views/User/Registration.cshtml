@@ -127,9 +127,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <label class="control-label">Speciality<span class="text-danger"> *</span>:</label>
+                                    <label class="control-label">Speciality:</label>
                                     @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
-                                    @Html.ValidationMessageFor(model => model.OPRegistrations.SpecialityID, null, new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-2">
