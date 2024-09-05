@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [DDLAutomationProcess]    Script Date: 04-09-2024 08:55:54 ******/
+/****** Object:  Database [DDLAutomationProcess]    Script Date: 05-09-2024 09:13:23 ******/
 CREATE DATABASE [DDLAutomationProcess]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -80,7 +80,7 @@ ALTER DATABASE [DDLAutomationProcess] SET QUERY_STORE = OFF
 GO
 USE [DDLAutomationProcess]
 GO
-/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 04-09-2024 08:55:54 ******/
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 05-09-2024 09:13:23 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -94,7 +94,7 @@ CREATE TABLE [dbo].[__EFMigrationsHistory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AgeType]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AgeType]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[AgeType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetRoleClaims]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,7 +124,7 @@ CREATE TABLE [dbo].[AspNetRoleClaims](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetRoles]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -144,7 +144,7 @@ CREATE TABLE [dbo].[AspNetRoles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetUserClaims]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -160,7 +160,7 @@ CREATE TABLE [dbo].[AspNetUserClaims](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetUserLogins]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -177,7 +177,7 @@ CREATE TABLE [dbo].[AspNetUserLogins](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetUserRoles]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -192,7 +192,7 @@ CREATE TABLE [dbo].[AspNetUserRoles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetUsers]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +224,7 @@ CREATE TABLE [dbo].[AspNetUsers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[AspNetUserTokens]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -242,7 +242,7 @@ CREATE TABLE [dbo].[AspNetUserTokens](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BloodGroup]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[BloodGroup]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -256,7 +256,7 @@ CREATE TABLE [dbo].[BloodGroup](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DaywiseSchedule]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[DaywiseSchedule]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +270,7 @@ CREATE TABLE [dbo].[DaywiseSchedule](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Department]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Department]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,7 +284,7 @@ CREATE TABLE [dbo].[Department](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DepartmentDayUnitMapping]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[DepartmentDayUnitMapping]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -300,7 +300,7 @@ CREATE TABLE [dbo].[DepartmentDayUnitMapping](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[District]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[District]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -315,7 +315,7 @@ CREATE TABLE [dbo].[District](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Doctor]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Doctor]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -329,7 +329,7 @@ CREATE TABLE [dbo].[Doctor](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FeeType]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[FeeType]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -343,7 +343,7 @@ CREATE TABLE [dbo].[FeeType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Gender]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Gender]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -357,7 +357,7 @@ CREATE TABLE [dbo].[Gender](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[IDProofType]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[IDProofType]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -371,7 +371,7 @@ CREATE TABLE [dbo].[IDProofType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Mandal]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Mandal]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -386,7 +386,7 @@ CREATE TABLE [dbo].[Mandal](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MaritalStatus]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[MaritalStatus]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -400,7 +400,7 @@ CREATE TABLE [dbo].[MaritalStatus](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OPRegistration]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[OPRegistration]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -413,6 +413,7 @@ CREATE TABLE [dbo].[OPRegistration](
 	[IsMlcCase] [bit] NULL,
 	[IsEmergencyCase] [bit] NULL,
 	[DepartmentID] [int] NULL,
+	[DoctorID] [int] NULL,
 	[SpecialityID] [int] NULL,
 	[FeeTypeID] [int] NULL,
 	[ReferredBy] [nvarchar](50) NOT NULL,
@@ -424,7 +425,7 @@ CREATE TABLE [dbo].[OPRegistration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Patient]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Patient]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -462,7 +463,7 @@ CREATE TABLE [dbo].[Patient](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PatientAddress]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[PatientAddress]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -482,7 +483,7 @@ CREATE TABLE [dbo].[PatientAddress](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PatientType]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[PatientType]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -496,7 +497,7 @@ CREATE TABLE [dbo].[PatientType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Prefix]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Prefix]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -511,7 +512,7 @@ CREATE TABLE [dbo].[Prefix](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Religion]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Religion]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -525,7 +526,7 @@ CREATE TABLE [dbo].[Religion](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Speciality]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Speciality]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -539,7 +540,7 @@ CREATE TABLE [dbo].[Speciality](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[State]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[State]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -553,7 +554,7 @@ CREATE TABLE [dbo].[State](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Unit]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Unit]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -567,7 +568,7 @@ CREATE TABLE [dbo].[Unit](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UnitDoctorMapping]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[UnitDoctorMapping]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -582,7 +583,7 @@ CREATE TABLE [dbo].[UnitDoctorMapping](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Village]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Table [dbo].[Village]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -598,555 +599,9 @@ CREATE TABLE [dbo].[Village](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20240903093142_InitialContext', N'8.0.4')
-GO
-SET IDENTITY_INSERT [dbo].[AgeType] ON 
-
-INSERT [dbo].[AgeType] ([AgeTypeID], [Name]) VALUES (1, N'Years')
-INSERT [dbo].[AgeType] ([AgeTypeID], [Name]) VALUES (2, N'Months')
-INSERT [dbo].[AgeType] ([AgeTypeID], [Name]) VALUES (3, N'Days')
-SET IDENTITY_INSERT [dbo].[AgeType] OFF
-GO
-INSERT [dbo].[AspNetRoles] ([Id], [Discriminator], [Description], [CreatedDate], [IPAddress], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'ad550101-3fca-4af4-bf41-6a2cf0072bec', N'ApplicationRole', NULL, CAST(N'2024-08-30T08:30:10.3386152' AS DateTime2), NULL, N'Admin', N'ADMIN', NULL)
-GO
-INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'74022576-3acd-4f31-91a9-d7204122cc97', N'ad550101-3fca-4af4-bf41-6a2cf0072bec')
-GO
-INSERT [dbo].[AspNetUsers] ([Id], [Discriminator], [UserId], [Name], [CreatedDate], [IsActive], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'74022576-3acd-4f31-91a9-d7204122cc97', N'ApplicationUser', NULL, N'venkat', CAST(N'2024-08-30T08:30:12.7096760' AS DateTime2), 1, N'venkat', N'VENKAT', N'venkat@gmail.com', N'VENKAT@GMAIL.COM', 0, N'AQAAAAIAAYagAAAAEFdFfwXm11KI+50x2q377YsYc/hTQSRS8X/1b6KkZ+toQ8L1IgIJDBG34ZIe1posag==', N'WY2XTFLOSDQMZL5NYCICUF5NKUDLEQPE', N'b8ab023c-e5a0-4926-b72c-25eda7b3616b', NULL, 0, 0, NULL, 1, 0)
-GO
-SET IDENTITY_INSERT [dbo].[BloodGroup] ON 
-
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (1, N'Unknown')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (2, N'A+ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (3, N'B+ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (4, N'AB+ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (5, N'O+ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (6, N'A-ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (7, N'B-ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (8, N'AB-ve')
-INSERT [dbo].[BloodGroup] ([BloodGroupID], [Name]) VALUES (9, N'O-ve')
-SET IDENTITY_INSERT [dbo].[BloodGroup] OFF
-GO
-SET IDENTITY_INSERT [dbo].[DaywiseSchedule] ON 
-
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (1, N'SUN')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (2, N'MON')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (3, N'TUE')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (4, N'WED')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (5, N'THU')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (6, N'FRI')
-INSERT [dbo].[DaywiseSchedule] ([DayID], [Name]) VALUES (7, N'SAT')
-SET IDENTITY_INSERT [dbo].[DaywiseSchedule] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Department] ON 
-
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (1, N'CASUALTY')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (2, N'DENTAL')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (3, N'DVL')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (4, N'ENT')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (5, N'GENERAL MEDICINE')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (6, N'GENERAL SURGERY')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (7, N'GYNECOLOGY')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (8, N'OBSTETRICS')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (9, N'OPHTHALMOLOGY')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (10, N'ORTHOPAEDICS')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (11, N'PAEDIATRICS')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (12, N'RESPIRATORY MEDICINE')
-INSERT [dbo].[Department] ([DepartmentID], [Name]) VALUES (13, N'PSYCHIATRY')
-SET IDENTITY_INSERT [dbo].[Department] OFF
-GO
-SET IDENTITY_INSERT [dbo].[DepartmentDayUnitMapping] ON 
-
-INSERT [dbo].[DepartmentDayUnitMapping] ([DepartmentDayUnitMappingID], [DepartmentID], [DayID], [UnitID]) VALUES (1, 5, 1, 7)
-INSERT [dbo].[DepartmentDayUnitMapping] ([DepartmentDayUnitMappingID], [DepartmentID], [DayID], [UnitID]) VALUES (2, 5, 2, 1)
-INSERT [dbo].[DepartmentDayUnitMapping] ([DepartmentDayUnitMappingID], [DepartmentID], [DayID], [UnitID]) VALUES (3, 5, 2, 5)
-INSERT [dbo].[DepartmentDayUnitMapping] ([DepartmentDayUnitMappingID], [DepartmentID], [DayID], [UnitID]) VALUES (4, 5, 3, 2)
-INSERT [dbo].[DepartmentDayUnitMapping] ([DepartmentDayUnitMappingID], [DepartmentID], [DayID], [UnitID]) VALUES (5, 5, 3, 6)
-SET IDENTITY_INSERT [dbo].[DepartmentDayUnitMapping] OFF
-GO
-SET IDENTITY_INSERT [dbo].[District] ON 
-
-INSERT [dbo].[District] ([DistrictID], [Name], [StateID]) VALUES (1, N'Medchal Malkajgiri', 1)
-INSERT [dbo].[District] ([DistrictID], [Name], [StateID]) VALUES (2, N'Hyderabad', 1)
-INSERT [dbo].[District] ([DistrictID], [Name], [StateID]) VALUES (3, N'Visakhapatnam', 2)
-SET IDENTITY_INSERT [dbo].[District] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Doctor] ON 
-
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (2, N'Dr.Thandra Ramoji Babu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (3, N'Dr.Karishma')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (4, N'Dr.Sree Karthik Pratapa')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (5, N'Dr.Sriramula Yamini')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (6, N'Dr.Ketavath Kiran Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (7, N'Dr.Aditya Chakravarthula')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (8, N'Dr.Elabaka Munisahith Sharma')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (9, N'Dr.Thakur Abhijeet Singh')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (10, N'Dr.Damera Mounika')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (11, N'Dr.Satla Rakhesh Goud')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (12, N'Dr.Dontha Mahesh Netha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (13, N'Dr.Puskoor Tharun')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (14, N'Dr.V Akhila')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (15, N'Dr.Kondu Mounika')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (16, N'Dr.Rajesh Ganta')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (17, N'Dr.Yarlagadda Srinivas Rao')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (18, N'Dr.RamadugUNIT - Venkat Chanakya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (19, N'Dr.Aluguvelly Suresh Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (20, N'Dr.Pagadala Tejaswi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (21, N'Dr.Chinthala Navyasree')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (22, N'Dr.Gone Vamshi Krishna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (23, N'Dr.K Anil Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (24, N'Dr.Sreeperumbuduri Ashok')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (25, N'Dr.Cheripally Rajashekar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (26, N'Dr.G Abhinav Kumar Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (27, N'Dr.Koneru Siri')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (28, N'Dr.Kondle Kranti')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (29, N'Dr.Dugyala Dinesh')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (30, N'Dr.Marepally Nitin Rao')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (31, N'Dr.Bharath S')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (32, N'Dr.Aluru Mithra Vindha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (33, N'Dr.Vadlamani M S R Srinivas')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (34, N'Dr.Bommidi Kranthi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (35, N'Dr.Korra Niharika')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (36, N'Dr.Surendhar Guguloth')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (37, N'Dr.Dande Nagendra')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (38, N'Dr.Pothuganti Durga Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (39, N'Dr.Kotha Jyothsnapriya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (40, N'Dr.Guda Raj Kamal')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (41, N'Dr.Pusarla Naga Sai Laxmi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (42, N'Dr.Sappidi Nikitha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (43, N'Dr.Akasapu Bhagavan')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (44, N'Dr.Akila Sree Gowri')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (45, N'Dr.Allada Nagaraju')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (46, N'Dr.Ambi Sambasiva Rao')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (47, N'Dr.Archana Santosh Jain')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (48, N'Dr.Ashok Rao Matety')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (49, N'Dr.B Tejasree')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (50, N'Dr.Baddam Mounika Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (51, N'Dr.Bandari Dheeraj')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (52, N'Dr.Bathula Deepthi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (53, N'Dr.BattUNIT - VIjayeswar Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (54, N'Dr.Bendram Phaninder Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (55, N'Dr.Bolgam Suvarna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (56, N'Dr.Bolgam Vijaya Bhasker')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (57, N'Dr.Bommineni Sashidhar Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (58, N'Dr.Buyyani Priyanka')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (59, N'Dr.Challa Pooja Rani')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (60, N'Dr.Chelikani Kavitha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (61, N'Dr.Chetan Bhavan Mahajan')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (62, N'Dr.Chetaraju Ravikiran')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (63, N'Dr.Chidugulla Suresh Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (64, N'Dr.Chinthala Narsaiah')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (65, N'Dr.Davu Hema')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (66, N'Dr.Devunuri Sravya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (67, N'Dr.Dinesh Singh Chauhan R')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (68, N'Dr.Sudigali Sunanda')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (69, N'Dr.Alishala Lingam')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (70, N'Dr.Arshad Hussain')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (71, N'Dr.Kusuma Purushotham')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (72, N'Dr.Mahender Muthyapu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (73, N'Dr.Mulukoju Ravindra Chary')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (74, N'Dr.Patnala Vijaya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (75, N'Dr.Uppu Kishan')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (76, N'Dr.Vamshi Krishna Biroj')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (77, N'Dr.Dubakunta Manjula')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (78, N'Dr.G.Dayanand')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (79, N'Dr.GadagottUNIT - Vaishnavi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (80, N'Dr.Gadapaga Venkatesh')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (81, N'Dr.Gandra Aravind')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (82, N'Dr.Ganesh Nallagonda')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (83, N'Dr.Ganganamoni Raja Mohan')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (84, N'Dr.Gautam Panduranga')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (85, N'Dr.Gogineni Divya Chowdary')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (86, N'Dr.Gopi Krishna Amaravadi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (87, N'Dr.Gouthami Padugundla')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (88, N'Dr.Gudiyella Sukumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (89, N'Dr.Gummi Mamatha Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (90, N'Dr.Gundla Vamshi Krishna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (91, N'Dr.Itha Lingamurthy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (92, N'Dr.Janaswamy Vishwanath')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (93, N'Dr.K Mrudula')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (94, N'Dr.Kamisetty Kishorekumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (95, N'Dr.Kamtala Ramu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (96, N'Dr.Kamuni Narsimloo')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (97, N'Dr.Kandala Shivaraj Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (98, N'Dr.Kandula Venkat')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (99, N'Dr.Kankanampati Venkata Mounika')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (100, N'Dr.Kanmantha Reddy Sriharsha')
-GO
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (101, N'Dr.Karumuru Kiran Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (102, N'Dr.Kasturi Ashwin')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (103, N'Dr.Kasturi Swetha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (104, N'Dr.Katkam Avinash')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (105, N'Dr.Katti Alekya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (106, N'Dr.Kethawath Kavitha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (107, N'Dr.Kilambi Srinivas')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (108, N'Dr.Kodidela Jahnavi')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (109, N'Dr.Kolan Sai Raghava Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (110, N'Dr.Kompella Abhijna Rao')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (111, N'Dr.Konatham Hari Babu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (112, N'Dr.Kondaveeti Sai Kanth Sharma')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (113, N'Dr.Kondle Vamshi Krishna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (114, N'Dr.Koriginja Rajeshwar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (115, N'Dr.Kotagiri Ravikanth')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (116, N'Dr.Kotha Prem Kishore')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (117, N'Dr.Kurimilla Ramesh')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (118, N'Dr.Kusuma Siva Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (119, N'Dr.M Bhagyashree')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (120, N'Dr.Madhava Nachagiri')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (121, N'Dr.Mahadeva Jhansi Mani')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (122, N'Dr.Mahesh Neginhal')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (123, N'Dr.Mamidala Suneeth Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (124, N'Dr.Manchala Karthik')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (125, N'Dr.Manchikatla Ramulu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (126, N'Dr.Manideep Malaka')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (127, N'Dr.Mayakuntla Nitesh Sai')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (128, N'Dr.Memba Bala Vikas Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (129, N'Dr.Mooga Swetcha')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (130, N'Dr.Mundrathi Ravikumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (131, N'Dr.Murali Mohan Gurram')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (132, N'Dr.Nagelli Samuel')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (133, N'Dr.Nakkarkanti Shivakoti Vasu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (134, N'Dr.Nampally Prashanth')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (135, N'Dr.Nathani Arif Aziz')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (136, N'Dr.Nathani Manisha Arif')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (137, N'Dr.Navneeth Servey')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (138, N'Dr.Neelaboina Vasudeva Rayudu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (139, N'Dr.Paka Rajanna Rajender')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (140, N'Dr.Pamulapati Sasidhar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (141, N'Dr.Panchmahalkar Anand')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (142, N'Dr.Penugonda Chandra Sekhar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (143, N'Dr.PesarUNIT - VIjaya Chander Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (144, N'Dr.Pilli Padma')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (145, N'Dr.Polu Sasikanth Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (146, N'Dr.Poosa Suresh Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (147, N'Dr.Poreddi Mahesh Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (148, N'Dr.Produtur Rukmini Reddy')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (149, N'Dr.Raghava Aditya Kalvala')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (150, N'Dr.Rallabandi Penta Chary')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (151, N'Dr.Rama Ashok')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (152, N'Dr.Rathlawath Swapna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (153, N'Dr.Rodda Suma')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (154, N'Dr.S Kapil Sai')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (155, N'Dr.Saai Ram Thejas B S')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (156, N'Dr.Sainath Reddy Manda')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (157, N'Dr.Shaik Mohammed Anjum')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (158, N'Dr.Siva Sankar Nunna')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (159, N'Dr.Sumitra Devi Adepu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (160, N'Dr.Suresh Dantoor')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (161, N'Dr.Surya Nunavath')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (162, N'Dr.Talla Srinivas')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (163, N'Dr.Talluri Suresh Babu')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (164, N'Dr.Uppu Krishnam Raju')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (165, N'Dr.V Ranjith Kumar Kota')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (166, N'Dr.Valluri Sowmya Choudri')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (167, N'Dr.VamarajUNIT - Venkata Krishna Bharadwaja')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (168, N'Dr.Vanama Lavya Kumar')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (169, N'Dr.Veera Divya')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (170, N'Dr.Vemula Usharani')
-INSERT [dbo].[Doctor] ([DoctorID], [Name]) VALUES (171, N'Dr.Venkateswar Reddy Vaddula')
-SET IDENTITY_INSERT [dbo].[Doctor] OFF
-GO
-SET IDENTITY_INSERT [dbo].[FeeType] ON 
-
-INSERT [dbo].[FeeType] ([FeeTypeID], [Name]) VALUES (1, N'Free')
-INSERT [dbo].[FeeType] ([FeeTypeID], [Name]) VALUES (2, N'Cash')
-INSERT [dbo].[FeeType] ([FeeTypeID], [Name]) VALUES (3, N'Credit')
-INSERT [dbo].[FeeType] ([FeeTypeID], [Name]) VALUES (4, N'FeeTypes')
-INSERT [dbo].[FeeType] ([FeeTypeID], [Name]) VALUES (5, N'Aarogyasri')
-SET IDENTITY_INSERT [dbo].[FeeType] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Gender] ON 
-
-INSERT [dbo].[Gender] ([GenderID], [Name]) VALUES (1, N'Male')
-INSERT [dbo].[Gender] ([GenderID], [Name]) VALUES (2, N'Female')
-INSERT [dbo].[Gender] ([GenderID], [Name]) VALUES (3, N'Transgender')
-SET IDENTITY_INSERT [dbo].[Gender] OFF
-GO
-SET IDENTITY_INSERT [dbo].[IDProofType] ON 
-
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (1, N'Unknown')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (2, N'VOTER ID')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (3, N'PAN CARD')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (4, N'DRIVING LICENCE')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (5, N'AAROGYASRI CARD')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (6, N'RATION CARD')
-INSERT [dbo].[IDProofType] ([IDProofTypeID], [Name]) VALUES (7, N'PASSPORT')
-SET IDENTITY_INSERT [dbo].[IDProofType] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Mandal] ON 
-
-INSERT [dbo].[Mandal] ([MandalID], [Name], [DistrictID]) VALUES (1, N'Medchal', 1)
-INSERT [dbo].[Mandal] ([MandalID], [Name], [DistrictID]) VALUES (2, N'Shameerpet', 1)
-INSERT [dbo].[Mandal] ([MandalID], [Name], [DistrictID]) VALUES (3, N'Bheemili', 2)
-SET IDENTITY_INSERT [dbo].[Mandal] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MaritalStatus] ON 
-
-INSERT [dbo].[MaritalStatus] ([MaritalStatusID], [Name]) VALUES (1, N'Unknown')
-INSERT [dbo].[MaritalStatus] ([MaritalStatusID], [Name]) VALUES (2, N'Married')
-INSERT [dbo].[MaritalStatus] ([MaritalStatusID], [Name]) VALUES (3, N'Single')
-SET IDENTITY_INSERT [dbo].[MaritalStatus] OFF
-GO
-SET IDENTITY_INSERT [dbo].[OPRegistration] ON 
-
-INSERT [dbo].[OPRegistration] ([ID], [PatientID], [OPID], [VisitDate], [IsMlcCase], [IsEmergencyCase], [DepartmentID], [SpecialityID], [FeeTypeID], [ReferredBy], [CreatedDate], [IsActive]) VALUES (1, 1, N'OP.2409040001', CAST(N'2024-09-04T07:51:29.0000000' AS DateTime2), NULL, NULL, 5, 1, 1, N'Self', CAST(N'2024-09-04T07:52:36.7800000' AS DateTime2), 1)
-SET IDENTITY_INSERT [dbo].[OPRegistration] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Patient] ON 
-
-INSERT [dbo].[Patient] ([ID], [UHID], [AadhaarNo], [GenderID], [FirstName], [MiddleName], [LastName], [FatherName], [HusbandName], [PrefixID], [MaritalStatusID], [Age], [AgeTypeID], [DOB], [MobileNumber], [AlternateMobileNumber], [Email], [ReligionID], [Caste], [BloodGroupID], [IDProofTypeID], [IDProof], [AbhaNo], [PatientTypeID], [VillageID], [CreatedDate]) VALUES (1, N'202409040001', 529801020967, 1, N'Mokka', NULL, N'Venkateswarao', N'Chinna Krishna', NULL, 1, 2, 35, 1, CAST(N'1989-09-04T00:00:00.0000000' AS DateTime2), 9985071515, NULL, NULL, 2, N'BC-B', 2, 1, NULL, NULL, 1, 1, CAST(N'2024-09-04T07:52:36.7607544' AS DateTime2))
-SET IDENTITY_INSERT [dbo].[Patient] OFF
-GO
-SET IDENTITY_INSERT [dbo].[PatientAddress] ON 
-
-INSERT [dbo].[PatientAddress] ([ID], [PatientID], [Village], [Mandal], [District], [State], [PinCode], [CreatedDate]) VALUES (1, 1, N'Medchal', N'Medchal', N'Medchal Malkajgiri', N'Telangana', 501401, CAST(N'2024-09-04T07:52:36.7786938' AS DateTime2))
-SET IDENTITY_INSERT [dbo].[PatientAddress] OFF
-GO
-SET IDENTITY_INSERT [dbo].[PatientType] ON 
-
-INSERT [dbo].[PatientType] ([PatientTypeID], [Name]) VALUES (1, N'General')
-INSERT [dbo].[PatientType] ([PatientTypeID], [Name]) VALUES (2, N'Camp')
-INSERT [dbo].[PatientType] ([PatientTypeID], [Name]) VALUES (3, N'Staff')
-INSERT [dbo].[PatientType] ([PatientTypeID], [Name]) VALUES (4, N'Aarogyasri')
-INSERT [dbo].[PatientType] ([PatientTypeID], [Name]) VALUES (5, N'Student')
-SET IDENTITY_INSERT [dbo].[PatientType] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Prefix] ON 
-
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (1, N'Mr.', 1)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (2, N'Mrs.', 2)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (3, N'Miss', 2)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (4, N'Dr.', 2)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (5, N'Master', 1)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (6, N'Baby', 1)
-INSERT [dbo].[Prefix] ([PrefixID], [Name], [GenderID]) VALUES (7, N'Baby of', NULL)
-SET IDENTITY_INSERT [dbo].[Prefix] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Religion] ON 
-
-INSERT [dbo].[Religion] ([ReligionID], [Name]) VALUES (1, N'Unknown')
-INSERT [dbo].[Religion] ([ReligionID], [Name]) VALUES (2, N'Hindu')
-INSERT [dbo].[Religion] ([ReligionID], [Name]) VALUES (3, N'Muslim')
-INSERT [dbo].[Religion] ([ReligionID], [Name]) VALUES (4, N'Christian')
-INSERT [dbo].[Religion] ([ReligionID], [Name]) VALUES (5, N'Others')
-SET IDENTITY_INSERT [dbo].[Religion] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Speciality] ON 
-
-INSERT [dbo].[Speciality] ([SpecialityID], [Name]) VALUES (1, N'General surgery')
-SET IDENTITY_INSERT [dbo].[Speciality] OFF
-GO
-SET IDENTITY_INSERT [dbo].[State] ON 
-
-INSERT [dbo].[State] ([StateID], [Name]) VALUES (1, N'Telangana')
-INSERT [dbo].[State] ([StateID], [Name]) VALUES (2, N'Andhra Pradesh')
-SET IDENTITY_INSERT [dbo].[State] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Unit] ON 
-
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (1, N'UNIT - I')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (2, N'UNIT - II')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (3, N'UNIT - III')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (4, N'UNIT - IV')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (5, N'UNIT - V')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (6, N'UNIT - VI')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (7, N'UNIT - VII')
-INSERT [dbo].[Unit] ([UnitID], [Name]) VALUES (8, N'UNIT - VIII')
-SET IDENTITY_INSERT [dbo].[Unit] OFF
-GO
-SET IDENTITY_INSERT [dbo].[UnitDoctorMapping] ON 
-
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (1, 1, 2)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (2, 1, 3)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (3, 1, 4)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (4, 1, 5)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (5, 1, 6)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (6, 1, 7)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (7, 1, 13)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (8, 1, 14)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (9, 1, 18)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (10, 1, 20)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (11, 1, 26)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (12, 1, 27)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (13, 1, 29)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (14, 1, 34)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (15, 2, 8)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (16, 2, 10)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (17, 2, 11)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (18, 2, 19)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (19, 2, 21)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (20, 2, 23)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (21, 3, 12)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (22, 3, 15)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (23, 3, 17)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (24, 3, 24)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (25, 3, 25)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (26, 4, 16)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (27, 4, 22)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (28, 4, 28)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (29, 4, 30)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (30, 4, 33)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (31, 5, 31)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (32, 5, 32)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (33, 5, 36)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (34, 6, 92)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (35, 6, 109)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (36, 6, 167)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (37, 6, 88)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (38, 6, 125)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (39, 6, 38)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (40, 6, 41)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (41, 6, 78)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (42, 7, 99)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (43, 7, 111)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (44, 7, 168)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (45, 7, 108)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (46, 7, 128)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (47, 7, 39)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (48, 7, 80)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (49, 7, 112)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (50, 8, 116)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (51, 8, 162)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (52, 8, 171)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (53, 8, 117)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (54, 8, 98)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (55, 8, 100)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (56, 1, 2)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (57, 1, 3)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (58, 1, 4)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (59, 1, 5)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (60, 1, 6)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (61, 1, 7)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (62, 1, 13)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (63, 1, 14)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (64, 1, 18)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (65, 1, 20)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (66, 1, 26)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (67, 1, 27)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (68, 1, 29)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (69, 1, 34)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (70, 2, 8)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (71, 2, 10)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (72, 2, 11)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (73, 2, 19)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (74, 2, 21)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (75, 2, 23)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (76, 3, 12)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (77, 3, 15)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (78, 3, 17)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (79, 3, 24)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (80, 3, 25)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (81, 4, 16)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (82, 4, 22)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (83, 4, 28)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (84, 4, 30)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (85, 4, 33)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (86, 5, 31)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (87, 5, 32)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (88, 1, 85)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (89, 1, 86)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (90, 1, 89)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (91, 1, 94)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (92, 1, 96)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (93, 1, 103)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (94, 1, 104)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (95, 1, 119)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (96, 1, 122)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (97, 1, 123)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (98, 1, 131)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (99, 1, 132)
-GO
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (100, 1, 133)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (101, 1, 134)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (102, 1, 137)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (103, 1, 34)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (104, 2, 101)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (105, 2, 102)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (106, 2, 106)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (107, 2, 110)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (108, 2, 115)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (109, 2, 112)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (110, 2, 120)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (111, 2, 126)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (112, 2, 129)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (113, 2, 130)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (114, 3, 87)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (115, 3, 95)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (116, 3, 135)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (117, 3, 143)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (118, 3, 12)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (119, 3, 17)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (120, 3, 24)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (121, 3, 25)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (122, 4, 84)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (123, 4, 91)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (124, 4, 93)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (125, 4, 97)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (126, 4, 107)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (127, 4, 33)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (128, 5, 105)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (129, 5, 118)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (130, 5, 31)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (131, 5, 32)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (132, 5, 90)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (133, 6, 88)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (134, 6, 92)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (135, 6, 125)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (136, 6, 109)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (137, 7, 111)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (138, 7, 99)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (142, 8, 98)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (143, 8, 114)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (144, 1, 138)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (145, 1, 148)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (146, 1, 151)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (147, 1, 155)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (148, 1, 156)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (149, 1, 159)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (150, 1, 160)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (151, 1, 161)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (152, 1, 163)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (153, 1, 164)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (154, 2, 141)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (155, 2, 146)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (156, 2, 154)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (157, 3, 140)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (158, 3, 143)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (159, 3, 144)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (160, 3, 147)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (161, 3, 149)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (162, 3, 157)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (163, 4, 139)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (164, 4, 142)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (165, 4, 152)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (166, 4, 158)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (167, 4, 166)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (168, 4, 169)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (169, 5, 145)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (170, 5, 150)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (171, 5, 165)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (172, 5, 170)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (173, 6, 167)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (174, 6, 88)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (175, 6, 92)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (176, 6, 109)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (182, 8, 98)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (183, 8, 114)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (184, 8, 116)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (185, 8, 117)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (186, 8, 162)
-INSERT [dbo].[UnitDoctorMapping] ([UnitDoctorMappingID], [UnitID], [DoctorID]) VALUES (187, 8, 171)
-SET IDENTITY_INSERT [dbo].[UnitDoctorMapping] OFF
-GO
-SET IDENTITY_INSERT [dbo].[Village] ON 
-
-INSERT [dbo].[Village] ([VillageID], [Name], [MandalID], [Pincode]) VALUES (1, N'Medchal', 1, 501401)
-INSERT [dbo].[Village] ([VillageID], [Name], [MandalID], [Pincode]) VALUES (2, N'Shameerpet', 2, 500078)
-INSERT [dbo].[Village] ([VillageID], [Name], [MandalID], [Pincode]) VALUES (3, N'Bheemili', 3, 531162)
-SET IDENTITY_INSERT [dbo].[Village] OFF
-GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_AspNetRoleClaims_RoleId]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [dbo].[AspNetRoleClaims]
 (
 	[RoleId] ASC
@@ -1154,7 +609,7 @@ CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [dbo].[AspNetRoleClaim
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [RoleNameIndex]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [RoleNameIndex]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [RoleNameIndex] ON [dbo].[AspNetRoles]
 (
 	[NormalizedName] ASC
@@ -1164,7 +619,7 @@ WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNOR
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_AspNetUserClaims_UserId]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId] ON [dbo].[AspNetUserClaims]
 (
 	[UserId] ASC
@@ -1172,7 +627,7 @@ CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId] ON [dbo].[AspNetUserClaim
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_AspNetUserLogins_UserId]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId] ON [dbo].[AspNetUserLogins]
 (
 	[UserId] ASC
@@ -1180,7 +635,7 @@ CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId] ON [dbo].[AspNetUserLogin
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_AspNetUserRoles_RoleId]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId] ON [dbo].[AspNetUserRoles]
 (
 	[RoleId] ASC
@@ -1188,7 +643,7 @@ CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId] ON [dbo].[AspNetUserRoles]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [EmailIndex]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [EmailIndex]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [EmailIndex] ON [dbo].[AspNetUsers]
 (
 	[NormalizedEmail] ASC
@@ -1196,7 +651,7 @@ CREATE NONCLUSTERED INDEX [EmailIndex] ON [dbo].[AspNetUsers]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UserNameIndex]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [UserNameIndex]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [dbo].[AspNetUsers]
 (
 	[NormalizedUserName] ASC
@@ -1204,139 +659,139 @@ CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [dbo].[AspNetUsers]
 WHERE ([NormalizedUserName] IS NOT NULL)
 WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_DepartmentDayUnitMapping_DayID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_DepartmentDayUnitMapping_DayID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_DepartmentDayUnitMapping_DayID] ON [dbo].[DepartmentDayUnitMapping]
 (
 	[DayID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_DepartmentDayUnitMapping_DepartmentID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_DepartmentDayUnitMapping_DepartmentID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_DepartmentDayUnitMapping_DepartmentID] ON [dbo].[DepartmentDayUnitMapping]
 (
 	[DepartmentID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_DepartmentDayUnitMapping_UnitID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_DepartmentDayUnitMapping_UnitID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_DepartmentDayUnitMapping_UnitID] ON [dbo].[DepartmentDayUnitMapping]
 (
 	[UnitID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_District_StateID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_District_StateID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_District_StateID] ON [dbo].[District]
 (
 	[StateID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Mandal_DistrictID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Mandal_DistrictID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Mandal_DistrictID] ON [dbo].[Mandal]
 (
 	[DistrictID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_OPRegistration_DepartmentID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_OPRegistration_DepartmentID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_OPRegistration_DepartmentID] ON [dbo].[OPRegistration]
 (
 	[DepartmentID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_OPRegistration_FeeTypeID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_OPRegistration_FeeTypeID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_OPRegistration_FeeTypeID] ON [dbo].[OPRegistration]
 (
 	[FeeTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_OPRegistration_PatientID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_OPRegistration_PatientID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_OPRegistration_PatientID] ON [dbo].[OPRegistration]
 (
 	[PatientID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_OPRegistration_SpecialityID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_OPRegistration_SpecialityID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_OPRegistration_SpecialityID] ON [dbo].[OPRegistration]
 (
 	[SpecialityID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_AgeTypeID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_AgeTypeID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_AgeTypeID] ON [dbo].[Patient]
 (
 	[AgeTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_BloodGroupID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_BloodGroupID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_BloodGroupID] ON [dbo].[Patient]
 (
 	[BloodGroupID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_GenderID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_GenderID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_GenderID] ON [dbo].[Patient]
 (
 	[GenderID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_IDProofTypeID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_IDProofTypeID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_IDProofTypeID] ON [dbo].[Patient]
 (
 	[IDProofTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_MaritalStatusID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_MaritalStatusID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_MaritalStatusID] ON [dbo].[Patient]
 (
 	[MaritalStatusID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_PatientTypeID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_PatientTypeID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_PatientTypeID] ON [dbo].[Patient]
 (
 	[PatientTypeID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_PrefixID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_PrefixID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_PrefixID] ON [dbo].[Patient]
 (
 	[PrefixID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_ReligionID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_ReligionID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_ReligionID] ON [dbo].[Patient]
 (
 	[ReligionID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Patient_VillageID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Patient_VillageID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Patient_VillageID] ON [dbo].[Patient]
 (
 	[VillageID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_PatientAddress_PatientID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_PatientAddress_PatientID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_PatientAddress_PatientID] ON [dbo].[PatientAddress]
 (
 	[PatientID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Prefix_GenderID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Prefix_GenderID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Prefix_GenderID] ON [dbo].[Prefix]
 (
 	[GenderID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_UnitDoctorMapping_DoctorID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_UnitDoctorMapping_DoctorID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_UnitDoctorMapping_DoctorID] ON [dbo].[UnitDoctorMapping]
 (
 	[DoctorID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_UnitDoctorMapping_UnitID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_UnitDoctorMapping_UnitID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_UnitDoctorMapping_UnitID] ON [dbo].[UnitDoctorMapping]
 (
 	[UnitID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Village_MandalID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  Index [IX_Village_MandalID]    Script Date: 05-09-2024 09:13:24 ******/
 CREATE NONCLUSTERED INDEX [IX_Village_MandalID] ON [dbo].[Village]
 (
 	[MandalID] ASC
@@ -1412,6 +867,11 @@ ALTER TABLE [dbo].[OPRegistration]  WITH CHECK ADD  CONSTRAINT [FK_OPRegistratio
 REFERENCES [dbo].[Department] ([DepartmentID])
 GO
 ALTER TABLE [dbo].[OPRegistration] CHECK CONSTRAINT [FK_OPRegistration_Department_DepartmentID]
+GO
+ALTER TABLE [dbo].[OPRegistration]  WITH CHECK ADD  CONSTRAINT [FK_OPRegistration_Doctor] FOREIGN KEY([DoctorID])
+REFERENCES [dbo].[Doctor] ([DoctorID])
+GO
+ALTER TABLE [dbo].[OPRegistration] CHECK CONSTRAINT [FK_OPRegistration_Doctor]
 GO
 ALTER TABLE [dbo].[OPRegistration]  WITH CHECK ADD  CONSTRAINT [FK_OPRegistration_FeeType_FeeTypeID] FOREIGN KEY([FeeTypeID])
 REFERENCES [dbo].[FeeType] ([FeeTypeID])
@@ -1507,7 +967,53 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Village] CHECK CONSTRAINT [FK_Village_Mandal_MandalID]
 GO
-/****** Object:  StoredProcedure [dbo].[GetUHIDAndOPID]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  StoredProcedure [dbo].[GenerateOPIDList]    Script Date: 05-09-2024 09:13:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[GenerateOPIDList]
+    @numIDs INT,               -- Number of OPIDs to generate
+    @result NVARCHAR(MAX) OUTPUT -- Output parameter for the comma-separated list of OPIDs
+AS
+BEGIN
+    -- Declare variables for OPID generation
+    DECLARE @datePrefix NVARCHAR(8);   -- To store the date prefix for OPID
+    DECLARE @formattedId NVARCHAR(4);  -- To store the formatted sequence number
+    DECLARE @startSequence INT = 1;    -- Starting sequence number
+    DECLARE @currentDate DATE = CAST(GETDATE() AS DATE);  -- Current date
+    DECLARE @opID NVARCHAR(13);        -- To store the generated OPID
+
+    -- Initialize the result variable
+    SET @result = '';
+
+    -- Set the date prefix for OPID in yyMMdd format
+    SET @datePrefix = FORMAT(@currentDate, 'yyMMdd');
+
+    -- Loop through the range of sequence numbers to generate the OPIDs
+    WHILE @startSequence <= @numIDs
+    BEGIN
+        -- Format the sequence number with leading zeros (4 digits)
+        SET @formattedId = RIGHT('0000' + CAST(@startSequence AS VARCHAR(4)), 4);
+        
+        -- Generate the OPID
+        SET @opID = 'OP.' + @datePrefix + @formattedId;
+        
+        -- Append the generated OPID to the result, followed by a comma
+        SET @result = @result + @opID + ',';
+        
+        -- Increment the sequence number
+        SET @startSequence = @startSequence + 1;
+    END
+
+    -- Remove the trailing comma from the result
+    SET @result = LEFT(@result, LEN(@result) - 1);
+
+    -- Output the result
+    SELECT @result AS OPIDs;
+END;
+GO
+/****** Object:  StoredProcedure [dbo].[GetUHIDAndOPID]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1552,56 +1058,20 @@ END;
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[GetUnitByDepartment]    Script Date: 04-09-2024 08:55:55 ******/
+/****** Object:  StoredProcedure [dbo].[InsertOPRegistration]    Script Date: 05-09-2024 09:13:24 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [dbo].[GetUnitByDepartment]
-    @DepartmentName NVARCHAR(255)
-AS
-BEGIN
-    -- Get the current day name
-    DECLARE @CurrentDay NVARCHAR(10) = DATENAME(WEEKDAY, GETDATE());
 
-    -- Extract the first 3 characters and convert to uppercase
-    DECLARE @CurrentDayShort NVARCHAR(3) = UPPER(LEFT(@CurrentDay, 3));
-
-    -- Use a CTE to format unit names
-    WITH FormattedUnits AS (
-        SELECT
-            u.UnitName AS Name,
-            ROW_NUMBER() OVER (ORDER BY u.UnitName) AS RowNum
-        FROM
-            DepartmentDayUnitMapping mapping
-        JOIN 
-            Departments d ON mapping.DepartmentID = d.ID
-        JOIN 
-            DaywiseSchedule ds ON mapping.DayID = ds.ID
-        JOIN 
-            Units u ON mapping.UnitID = u.ID
-        WHERE 
-            d.DepartmentName = @DepartmentName
-            AND LEFT(ds.DayName, 3) = @CurrentDayShort
-    )
-    SELECT
-        STRING_AGG(Name, ' & ') AS UnitName
-    FROM 
-        FormattedUnits;
-END;
-GO
-/****** Object:  StoredProcedure [dbo].[InsertOPRegistration]    Script Date: 04-09-2024 08:55:55 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE   PROCEDURE [dbo].[InsertOPRegistration]
+CREATE PROCEDURE [dbo].[InsertOPRegistration]
     @PatientID INT,
     @OPID NVARCHAR(20),
     @VisitDate DATETIME,
     @IsMlcCase BIT = NULL,
     @IsEmergencyCase BIT = NULL,
     @DepartmentID INT = NULL,
+	@DoctorID INT = NULL,
     @SpecialityID INT = NULL,   
     @FeeTypeID INT = NULL,
     @ReferredBy NVARCHAR(50),
@@ -1619,7 +1089,8 @@ BEGIN
             IsMlcCase,
             IsEmergencyCase,
             DepartmentID,
-            SpecialityID,          
+			DoctorID,
+            SpecialityID,           
             FeeTypeID,
             ReferredBy,
             CreatedDate,
@@ -1632,6 +1103,7 @@ BEGIN
             @IsMlcCase,
             @IsEmergencyCase,
             @DepartmentID,
+			@DoctorID,
             @SpecialityID,           
             @FeeTypeID,
             @ReferredBy,
