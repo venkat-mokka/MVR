@@ -49,19 +49,19 @@ GO
 -- Insert into Department
 INSERT INTO Department (Name)
 VALUES
-('CASUALTY'),
-('DENTAL'),
-('DVL'),
-('ENT'),
-('GENERAL MEDICINE'),
-('GENERAL SURGERY'),
-('GYNECOLOGY'),
-('OBSTETRICS'),
-('OPHTHALMOLOGY'),
-('ORTHOPAEDICS'),
-('PAEDIATRICS'),
-('RESPIRATORY MEDICINE'),
-('PSYCHIATRY');
+    ('Casualty'),
+    ('Dental'),
+    ('Dvl'),
+    ('Ent'),
+    ('General Medicine'),
+    ('General Surgery'),
+    ('Gynecology'),
+    ('Obstetrics'),
+    ('Ophthalmology'),
+    ('Orthopaedics'),
+    ('Paediatrics'),
+    ('Respiratory Medicine'),
+    ('Psychiatry');
 GO
 
 -- Insert into FeeType

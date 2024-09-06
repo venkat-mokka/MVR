@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Maui.Graphics;
+using System.Data;
+using System.Reflection;
 using System.Security.Cryptography;
 
 namespace DMLAutomationProcess.Controllers
@@ -198,7 +200,7 @@ namespace DMLAutomationProcess.Controllers
         }
         #endregion
 
-        #region OP New & Revisit Registrations
+        #region New & Revisit OP Registrations
 
         [HttpGet]
         public async Task<JsonResult> GetVillageNamesByAutoSerach(string term)
@@ -353,7 +355,7 @@ namespace DMLAutomationProcess.Controllers
         {
             // Get the current day name
             var currentDayName = DateTime.Now.AddDays(-1).ToString("dddd").Substring(0, 3).ToUpper();
-            //currentDayName = "TUE";
+            currentDayName = "TUE";
             var unitNames = await _context.DepartmentDayUnitMappings
                 .Where(mapping =>
                     mapping.Departments.DepartmentID == departmentID &&
@@ -496,44 +498,6 @@ namespace DMLAutomationProcess.Controllers
 
             // Generate the new OPID with today's date and incremented number
             var nextOPID = "OP." + currentDatePart + incrementedNumericPartString;
-
-            return nextOPID;
-        }
-
-
-        public async Task<string> GetNewOPID1()
-        {
-            // Step 1: Get the maximum OPID
-            var maxOPID = await _context.OPRegistrations
-                .OrderByDescending(p => p.OPID)
-                .Select(p => p.OPID)
-                .FirstOrDefaultAsync();
-
-            // Step 2: Handle case when no OPID exists
-            if (maxOPID == null)
-            {
-                // Assuming your initial OPID format is "OP.yyMMdd0001"
-                // Adjust the date part as needed
-                return "OP." + DateTime.Now.ToString("yyMMdd") + "0001";
-            }
-
-            // Remove the "OP." prefix and extract the numeric part
-            var numericPartString = maxOPID.Substring(9); // Assuming "OP.yyMMdd" is 8 characters long
-
-            // Try parsing the numeric part to long
-            if (!long.TryParse(numericPartString, out var numericPart))
-            {
-                throw new InvalidOperationException("OPID format is not as expected.");
-            }
-
-            // Increment the numeric value by 1
-            numericPart += 1;
-
-            // Convert the incremented number to a string with leading zeros (assuming 4-digit format)
-            var incrementedNumericPartString = numericPart.ToString("D4"); // Pads with leading zeros
-
-            // Generate the new OPID with today's date and incremented number
-            var nextOPID = "OP." + DateTime.Now.ToString("yyMMdd") + incrementedNumericPartString;
 
             return nextOPID;
         }
@@ -755,5 +719,256 @@ namespace DMLAutomationProcess.Controllers
         }
 
         #endregion
+
+        #region New & Revisit OP Dummy Registrations
+
+        [HttpGet]
+        public async Task<IActionResult> NewOpDummy()
+        {
+            var model = new NewPatientsModel
+            {
+                UHID = await GetNewUHID(),
+                OPID = await GetNewOPID(),
+                DateTime = DateTime.Now
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NewOpDummy(NewPatientsModel model)
+        {
+            model.DateTime = model.DateTime;
+            var (departments, genders) = await GetDepartmentIdsAsync(model);
+            bool isDone = await SaveDummy(departments, genders, model.DateTime);
+            return Json(isDone);
+        }
+
+        public async Task<(List<int> departments, List<string> genders)> GetDepartmentIdsAsync(NewPatientsModel model)
+        {
+            var departments = new List<int>();
+            var genders = new List<string>();
+
+            // Helper method to get department ID
+            async Task<int?> GetDepartmentIdAsync(string departmentName)
+            {
+                return await _context.Departments
+                                     .Where(d => d.Name == departmentName)
+                                     .Select(d => d.DepartmentID)
+                                     .FirstOrDefaultAsync();
+            }
+
+            // Check and add Casualty department ID
+            if (model.CasualtyMale > 0 || model.CasualtyFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Casualty");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.CasualtyMale > 0) genders.Add("M");
+                    if (model.CasualtyFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add General Medicine department ID
+            if (model.GeneralMedicineMale > 0 || model.GeneralMedicineFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("General Medicine");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.GeneralMedicineMale > 0) genders.Add("M");
+                    if (model.GeneralMedicineFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Paediatrics department ID
+            if (model.PaediatricsMale > 0 || model.PaediatricsFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Paediatrics");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.PaediatricsMale > 0) genders.Add("M");
+                    if (model.PaediatricsFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Respiratory Medicine department ID
+            if (model.RespiratoryMedicineMale > 0 || model.RespiratoryMedicineFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Respiratory Medicine");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.RespiratoryMedicineMale > 0) genders.Add("M");
+                    if (model.RespiratoryMedicineFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add DVL department ID
+            if (model.DVLMale > 0 || model.DVLFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Dvl");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.DVLMale > 0) genders.Add("M");
+                    if (model.DVLFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Psychiatry department ID
+            if (model.PsychiatryMale > 0 || model.PsychiatryFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Psychiatry");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.PsychiatryMale > 0) genders.Add("M");
+                    if (model.PsychiatryFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add General Surgery department ID
+            if (model.GeneralSurgeryMale > 0 || model.GeneralSurgeryFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("General Surgery");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.GeneralSurgeryMale > 0) genders.Add("M");
+                    if (model.GeneralSurgeryFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Orthopaedics department ID
+            if (model.OrthopaedicsMale > 0 || model.OrthopaedicsFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Orthopaedics");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.OrthopaedicsMale > 0) genders.Add("M");
+                    if (model.OrthopaedicsFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Ophthalmology department ID
+            if (model.OphthalmologyMale > 0 || model.OphthalmologyFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Ophthalmology");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.OphthalmologyMale > 0) genders.Add("M");
+                    if (model.OphthalmologyFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add ENT department ID
+            if (model.ENTMale > 0 || model.ENTFemale > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("ENT");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    if (model.ENTMale > 0) genders.Add("M");
+                    if (model.ENTFemale > 0) genders.Add("F");
+                }
+            }
+
+            // Check and add Obstetrics department ID
+            if (model.Obstetrics > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Obstetrics");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    genders.Add("F");
+                }
+            }
+
+            // Check and add Gynecology department ID
+            if (model.Gynecology > 0)
+            {
+                var departmentId = await GetDepartmentIdAsync("Gynecology");
+                if (departmentId.HasValue)
+                {
+                    departments.Add(departmentId.Value);
+                    genders.Add("F");
+                }
+            }
+            return (departments, genders);
+        }
+
+        public async Task<bool> SaveDummy(List<int> departments, List<string> genders, DateTime date)
+        {
+            Random random = new Random(); // Create a random number generator
+
+            foreach (int departmentId in departments)
+            {
+                // Get the formatted unit names and parse the unit IDs
+                var res = await GetFormattedUnitNames(departmentId);
+                string unitIds = res.Split("^")[1];
+                var unitIdList = unitIds.Split(',').Select(a => int.Parse(a)).ToList();
+
+                // Get doctor IDs associated with these units
+                var doctorIdList = await _context.UnitDoctorMappings
+                    .Where(v => unitIdList.Contains(v.UnitID))
+                    .Select(v => v.DoctorID)
+                    .ToListAsync();
+
+                // If there are any units and doctors, pick random ones
+                if (unitIdList.Any() && doctorIdList.Any())
+                {
+                    // Select a random unitId from the list
+                    int randomUnitId = unitIdList[random.Next(unitIdList.Count)];
+
+                    // Select a random doctorId from the list
+                    int randomDoctorId = doctorIdList[random.Next(doctorIdList.Count)];
+
+                    // Send to stored procedure with the random unitId and doctorId
+                    await SendtoProc(date, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
+                }
+            }
+            return true;
+        }
+
+        public async Task<bool> SendtoProc(DateTime date, int departmentId, int unitId, int doctorId, string gender)
+        {
+            string UHID = await GetNewUHID();
+            string OPID = await GetNewOPID();
+            if (!string.IsNullOrEmpty(UHID) && !string.IsNullOrEmpty(OPID))
+            {
+                var result = await _context.Database.ExecuteSqlRawAsync(
+                    "EXEC SendPatientDetails @UHID = {0}, @OPID = {1}, @Date = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
+                    UHID, OPID, date, departmentId, unitId, doctorId, gender
+                );
+                return result > 0;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RevisitOpDummy()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RevisitOpDummy(NewPatientsModel model)
+        {
+            model.UHID = await GetNewUHID();
+            model.OPID = await GetNewOPID();
+            model.DateTime = model.DateTime;
+
+            return View(model);
+        }
+        #endregion
+
     }
 }

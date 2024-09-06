@@ -16,11 +16,63 @@ namespace DMLAutomationProcess.Models
         //public int DoctorID { get; set; }
         public string UnitIds { get; set; }
     }
-    public class UHIDAndOPIDDto
+    public class NewPatientsModel
     {
-        public string NewUHID { get; set; }
-        public string NewOPID { get; set; }
-        public DateTime VisitDate { get; set; }
+        public string? UHID { get; set; }
+        public string? OPID { get; set; }
+
+        // General Medicine
+        public int GeneralMedicineMale { get; set; }
+        public int GeneralMedicineFemale { get; set; }
+
+        // Paediatrics
+        public int PaediatricsMale { get; set; }
+        public int PaediatricsFemale { get; set; }
+
+        // Respiratory Medicine
+        public int RespiratoryMedicineMale { get; set; }
+        public int RespiratoryMedicineFemale { get; set; }
+
+        // DVL
+        public int DVLMale { get; set; }
+        public int DVLFemale { get; set; }
+
+        // Psychiatry
+        public int PsychiatryMale { get; set; }
+        public int PsychiatryFemale { get; set; }
+
+        // General Surgery
+        public int GeneralSurgeryMale { get; set; }
+        public int GeneralSurgeryFemale { get; set; }
+
+        // Orthopaedics
+        public int OrthopaedicsMale { get; set; }
+        public int OrthopaedicsFemale { get; set; }
+
+        // Ophthalmology
+        public int OphthalmologyMale { get; set; }
+        public int OphthalmologyFemale { get; set; }
+
+        // ENT
+        public int ENTMale { get; set; }
+        public int ENTFemale { get; set; }
+
+        // OBG - Obstetrics and Gynecology
+        public int Obstetrics { get; set; }
+        public int Gynecology { get; set; }
+
+        // Dental
+        public int DentalMale { get; set; }
+        public int DentalFemale { get; set; }
+
+        // Casualty
+        public int CasualtyMale { get; set; }
+        public int CasualtyFemale { get; set; }
+
+        // Other fields
+        public int TotalEntries { get; set; }
+        public DateTime DateTime { get; set; }
+        public string Status { get; set; }
     }
 
 }
