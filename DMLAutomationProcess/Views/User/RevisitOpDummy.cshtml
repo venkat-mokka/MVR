@@ -1,4 +1,4 @@
-﻿@model NewPatientsModel
+﻿@model RevistPatientsModel
 @using DMLAutomationProcess.Models
 @{
     ViewBag.Title = "Revisit Op Dummy";
@@ -20,146 +20,143 @@
                     <br />
                 </div>
                 <div class="box-body" style="height:1050px !important">
-                    <form asp-action="RevisitOpDummy" asp-controller="User" method="post">
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                <h3>GENERAL MEDICINE</h3>
-                                Male: <input asp-for="GeneralMedicineMale" class="entry" id="GeneralMedicineMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="GeneralMedicineFemale" class="entry" id="GeneralMedicineFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>PAEDIATRICS</h3>
-                                Male: <input asp-for="PaediatricsMale" class="entry" id="PaediatricsMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="PaediatricsFemale" class="entry" id="PaediatricsFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>RESPIRATORY MEDICINE</h3>
-                                Male: <input asp-for="RespiratoryMedicineMale" class="entry" id="RespiratoryMedicineMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="RespiratoryMedicineFemale" class="entry" id="RespiratoryMedicineFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>DVL</h3>
-                                Male: <input asp-for="DVLMale" class="entry" id="DVLMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="DVLFemale" class="entry" id="DVLFemale" style="width:60px;" min="0" max="9999" />
+                    @*   <form asp-action="RevisitOpDummy" asp-controller="User" method="post"> *@
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">Department:</label>
+                                @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.ValidationMessageFor(model => model.DepartmentID, null, new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                <h3>PSYCHIATRY</h3>
-                                Male: <input asp-for="PsychiatryMale" class="entry" id="PsychiatryMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="PsychiatryFemale" class="entry" id="PsychiatryFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>GENERAL SURGERY</h3>
-                                Male: <input asp-for="GeneralSurgeryMale" class="entry" id="GeneralSurgeryMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="GeneralSurgeryFemale" class="entry" id="GeneralSurgeryFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>ORTHOPAEDICS</h3>
-                                Male: <input asp-for="OrthopaedicsMale" class="entry" id="OrthopaedicsMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="OrthopaedicsFemale" class="entry" id="OrthopaedicsFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>OPHTHALMOLOGY</h3>
-                                Male: <input asp-for="OphthalmologyMale" class="entry" id="OphthalmologyMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="OphthalmologyFemale" class="entry" id="OphthalmologyFemale" style="width:60px;" min="0" max="9999" />
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">Running Unit:</label>
+                                @Html.DropDownListFor(model => model.RUnitID, new SelectList(ViewBag.Units, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.ValidationMessageFor(model => model.RUnitID, null, new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                <h3>ENT</h3>
-                                Male: <input asp-for="ENTMale" class="entry" id="ENTMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="ENTFemale" class="entry" id="ENTFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-1">
-                                <h3>OBSTETRICS</h3>
-                                <span style="visibility:hidden;"> Male: </span> <input asp-for="Obstetrics" class="entry" id="Obstetrics" style="width:60px;" min="0" max="9999" />
-                                <span style="visibility:hidden;"> Female:</span><input type="text" style="visibility:hidden;width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-2">
-                                <h3>GYNECOLOGY</h3>
-                                <span style="visibility:hidden;"> Male: </span> <input asp-for="Gynecology" class="entry" id="Gynecology" style="width:60px" />
-                                <span style="visibility:hidden;"> Female:</span><input type="text" style="visibility:hidden;width:60px;" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>DENTAL</h3>
-                                Male: <input asp-for="DentalMale" class="entry" id="DentalMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="DentalFemale" class="entry" id="DentalFemale" style="width:60px;" min="0" max="9999" />
-                            </div>
-
-                            <div class="col-md-3">
-                                <h3>CASUALTY</h3>
-                                Male: <input asp-for="CasualtyMale" class="entry" id="CasualtyMale" style="width:60px;" min="0" max="9999" />
-                                Female: <input asp-for="CasualtyFemale" class="entry" id="CasualtyFemale" style="width:60px;" min="0" max="9999" />
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">From Department:</label>
+                                @Html.DropDownListFor(model => model.FDepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.ValidationMessageFor(model => model.FDepartmentID, null, new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                        <!-- Total Entries Section -->
-                        <div class="form-group">
-                            <div class="col-md-3">
-                                <label>Total No. of Entries</label>
-                                <input asp-for="TotalEntries" id="TotalEntries" readonly="readonly" min="0" max="9999" />
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">From Unit:</label>
+                                @Html.DropDownListFor(model => model.FUnitID, new SelectList(ViewBag.Units, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.ValidationMessageFor(model => model.FUnitID, null, new { @class = "text-danger" })
                             </div>
-
-                            <!-- Date & Time Picker -->
-                            <div class="col-md-3">
-                                <label>Date & Time</label>
-                                <input asp-for="DateTime" readonly="readonly" />
-                            </div>
-
-                            <!-- Status -->
-                            <div class="col-md-3">
-                                <label>Status</label>
-                                <div class="progress progress-striped" style="height:24px;width:310px; !important" id="progressbardiv">
-                                    <div class="progress-bar progress-bar-success" id="progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                                        <span id="progress-text" class="sr-only">0% Complete (success)</span>
-                                    </div>
-                                </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">Gender:</label>
+                                @Html.DropDownListFor(model => model.GenderID, new SelectList(ViewBag.Genders, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.ValidationMessageFor(model => model.GenderID, null, new { @class = "text-danger" })
                             </div>
                         </div>
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                        <!-- Action Buttons -->
-                        <div class="form-group">
-                            <div class="col-md-3">
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" id="StartButton">Start</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" id="viewOpSummary">View OP Summary</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" id="closeWindow">Close</button>
-                            </div>
-                            <div class="col-md-3">
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">Date & Time:</label>
+                                <input asp-for="VisitDate" class="form-control" type="datetime-local" value="@Model.VisitDate.ToString("yyyy-MM-ddTHH:mm:ss")" />
                             </div>
                         </div>
-                        <br />
-                        <div class="clearfix"></div>
-                        <br />
-                    </form>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">From Date:</label>
+                                <input asp-for="FromDate" type="date" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">To Date:</label>
+                                <input asp-for="ToDate" type="date" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <label class="control-label">No. of Entries:</label>
+                                <input asp-for="NoofEntries" id="NoofEntries" min="0" max="9999" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <!-- Total Entries Section -->
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6" id="UpdateID">
+                            @await Html.PartialAsync("_BindRevisitOpDummys")
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="input-group">
+                            <label class="control-label">Total No. of Entries:</label>
+                            <input asp-for="TotalEntries" id="TotalEntries" readonly="readonly" min="0" max="9999" class="form-control" />
+                        </div>
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <!-- Action Buttons -->
+                    <div class="form-group">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary" id="FillToTemp">Fill to Temp</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary" id="PopulatePatients">Populate Patients</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary" id="closeWindow">Close</button>
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    @*   </form> *@
                 </div>
             </div>
         </div>
@@ -169,99 +166,87 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
-        $('#table1').DataTable({
-            'aoColumnDefs': [{
-                'bSortable': false,
-                'aTargets': [-1]
-            }]
-        });
+        // setTimeout('$(".autohide").hide()', 5000);
 
-        setTimeout('$(".autohide").hide()', 2000);
-
-        $("#DateTime").datepicker({
-            defaultDate: "-521.429w",
-            dateFormat: "dd M yy",
-            changeMonth: true,
-            changeYear: true,
-            maxDate: new Date(),
-            yearRange: '-100:+0',
-            onSelect: function (date) {
-                $(".DateTime").html('');
-            }
-        });
-
-        // Function to calculate the sum of all department inputs
-        function calculateTotalEntries() {
-            let total = 0;
-
-            // Iterate over each input with the class 'entry'
-            $(".entry").each(function () {
-                let value = parseInt($(this).val()) || 0;
-                total += value;
-            });
-
-            // Set the total in the TotalEntries textbox
-            $("#TotalEntries").val(total);
-        }
-
-        // Call calculateTotalEntries when the value in any entry textbox changes
-        $(".entry").on('input', function () {
-            calculateTotalEntries();
-        });
-
-        // Function to update the progress bar
-        function updateProgressBar(value) {
-            // Set the progress bar width and update the aria-valuenow attribute
-            $('#progressbar').css('width', value + '%').attr('aria-valuenow', value);
-            $('#progress-text').text(value + '% Complete');
-        }
-
-        $('#StartButton').click(function () {
-            // Simulate progress updates
-            let progressValue = 0;
-            let progressInterval = setInterval(function () {
-                if (progressValue < 100) {
-                    progressValue += 10; // Increment progress
-                    updateProgressBar(progressValue); // Update progress bar
-                } else {
-                    clearInterval(progressInterval); // Clear interval when complete
-                }
-            }, 80); // Adjust time interval for faster or slower updates
-
-            // Example AJAX call (adjust according to your process)
-            $.ajax({
-                url: '@Url.Action("NewOpDummy", "User")',
-                type: 'POST',
-                dataType: "json",
-                data: $('form').serialize(),
-                success: function (response) {
-                    // When AJAX completes, set progress to 100%
-                    updateProgressBar(100);
-                    if (response == true) {
-                        $("#ShowMessgae").show();
-                        $("#DisShowMessgae").text("Process completed successfully !")
-                        $('#progressbar').css('width', '0%');
-                        $('#progress-text').text(0 + '% Complete');
-                        $("input[type='number']").val('0');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX Error: " + status + error);
-                }
-            });
-        });
-
-        $('#ViewOPSummaryButton').click(function () {
+        $('#viewOpSummary').click(function () {
             // Example: View OP summary
             alert('Viewing OP Summary.');
         });
 
-        $('#CloseButton').click(function () {
+        $('#closeWindow').click(function () {
             $("input[type='text']").val('');
+        });
+
+        $("#DepartmentID").change(function () {
+            var departmentID = $("#DepartmentID option:selected").val();
+            var departmentName = $("#DepartmentID option:selected").text();
+            if (departmentID != null) {
+                var ddlsource = "#RUnitID";
+                var url = '@Url.Content("~/")' + "User/GetUnitNames";
+                $.get(url, { departmentID: departmentID }, function (data) {
+                    $(ddlsource).empty();
+                    $("#RUnitID").val('');
+                    $.each(data, function (index, optionData) {
+                        $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                    });
+                    $("#FDepartmentID").val($("#DepartmentID").val());
+                    $("#FUnitID").val($("#RUnitID").val());
+                    if (departmentName == "Gynecology" || departmentName == "Obstetrics") {
+                        $("#GenderID").val(2);
+                    }
+                });
+            }
+        });
+
+        $('#FillToTemp').click(function () {
+            var noofEntries = $("#NoofEntries").val();
+            if (noofEntries != 0) {
+                var FDepartmentID = $("#FDepartmentID option:selected").val();
+                var FUnitID = $("#FUnitID option:selected").val();
+                var genderID = $("#GenderID option:selected").val();
+                var fromDate = $("#FromDate").val();
+                var toDate = $("#ToDate").val();
+                $.ajax({
+                    url: '@Url.Action("GetOpDetailsByDate", "User")',
+                    type: 'GET',
+                    data: {
+                        departmentID: FDepartmentID,
+                        unitID: FUnitID,
+                        genderID: genderID,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        noofEntries: noofEntries
+                    },
+                    success: function (response) {
+                        $("#UpdateID").html(response);
+                        setTimeout('$(".autohide").hide()', 2000);
+                    }
+                });
+            }
+            else {
+                alert('No of Entries is zero ! Means your not selected any department');
+            }
+        });
+
+        $('#PopulatePatients').click(function () {
+            var visitDate = $("#VisitDate").val();
+            $.ajax({
+                url: '@Url.Action("RevisitOpDummy", "User")',
+                type: 'POST',
+                data: {
+                    visitDate: visitDate
+                },
+                success: function (response) {
+                    //if (response == true) {
+                    $("#ShowMessgae").show();
+                    $("#DisShowMessgae").text("Process completed successfully !")
+                    $("input[type='number']").val('0');
+                    $("#UpdateID").html(response);
+                    setTimeout('$(".autohide").hide()', 2000);
+                    //}
+                }
+            });
         });
 
     </script>

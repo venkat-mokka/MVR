@@ -334,121 +334,134 @@ VALUES
 ('UNIT - VIII');
 
 
-INSERT INTO DepartmentDayUnitMapping (DepartmentId, DayId, UnitId)
-VALUES
--- CASUALTY
-(1, 1, 1), -- SUN, UNIT - I
-(1, 2, 1), -- MON, UNIT - I
-(1, 3, 1), -- TUE, UNIT - I
-(1, 4, 1), -- WED, UNIT - I
-(1, 5, 1), -- THU, UNIT - I
-(1, 6, 1), -- FRI, UNIT - I
-(1, 7, 1), -- SAT, UNIT - I
+-- Sunday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 1, 1),  -- Casualty, SUN, UNIT - I
+    (2, 1, 1),  -- Dental, SUN, UNIT - I
+    (3, 1, 1),  -- Dvl, SUN, UNIT - I
+    (4, 1, 1),  -- Ent, SUN, UNIT - I
+    (5, 1, 7),  -- General Medicine, SUN, UNIT - VII
+    (6, 1, 7),  -- General Surgery, SUN, UNIT - VII
+    (7, 1, 1),  -- Gynecology, SUN, UNIT - I
+    (8, 1, 1),  -- Obstetrics, SUN, UNIT - I
+    (9, 1, 1),  -- Ophthalmology, SUN, UNIT - I
+    (10, 1, 3), -- Orthopaedics, SUN, UNIT - III
+    (11, 1, 3), -- Paediatrics, SUN, UNIT - III
+    (12, 1, 1), -- Respiratory Medicine, SUN, UNIT - I
+    (13, 1, 1); -- Psychiatry, SUN, UNIT - I
 
--- DENTAL
-(2, 1, 4), -- SUN, UNIT - IV
-(2, 2, 4), -- MON, UNIT - IV
-(2, 3, 4), -- TUE, UNIT - IV
-(2, 4, 4), -- WED, UNIT - IV
-(2, 5, 4), -- THU, UNIT - IV
-(2, 6, 4), -- FRI, UNIT - IV
-(2, 7, 4), -- SAT, UNIT - IV
+-- Monday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 2, 1),  -- Casualty, MON, UNIT - I
+    (2, 2, 1),  -- Dental, MON, UNIT - I
+    (3, 2, 1),  -- Dvl, MON, UNIT - I
+    (4, 2, 1),  -- Ent, MON, UNIT - I
+    (5, 2, 1),  -- General Medicine, MON, UNIT - I
+    (5, 2, 5),  -- General Medicine, MON, UNIT - V
+    (6, 2, 1),  -- General Surgery, MON, UNIT - I
+    (6, 2, 5),  -- General Surgery, MON, UNIT - V
+    (7, 2, 1),  -- Gynecology, MON, UNIT - I
+    (8, 2, 1),  -- Obstetrics, MON, UNIT - I
+    (9, 2, 1),  -- Ophthalmology, MON, UNIT - I
+    (10, 2, 1), -- Orthopaedics, MON, UNIT - I
+    (11, 2, 1), -- Paediatrics, MON, UNIT - I
+    (12, 2, 1), -- Respiratory Medicine, MON, UNIT - I
+    (13, 2, 1); -- Psychiatry, MON, UNIT - I
 
--- DVL
-(3, 1, 1), -- SUN, UNIT - I
-(3, 2, 1), -- MON, UNIT - I
-(3, 3, 1), -- TUE, UNIT - I
-(3, 4, 1), -- WED, UNIT - I
-(3, 5, 1), -- THU, UNIT - I
-(3, 6, 1), -- FRI, UNIT - I
-(3, 7, 1), -- SAT, UNIT - I
+-- Tuesday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 3, 1),  -- Casualty, TUE, UNIT - I
+    (2, 3, 1),  -- Dental, TUE, UNIT - I
+    (3, 3, 1),  -- Dvl, TUE, UNIT - I
+    (4, 3, 2),  -- Ent, TUE, UNIT - II
+    (5, 3, 2),  -- General Medicine, TUE, UNIT - II
+    (5, 3, 6),  -- General Medicine, TUE, UNIT - VI
+    (6, 3, 2),  -- General Surgery, TUE, UNIT - II
+    (6, 3, 6),  -- General Surgery, TUE, UNIT - VI
+    (7, 3, 2),  -- Gynecology, TUE, UNIT - II
+    (8, 3, 2),  -- Obstetrics, TUE, UNIT - II
+    (9, 3, 2),  -- Ophthalmology, TUE, UNIT - II
+    (10, 3, 2), -- Orthopaedics, TUE, UNIT - II
+    (11, 3, 2), -- Paediatrics, TUE, UNIT - II
+    (12, 3, 1), -- Respiratory Medicine, TUE, UNIT - I
+    (13, 3, 1); -- Psychiatry, TUE, UNIT - I
 
--- ENT
-(4, 1, 4), -- SUN, UNIT - IV
-(4, 2, 4), -- MON, UNIT - IV
-(4, 3, 4), -- TUE, UNIT - IV
-(4, 4, 4), -- WED, UNIT - IV
-(4, 5, 4), -- THU, UNIT - IV
-(4, 6, 4), -- FRI, UNIT - IV
-(4, 7, 4), -- SAT, UNIT - IV
+-- Wednesday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 4, 1),  -- Casualty, WED, UNIT - I
+    (2, 4, 1),  -- Dental, WED, UNIT - I
+    (3, 4, 1),  -- Dvl, WED, UNIT - I
+    (4, 4, 1),  -- Ent, WED, UNIT - I
+    (5, 4, 3),  -- General Medicine, WED, UNIT - III
+    (5, 4, 7),  -- General Medicine, WED, UNIT - VII
+    (6, 4, 3),  -- General Surgery, WED, UNIT - III
+    (6, 4, 7),  -- General Surgery, WED, UNIT - VII
+    (7, 4, 3),  -- Gynecology, WED, UNIT - III
+    (8, 4, 3),  -- Obstetrics, WED, UNIT - III
+    (9, 4, 1),  -- Ophthalmology, WED, UNIT - I
+    (10, 4, 3), -- Orthopaedics, WED, UNIT - III
+    (11, 4, 3), -- Paediatrics, WED, UNIT - III
+    (12, 4, 1), -- Respiratory Medicine, WED, UNIT - I
+    (13, 4, 1); -- Psychiatry, WED, UNIT - I
 
--- GENERAL MEDICINE
-(5, 1, 7), -- SUN, UNIT - VII
-(5, 2, 8), -- MON, UNIT - VIII
-(5, 3, 8), -- TUE, UNIT - VIII
-(5, 4, 3), -- WED, UNIT - III
-(5, 5, 4), -- THU, UNIT - IV
-(5, 6, 3), -- FRI, UNIT - III
-(5, 7, 7), -- SAT, UNIT - VII
+-- Thursday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 5, 1),  -- Casualty, THU, UNIT - I
+    (2, 5, 1),  -- Dental, THU, UNIT - I
+    (3, 5, 1),  -- Dvl, THU, UNIT - I
+    (4, 5, 2),  -- Ent, THU, UNIT - II
+    (5, 5, 4),  -- General Medicine, THU, UNIT - IV
+    (5, 5, 8),  -- General Medicine, THU, UNIT - VIII
+    (6, 5, 4),  -- General Surgery, THU, UNIT - IV
+    (6, 5, 8),  -- General Surgery, THU, UNIT - VIII
+    (7, 5, 4),  -- Gynecology, THU, UNIT - IV
+    (8, 5, 4),  -- Obstetrics, THU, UNIT - IV
+    (9, 5, 2),  -- Ophthalmology, THU, UNIT - II
+    (10, 5, 4), -- Orthopaedics, THU, UNIT - IV
+    (11, 5, 4), -- Paediatrics, THU, UNIT - IV
+    (12, 5, 2), -- Respiratory Medicine, THU, UNIT - II
+    (13, 5, 2); -- Psychiatry, THU, UNIT - II
 
--- GENERAL SURGERY
-(6, 1, 7), -- SUN, UNIT - VII
-(6, 2, 8), -- MON, UNIT - VIII
-(6, 3, 8), -- TUE, UNIT - VIII
-(6, 4, 3), -- WED, UNIT - III
-(6, 5, 4), -- THU, UNIT - IV
-(6, 6, 3), -- FRI, UNIT - III
-(6, 7, 7), -- SAT, UNIT - VII
+-- Friday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 6, 1),  -- Casualty, FRI, UNIT - I
+    (2, 6, 1),  -- Dental, FRI, UNIT - I
+    (3, 6, 1),  -- Dvl, FRI, UNIT - I
+    (4, 6, 1),  -- Ent, FRI, UNIT - I
+    (5, 6, 3),  -- General Medicine, FRI, UNIT - III
+    (5, 6, 7),  -- General Medicine, FRI, UNIT - VII
+    (6, 6, 3),  -- General Surgery, FRI, UNIT - III
+    (6, 6, 7),  -- General Surgery, FRI, UNIT - VII
+    (7, 6, 3),  -- Gynecology, FRI, UNIT - III
+    (8, 6, 3),  -- Obstetrics, FRI, UNIT - III
+    (9, 6, 1),  -- Ophthalmology, FRI, UNIT - I
+    (10, 6, 3), -- Orthopaedics, FRI, UNIT - III
+    (11, 6, 3), -- Paediatrics, FRI, UNIT - III
+    (12, 6, 1), -- Respiratory Medicine, FRI, UNIT - I
+    (13, 6, 1); -- Psychiatry, FRI, UNIT - I
 
--- GYNECOLOGY
-(7, 1, 7), -- SUN, UNIT - VII
-(7, 2, 8), -- MON, UNIT - VIII
-(7, 3, 8), -- TUE, UNIT - VIII
-(7, 4, 3), -- WED, UNIT - III
-(7, 5, 4), -- THU, UNIT - IV
-(7, 6, 3), -- FRI, UNIT - III
-(7, 7, 7), -- SAT, UNIT - VII
+-- Saturday
+INSERT INTO DepartmentDayUnitMapping (DepartmentID, DayID, UnitID)
+VALUES 
+    (1, 7, 1),  -- Casualty, SAT, UNIT - I
+    (2, 7, 1),  -- Dental, SAT, UNIT - I
+    (3, 7, 1),  -- Dvl, SAT, UNIT - I
+    (4, 7, 2),  -- Ent, SAT, UNIT - II
+    (5, 7, 4),  -- General Medicine, SAT, UNIT - IV
+    (5, 7, 8),  -- General Medicine, SAT, UNIT - VIII
+    (6, 7, 4),  -- General Surgery, SAT, UNIT - IV
+    (6, 7, 8),  -- General Surgery, SAT, UNIT - VIII
+    (7, 7, 4),  -- Gynecology, SAT, UNIT - IV
+    (8, 7, 4),  -- Obstetrics, SAT, UNIT - IV
+    (9, 7, 2),  -- Ophthalmology, SAT, UNIT - II
+    (10, 7, 4), -- Orthopaedics, SAT, UNIT - IV
+    (11, 7, 4), -- Paediatrics, SAT, UNIT - IV
+    (12, 7, 2), -- Respiratory Medicine, SAT, UNIT - II
+    (13, 7, 2); -- Psychiatry, SAT, UNIT - II
 
--- OBSTETRICS
-(8, 1, 1), -- SUN, UNIT - I
-(8, 2, 1), -- MON, UNIT - I
-(8, 3, 1), -- TUE, UNIT - I
-(8, 4, 1), -- WED, UNIT - I
-(8, 5, 1), -- THU, UNIT - I
-(8, 6, 1), -- FRI, UNIT - I
-(8, 7, 1), -- SAT, UNIT - I
-
--- OPHTHALMOLOGY
-(9, 1, 1), -- SUN, UNIT - I
-(9, 2, 4), -- MON, UNIT - IV
-(9, 3, 4), -- TUE, UNIT - IV
-(9, 4, 4), -- WED, UNIT - IV
-(9, 5, 4), -- THU, UNIT - IV
-(9, 6, 4), -- FRI, UNIT - IV
-(9, 7, 1), -- SAT, UNIT - I
-
--- ORTHOPAEDICS
-(10, 1, 3), -- SUN, UNIT - III
-(10, 2, 3), -- MON, UNIT - III
-(10, 3, 3), -- TUE, UNIT - III
-(10, 4, 3), -- WED, UNIT - III
-(10, 5, 3), -- THU, UNIT - III
-(10, 6, 3), -- FRI, UNIT - III
-(10, 7, 3), -- SAT, UNIT - III
-
--- PAEDIATRICS
-(11, 1, 4), -- SUN, UNIT - IV
-(11, 2, 4), -- MON, UNIT - IV
-(11, 3, 4), -- TUE, UNIT - IV
-(11, 4, 4), -- WED, UNIT - IV
-(11, 5, 4), -- THU, UNIT - IV
-(11, 6, 4), -- FRI, UNIT - IV
-(11, 7, 4), -- SAT, UNIT - IV
-
--- RESPIRATORY MEDICINE
-(12, 1, 1), -- SUN, UNIT - I
-(12, 2, 1), -- MON, UNIT - I
-(12, 3, 1), -- TUE, UNIT - I
-(12, 4, 1), -- WED, UNIT - I
-(12, 5, 1), -- THU, UNIT - I
-(12, 6, 1), -- FRI, UNIT - I
-(12, 7, 1), -- SAT, UNIT - I
-
--- PSYCHIATRY
-(13, 1, 1), -- SUN, UNIT - I
-(13, 2, 1), -- MON, UNIT - I
-(13, 3, 1), -- TUE, UNIT - I
-(13, 4, 1), -- WED, UNIT - I
-(13, 5, 1), -- THU, UNIT - I
-(13, 6, 1), -- FRI, UNIT - I
-(13, 7, 1); -- SAT, UNIT - I

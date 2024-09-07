@@ -25,10 +25,4 @@
     <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.21" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="NB.Platform.MultiTenancyHelper">
-      <HintPath>..\NB.TenantResolver\NB.Platform.MultiTenancyHelper\bin\Debug\net7.0\NB.Platform.MultiTenancyHelper.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

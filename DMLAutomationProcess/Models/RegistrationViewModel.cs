@@ -71,8 +71,35 @@ namespace DMLAutomationProcess.Models
 
         // Other fields
         public int TotalEntries { get; set; }
-        public DateTime DateTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime VisitDate { get; set; }
         public string Status { get; set; }
     }
 
+    public class RevistPatientsModel
+    {
+        public int DepartmentID { get; set; }
+        public int RUnitID { get; set; }
+        public int FDepartmentID { get; set; }
+        public int FUnitID { get; set; }
+        public int GenderID { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+        public string? OPID { get; set; }
+        public int NoofEntries { get; set; }
+        public int TotalEntries { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime VisitDate { get; set; }
+    }
+
+    public class BindRevisitOpDummys
+    {
+        public int SNo { get; set; }
+        public string? UHID { get; set; }
+        public int DepartmentID { get; set; }
+        public int UnitID { get; set; }
+        public string? DepartmentName { get; set; }
+        public string? GenderName { get; set; }
+        public int? Total { get; set; }
+    }
 }

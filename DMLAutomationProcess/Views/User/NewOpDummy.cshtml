@@ -120,8 +120,11 @@
 
                             <!-- Date & Time Picker -->
                             <div class="col-md-3">
-                                <label>Date & Time</label>
-                                <input asp-for="DateTime" readonly="readonly" />
+                                <div class="input-group">
+                                    <label>Date & Time</label>
+                                    <input asp-for="VisitDate" class="form-control" type="datetime-local" value="@Model.VisitDate.ToString("yyyy-MM-ddTHH:mm:ss")" />
+
+                                </div>
                             </div>
 
                             <!-- Status -->
@@ -169,30 +172,9 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
-        $('#table1').DataTable({
-            'aoColumnDefs': [{
-                'bSortable': false,
-                'aTargets': [-1]
-            }]
-        });
 
         setTimeout('$(".autohide").hide()', 2000);
-
-        $("#DateTime").datepicker({
-            defaultDate: "-521.429w",
-            dateFormat: "dd M yy",
-            changeMonth: true,
-            changeYear: true,
-            maxDate: new Date(),
-            yearRange: '-100:+0',
-            onSelect: function (date) {
-                $(".DateTime").html('');
-            }
-        });
 
         // Function to calculate the sum of all department inputs
         function calculateTotalEntries() {
@@ -221,38 +203,45 @@
         }
 
         $('#StartButton').click(function () {
-            // Simulate progress updates
-            let progressValue = 0;
-            let progressInterval = setInterval(function () {
-                if (progressValue < 100) {
-                    progressValue += 10; // Increment progress
-                    updateProgressBar(progressValue); // Update progress bar
-                } else {
-                    clearInterval(progressInterval); // Clear interval when complete
-                }
-            }, 80); // Adjust time interval for faster or slower updates
-
-            // Example AJAX call (adjust according to your process)
-            $.ajax({
-                url: '@Url.Action("NewOpDummy", "User")',
-                type: 'POST',
-                dataType: "json",
-                data: $('form').serialize(),
-                success: function (response) {
-                    // When AJAX completes, set progress to 100%
-                    updateProgressBar(100);
-                    if (response == true) {
-                        $("#ShowMessgae").show();
-                        $("#DisShowMessgae").text("Process completed successfully !")
-                        $('#progressbar').css('width', '0%');
-                        $('#progress-text').text(0 + '% Complete');
-                        $("input[type='number']").val('0');
+            var totalEntries = $("#TotalEntries").val();
+            if (totalEntries != 0) {
+                // Simulate progress updates
+                let progressValue = 0;
+                let progressInterval = setInterval(function () {
+                    if (progressValue < 100) {
+                        progressValue += 10; // Increment progress
+                        updateProgressBar(progressValue); // Update progress bar
+                    } else {
+                        clearInterval(progressInterval); // Clear interval when complete
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX Error: " + status + error);
-                }
-            });
+                }, 80); // Adjust time interval for faster or slower updates
+
+                // Example AJAX call (adjust according to your process)
+                $.ajax({
+                    url: '@Url.Action("NewOpDummy", "User")',
+                    type: 'POST',
+                    dataType: "json",
+                    data: $('form').serialize(),
+                    success: function (response) {
+                        // When AJAX completes, set progress to 100%
+                        updateProgressBar(100);
+                        if (response == true) {
+                            $("#ShowMessgae").show();
+                            $("#DisShowMessgae").text("Process completed successfully !")
+                            $('#progressbar').css('width', '0%');
+                            $('#progress-text').text(0 + '% Complete');
+                            $("input[type='number']").val('0');
+                            setTimeout('$("#ShowMessgae").hide()', 2000);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error: " + status + error);
+                    }
+                });
+            }
+            else {
+                alert('TotalEntries is zero ! Means your not selected any department');
+            }
         });
 
         $('#ViewOPSummaryButton').click(function () {

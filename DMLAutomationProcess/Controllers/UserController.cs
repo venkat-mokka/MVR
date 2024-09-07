@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Maui.Graphics;
 using System.Data;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
 namespace DMLAutomationProcess.Controllers
@@ -18,6 +19,7 @@ namespace DMLAutomationProcess.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly TelemetryClient _telemetryClient;
+        private static List<BindRevisitOpDummys> bindRevisitOpDummys1 = new List<BindRevisitOpDummys>();
         public UserController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, TelemetryClient telemetryClient)
         {
             _roleManager = roleManager;
@@ -259,11 +261,6 @@ namespace DMLAutomationProcess.Controllers
 
         public async Task<bool> BindData()
         {
-            // Patient Demographic Details 
-
-            //   await _context.Database.ExecuteSqlRawAsync("EXEC InsertOPPatient");
-
-
             ViewBag.Prefixs = await _context.Prefixes.Select(r => new SelectListItem
             {
                 Text = r.Name,
@@ -354,8 +351,8 @@ namespace DMLAutomationProcess.Controllers
         public async Task<string> GetFormattedUnitNames(int departmentID)
         {
             // Get the current day name
-            var currentDayName = DateTime.Now.AddDays(-1).ToString("dddd").Substring(0, 3).ToUpper();
-            currentDayName = "TUE";
+            var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
+            //currentDayName = "TUE";
             var unitNames = await _context.DepartmentDayUnitMappings
                 .Where(mapping =>
                     mapping.Departments.DepartmentID == departmentID &&
@@ -727,9 +724,7 @@ namespace DMLAutomationProcess.Controllers
         {
             var model = new NewPatientsModel
             {
-                UHID = await GetNewUHID(),
-                OPID = await GetNewOPID(),
-                DateTime = DateTime.Now
+                VisitDate = DateTime.Now
             };
             return View(model);
         }
@@ -737,9 +732,9 @@ namespace DMLAutomationProcess.Controllers
         [HttpPost]
         public async Task<IActionResult> NewOpDummy(NewPatientsModel model)
         {
-            model.DateTime = model.DateTime;
+            model.VisitDate = model.VisitDate;
             var (departments, genders) = await GetDepartmentIdsAsync(model);
-            bool isDone = await SaveDummy(departments, genders, model.DateTime);
+            bool isDone = await SaveDummy(departments, genders, model.VisitDate);
             return Json(isDone);
         }
 
@@ -901,7 +896,7 @@ namespace DMLAutomationProcess.Controllers
             return (departments, genders);
         }
 
-        public async Task<bool> SaveDummy(List<int> departments, List<string> genders, DateTime date)
+        public async Task<bool> SaveDummy(List<int> departments, List<string> genders, DateTime visitDate)
         {
             Random random = new Random(); // Create a random number generator
 
@@ -928,23 +923,31 @@ namespace DMLAutomationProcess.Controllers
                     int randomDoctorId = doctorIdList[random.Next(doctorIdList.Count)];
 
                     // Send to stored procedure with the random unitId and doctorId
-                    await SendtoProc(date, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
+                    await SendtoProc(visitDate, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
                 }
             }
             return true;
         }
 
-        public async Task<bool> SendtoProc(DateTime date, int departmentId, int unitId, int doctorId, string gender)
+        public async Task<bool> SendtoProc(DateTime visitDate, int departmentId, int unitId, int doctorId, string gender)
         {
             string UHID = await GetNewUHID();
             string OPID = await GetNewOPID();
             if (!string.IsNullOrEmpty(UHID) && !string.IsNullOrEmpty(OPID))
             {
-                var result = await _context.Database.ExecuteSqlRawAsync(
-                    "EXEC SendPatientDetails @UHID = {0}, @OPID = {1}, @Date = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
-                    UHID, OPID, date, departmentId, unitId, doctorId, gender
-                );
-                return result > 0;
+                try
+                {
+                    var result = await _context.Database.ExecuteSqlRawAsync(
+                              "EXEC SendNewOpDummy @UHID = {0}, @OPID = {1}, @visitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
+                              UHID, OPID, visitDate, departmentId, unitId, doctorId, gender
+                          );
+                    return result > 0;
+                }
+                catch (Exception ex)
+                {
+
+                }
+                return true;
             }
             else
             {
@@ -955,19 +958,147 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<IActionResult> RevisitOpDummy()
         {
+            ViewBag.Departments = await _context.Departments.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.DepartmentID.ToString()
 
-            return View();
+            }).ToListAsync();
+
+            ViewBag.Units = await _context.Units.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.UnitID.ToString()
+            }).ToListAsync();
+
+            ViewBag.Genders = await _context.Genders.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.GenderID.ToString()
+
+            }).ToListAsync();
+
+            var model = new RevistPatientsModel
+            {
+                VisitDate = DateTime.Now,
+                FromDate = DateTime.Now,
+                ToDate = DateTime.Now
+            };
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> RevisitOpDummy(NewPatientsModel model)
+        public async Task<IActionResult> RevisitOpDummy(DateTime visitDate)
         {
-            model.UHID = await GetNewUHID();
-            model.OPID = await GetNewOPID();
-            model.DateTime = model.DateTime;
-
-            return View(model);
+            bool isDone = false;
+            if (bindRevisitOpDummys1.Count > 0 && visitDate != null)
+            {
+                foreach (var item in bindRevisitOpDummys1)
+                {
+                    isDone = await SendRevisitOpDummy(item.UHID, visitDate, item.DepartmentID, item.UnitID, item.GenderName);
+                }
+                bindRevisitOpDummys1.Clear();
+                ViewBag.bindRevisitOpDummys = bindRevisitOpDummys1;
+                return PartialView("_BindRevisitOpDummys");
+            }
+            return Json(isDone);
         }
+
+        public async Task<bool> SendRevisitOpDummy(string UHID, DateTime visitDate, int departmentId, int unitId, string gender)
+        {
+            try
+            {
+                // Retrieve a new OPID value
+                string OPID = await GetNewOPID();
+
+                // Check if UHID and OPID are not null or empty
+                if (!string.IsNullOrEmpty(UHID) && !string.IsNullOrEmpty(OPID))
+                {
+                    // Execute the stored procedure
+                    var result = await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC SendRevisitOpDummy @UHID = {0}, @OPID = {1}, @visitDate = {2}, @departmentId = {3}, @unitId = {4}, @gender = {5}",
+                        UHID, OPID, visitDate, departmentId, unitId, gender
+                    );
+
+                    // Return true if the operation affected more than 0 rows
+                    return result > 0;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                // For example: _logger.LogError(ex, "An error occurred while sending RevisitOpDummy.");
+                return false;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUnitNames(int departmentID)
+        {
+            // Get the current day name
+            var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
+            //currentDayName = "TUE";
+            var unitNames = await _context.DepartmentDayUnitMappings
+                .Where(mapping =>
+                    mapping.Departments.DepartmentID == departmentID &&
+                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
+                )
+                .OrderBy(mapping => mapping.Units.Name)
+                .Select(mapping => new { UnitName = mapping.Units.Name, UnitID = mapping.Units.UnitID })
+                .ToListAsync();
+
+            var units = unitNames.Select(r => new SelectListItem
+            {
+                Text = r.UnitName,
+                Value = r.UnitID.ToString()
+
+            }).ToList();
+
+            return Json(units);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOpDetailsByDate(int departmentID, int unitID, int genderID, DateTime fromDate, DateTime toDate, int noofEntries)
+        {
+            // Example hardcoded dates for testing
+            fromDate = new DateTime(2024, 9, 5, 7, 0, 0, 0); // "2024-09-05 07:48:26.0000000"
+            toDate = new DateTime(2024, 9, 7, 7, 53, 5, 0);  // "2024-09-05 07:53:05.0000000"
+
+            // Filter and group OPRegistrations by PatientID for the specified department and gender within the date range
+            var bindRevisitOpDummys = await _context.OPRegistrations
+                .Where(a => a.DepartmentID == departmentID
+                            && a.Patient.GenderID == genderID
+                            && a.VisitDate >= fromDate
+                            && a.VisitDate <= toDate)
+                .Include(a => a.Department)  // Include Department details
+                .Include(a => a.Patient)     // Include Patient details
+                .ThenInclude(p => p.Gender)  // Include Gender via Patient
+                .GroupBy(a => new { a.PatientID, a.DepartmentID, a.Patient.GenderID })  // Group by PatientID, Department, and Gender
+                .Select(g => new BindRevisitOpDummys
+                {
+                    SNo = g.FirstOrDefault().ID,                     // Take the first entry's ID as SNo
+                    UHID = g.FirstOrDefault().Patient.UHID,          // Get UHID from the first entry
+                    DepartmentID = departmentID,
+                    UnitID = unitID,
+                    DepartmentName = g.FirstOrDefault().Department.Name, // Department Name
+                    GenderName = g.FirstOrDefault().Patient.Gender.Name, // Gender Name
+                    Total = g.Count()                          // Count number of entries for each patient
+                })
+                .OrderBy(a => a.SNo)    // Sort by SNo or ID
+                .Take(noofEntries)      // Limit the number of records returned
+                .ToListAsync();         // Execute asynchronously
+
+            bindRevisitOpDummys1.AddRange(bindRevisitOpDummys);
+            ViewBag.bindRevisitOpDummys = bindRevisitOpDummys1;
+
+            // Return partial view
+            return PartialView("_BindRevisitOpDummys");
+        }
+
         #endregion
 
     }
