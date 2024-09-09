@@ -1064,10 +1064,6 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOpDetailsByDate(int departmentID, int unitID, int genderID, DateTime fromDate, DateTime toDate, int noofEntries)
         {
-            // Example hardcoded dates for testing
-            fromDate = new DateTime(2024, 9, 5, 7, 0, 0, 0); // "2024-09-05 07:48:26.0000000"
-            toDate = new DateTime(2024, 9, 7, 7, 53, 5, 0);  // "2024-09-05 07:53:05.0000000"
-
             // Filter and group OPRegistrations by PatientID for the specified department and gender within the date range
             var bindRevisitOpDummys = await _context.OPRegistrations
                 .Where(a => a.DepartmentID == departmentID

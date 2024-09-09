@@ -151,7 +151,7 @@
                                 <button type="button" class="btn btn-primary" id="StartButton">Start</button>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" class="btn btn-primary" id="viewOpSummary">View OP Summary</button>
+                                <a href="@Url.Action("OPSummaryReport","Admin")" class="btn btn-primary" target="_parent">View OP Summary</a>
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-primary" id="closeWindow">Close</button>
@@ -244,11 +244,6 @@
                 alert('TotalEntries is zero ! Means your not selected any department');
             }
             clearInterval(0);
-        });
-
-        $('#ViewOPSummaryButton').click(function () {
-            // Example: View OP summary
-            alert('Viewing OP Summary.');
         });
 
         $('#CloseButton').click(function () {
