@@ -37,7 +37,7 @@ namespace DMLAutomationProcess.Controllers
         [HttpPost]
         public async Task<IActionResult> OPSummaryReport(DateTime fromDate, DateTime toDate, int departmentID)
         {
-            var bindRevisitOpDummys = await _context.OPRegistrations
+            var OPSummary = await _context.OPRegistrations
                 .Where(a => a.DepartmentID == departmentID
                             && a.VisitDate >= fromDate
                             && a.VisitDate <= toDate)
@@ -52,7 +52,7 @@ namespace DMLAutomationProcess.Controllers
                     Total = g.Count()
                 }).ToListAsync();
 
-            ViewBag.bindRevisitOpDummys = bindRevisitOpDummys;
+            ViewBag.OPSummaries = OPSummary;
             return PartialView("_BindOPSummaryReport");
         }
 
