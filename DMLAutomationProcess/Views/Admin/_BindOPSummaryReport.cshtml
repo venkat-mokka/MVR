@@ -1,5 +1,65 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th colspan="3">New </th>
+            <th colspan="3">Old </th>
+            <th>Grand Total</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>Female</th>
+            <th>Male</th>
+            <th>Total</th>
+            <th>Female</th>
+            <th>Male</th>
+            <th>Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @*    @foreach (var item in Model)
+        {
+        <tr>
+        <td>@item.DepartmentName</td>
+        <td>@item.NewFemale</td>
+        <td>@item.NewMale</td>
+        <td>@item.NewTotal</td>
+        <td>@item.OldFemale</td>
+        <td>@item.OldMale</td>
+        <td>@item.OldTotal</td>
+        <td>@item.GrandTotal</td>
+        </tr>
+        }
+        <tr>
+        <td><strong>Total</strong></td>
+        <td>@Model.Sum(m => m.NewFemale)</td>
+        <td>@Model.Sum(m => m.NewMale)</td>
+        <td>@Model.Sum(m => m.NewTotal)</td>
+        <td>@Model.Sum(m => m.OldFemale)</td>
+        <td>@Model.Sum(m => m.OldMale)</td>
+        <td>@Model.Sum(m => m.OldTotal)</td>
+        <td>@Model.Sum(m => m.GrandTotal)</td>
+        </tr> *@
+        <tr>
+            <td>General Medicine</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>Casualty</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>0</td>
+            <td>1</td>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>

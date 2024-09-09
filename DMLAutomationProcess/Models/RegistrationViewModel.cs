@@ -108,13 +108,13 @@ namespace DMLAutomationProcess.Models
         public int SrNo { get; set; }
         public string OPID { get; set; }
         public string PatientName { get; set; }
-        public int Age { get; set; }
+        public string Age { get; set; }
         public string GenderName { get; set; }
         public string Address { get; set; }
         public string PMRN { get; set; }
-        // public string Diagnosis { get; set; }
-        public string MobileNo { get; set; }
-        public string AadhaarNo { get; set; }
+        public string Diagnosis { get; set; }
+        public long? MobileNo { get; set; }
+        public long? AadhaarNo { get; set; }
     }
 
     public class OPSummaryReport

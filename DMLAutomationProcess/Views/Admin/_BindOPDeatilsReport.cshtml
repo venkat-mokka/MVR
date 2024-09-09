@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    var varmodel = (List<OPDeatilsReport>)ViewBag.OPDeatils;
+    Layout = null;
 }
+<div class="col-md-12">
+    <div class="box box-black">
+        <div class="box-title">
+            <h3><i class="fa fa-tasks"></i>OPD CASE REGISTER DETAIL REPORT</h3>
+        </div>
+        <div class="box-content">
+            @await Html.PartialAsync("_Msg")
+            <br /><br />
+            <div class="table-responsive" style="min-height:0px !important">
+                <table class="table table-advance" id="table1">
+                    <thead>
+                        <tr>
+                            <th>SrNo</th>
+                            <th>OPID</th>
+                            <th>PatientName</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Address</th>
+                            <th>PMRN</th>
+                            <th>Diagnosis</th>
+                            <th>MobileNo</th>
+                            <th>AadhaarNo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="">
+                        @if (varmodel != null && varmodel.Count != 0)
+                        {
+                            foreach (var item in varmodel)
+                            {
+                                <tr>
+                                    <td>@item.SrNo</td>
+                                    <td>@item.OPID</td>
+                                    <td>@item.PatientName</td>
+                                    <td>@item.Age</td>
+                                    <td>@item.GenderName</td>
+                                    <td>@item.Address</td>
+                                    <td>@item.PMRN</td>
+                                    <td>@item.Diagnosis</td>
+                                    <td>@item.MobileNo</td>
+                                    <td>@item.AadhaarNo</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
+<script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
+
+<script type="text/javascript">
+    $('#table1').DataTable({
+        'aoColumnDefs': [{
+            'bSortable': false,
+            'aTargets': [-1]
+        }]
+    });
+    setTimeout('$(".autohide").hide()', 5000);
+</script>
