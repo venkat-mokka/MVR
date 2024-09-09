@@ -16,19 +16,19 @@
                         <div class="form-group">
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <label class="control-label">From Date:</label>
+                                    <label class="control-label">From Date<span class="text-danger">*</span>:</label>
                                     <input id="FromDate" type="date" class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <label class="control-label">To Date:</label>
+                                    <label class="control-label">To Date<span class="text-danger">*</span>:</label>
                                     <input id="ToDate" type="date" class="form-control" />
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="input-group">
-                                    <label class="control-label">Department:</label>
+                                    <label class="control-label">Department<span class="text-danger">*</span>:</label>
                                     @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), "--All--", new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                     @Html.ValidationMessageFor(model => model.DepartmentID, null, new { @class = "text-danger" })
                                 </div>
