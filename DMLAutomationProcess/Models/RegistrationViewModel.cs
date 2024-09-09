@@ -102,4 +102,26 @@ namespace DMLAutomationProcess.Models
         public string? GenderName { get; set; }
         public int? Total { get; set; }
     }
+
+    public class OPDeatilsReport
+    {
+        public string? DepartmentName { get; set; }
+        public string PatientType { get; set; }
+        public string? GenderName { get; set; }
+        public int? Total { get; set; }
+    }
+
+    public class OPSummaryReport
+    {
+        public int SrNo { get; set; }
+        public string OPID { get; set; }
+        public string PatientName { get; set; }
+        public int Age { get; set; }
+        public string GenderName { get; set; }
+        public string Address { get; set; }
+        public string PMRN { get; set; }
+       // public string Diagnosis { get; set; }
+        public string MobileNo { get; set; }
+        public string AadhaarNo { get; set; }
+    }
 }

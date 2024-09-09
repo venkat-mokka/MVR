@@ -188,6 +188,27 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-desktop"></i>
+                            <span>Reports</span>
+                            <b class="arrow fa fa-caret-down"></b>
+                        </a>
+                        <ul class="dropdown-menu dropdown-navbar">
+                            <li>
+                                <a href='@Url.Action("OPSummaryReport", "Admin")' onclick="loading()">
+                                    <i class="fa fa-eye"></i>
+                                    <span>OP Summary Report</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href='@Url.Action("OPDeatilsReport", "Admin")' onclick="loading()">
+                                    <i class="fa fa-tasks"></i>
+                                    <span>OP Deatils Report</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 }
             </ul>
         }

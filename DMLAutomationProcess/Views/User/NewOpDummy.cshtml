@@ -200,6 +200,14 @@
             // Set the progress bar width and update the aria-valuenow attribute
             $('#progressbar').css('width', value + '%').attr('aria-valuenow', value);
             $('#progress-text').text(value + '% Complete');
+            if (value == 100) {
+                $("#ShowMessgae").show();
+                $("#DisShowMessgae").text("Process completed successfully !")
+                $("#progressbar").css('width', '0%');
+                $("#progress-text").text(0 + '% Complete');
+                $("input[type='number']").val('0');
+                setTimeout('$("#ShowMessgae").hide()', 2000);
+            }
         }
 
         $('#StartButton').click(function () {
@@ -223,15 +231,8 @@
                     dataType: "json",
                     data: $('form').serialize(),
                     success: function (response) {
-                        // When AJAX completes, set progress to 100%
-                        updateProgressBar(100);
                         if (response == true) {
-                            $("#ShowMessgae").show();
-                            $("#DisShowMessgae").text("Process completed successfully !")
-                            $('#progressbar').css('width', '0%');
-                            $('#progress-text').text(0 + '% Complete');
-                            $("input[type='number']").val('0');
-                            setTimeout('$("#ShowMessgae").hide()', 2000);
+                            updateProgressBar(100);
                         }
                     },
                     error: function (xhr, status, error) {
@@ -242,6 +243,7 @@
             else {
                 alert('TotalEntries is zero ! Means your not selected any department');
             }
+            clearInterval(0);
         });
 
         $('#ViewOPSummaryButton').click(function () {

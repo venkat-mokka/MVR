@@ -923,13 +923,13 @@ namespace DMLAutomationProcess.Controllers
                     int randomDoctorId = doctorIdList[random.Next(doctorIdList.Count)];
 
                     // Send to stored procedure with the random unitId and doctorId
-                    await SendtoProc(visitDate, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
+                    await SendNewOpDummy(visitDate, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
                 }
             }
             return true;
         }
 
-        public async Task<bool> SendtoProc(DateTime visitDate, int departmentId, int unitId, int doctorId, string gender)
+        public async Task<bool> SendNewOpDummy(DateTime visitDate, int departmentId, int unitId, int doctorId, string gender)
         {
             string UHID = await GetNewUHID();
             string OPID = await GetNewOPID();
@@ -938,7 +938,7 @@ namespace DMLAutomationProcess.Controllers
                 try
                 {
                     var result = await _context.Database.ExecuteSqlRawAsync(
-                              "EXEC SendNewOpDummy @UHID = {0}, @OPID = {1}, @visitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
+                              "EXEC SendNewOpDummy @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
                               UHID, OPID, visitDate, departmentId, unitId, doctorId, gender
                           );
                     return result > 0;
@@ -995,7 +995,7 @@ namespace DMLAutomationProcess.Controllers
             {
                 foreach (var item in bindRevisitOpDummys1)
                 {
-                    isDone = await SendRevisitOpDummy(item.UHID, visitDate, item.DepartmentID, item.UnitID, item.GenderName);
+                    isDone = await SendRevisitOpDummy(item.UHID, visitDate, item.DepartmentID, item.UnitID, item.GenderName.Substring(0, 1));
                 }
                 bindRevisitOpDummys1.Clear();
                 ViewBag.bindRevisitOpDummys = bindRevisitOpDummys1;
@@ -1016,7 +1016,7 @@ namespace DMLAutomationProcess.Controllers
                 {
                     // Execute the stored procedure
                     var result = await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC SendRevisitOpDummy @UHID = {0}, @OPID = {1}, @visitDate = {2}, @departmentId = {3}, @unitId = {4}, @gender = {5}",
+                        "EXEC SendRevisitOpDummy @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @Gender = {5}",
                         UHID, OPID, visitDate, departmentId, unitId, gender
                     );
 
