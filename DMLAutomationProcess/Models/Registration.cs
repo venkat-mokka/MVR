@@ -101,6 +101,9 @@ namespace DMLAutomationProcess.Models
 
         [ForeignKey("PatientTypeID")]
         public virtual PatientType? PatientType { get; set; }
+
+        [ForeignKey("VillageID")]
+        public virtual Village? Village { get; set; } 
     }
 
     [Table("PatientAddress")]
@@ -188,6 +191,9 @@ namespace DMLAutomationProcess.Models
 
         [ForeignKey("FeeTypeID")]
         public virtual FeeType? FeeType { get; set; }
+
+        public bool? IsCamp { get; set; }
+        public bool? IsType { get; set; }
     }
 
     [Table("Prefix")]

@@ -1,15 +1,8 @@
 ﻿using DMLAutomationProcess.Models;
-using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Graphics;
 using System.Data;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 namespace DMLAutomationProcess.Controllers
 {
     public class AdminController : Controller
@@ -21,6 +14,7 @@ namespace DMLAutomationProcess.Controllers
             _context = context;
         }
 
+        #region Summary & Details Reports
         [HttpGet]
         public async Task<IActionResult> OPSummaryReport()
         {
@@ -56,7 +50,6 @@ namespace DMLAutomationProcess.Controllers
             return PartialView("_BindOPSummaryReport");
         }
 
-
         [HttpGet]
         public async Task<IActionResult> OPDeatilsReport()
         {
@@ -69,33 +62,57 @@ namespace DMLAutomationProcess.Controllers
 
             return View();
         }
-
         [HttpPost]
         public async Task<IActionResult> OPDeatilsReport(DateTime fromDate, DateTime toDate, int departmentID)
         {
-            var OPDeatils = await _context.OPRegistrations
-                .Where(a => a.DepartmentID == departmentID
-                            && a.VisitDate >= fromDate
-                            && a.VisitDate <= toDate)
+            // Query to fetch OP details, including all departments if departmentID is 0
+            var opDetailsQuery = _context.OPRegistrations
+                .Where(a => a.VisitDate >= fromDate && a.VisitDate <= toDate);
+
+            if (departmentID != 0)
+            {
+                opDetailsQuery = opDetailsQuery.Where(a => a.DepartmentID == departmentID);
+            }
+
+            var opDetails = await opDetailsQuery
                 .Include(a => a.Department)
-                .Include(e => e.Patient)
-                .ThenInclude(p => p.Gender)
+                .Include(a => a.Patient)
+                    .ThenInclude(p => p.Gender)
+                .Include(a => a.Patient)
+                    .ThenInclude(p => p.Village)
+                        .ThenInclude(v => v.Mandal)
+                            .ThenInclude(m => m.District)
                 .Select(a => new OPDeatilsReport
                 {
                     SrNo = a.ID,
+                    UHID = a.Patient.UHID,
                     OPID = a.OPID,
-                    PatientName = a.Patient.FirstName + " " + a.Patient.LastName,
-                    Age = a.Patient.Age + "/Y",
+                    DepartmentName = a.Department.Name,
+                    PatientName = $"{a.Patient.FirstName} {a.Patient.LastName}",
+                    Age = $"{a.Patient.Age}/Y",
                     GenderName = a.Patient.Gender.Name,
-                    Address = "", // Populate if available
-                    PMRN = a.Patient.UHID,
+                    Address = a.Patient.Village.Name + " (V), " + a.Patient.Village.Mandal.Name + " (M) " + ", " +
+                    a.Patient.Village.Mandal.District.Name + " (D) ",
+
                     Diagnosis = "", // Populate if available
                     MobileNo = a.Patient.MobileNumber,
                     AadhaarNo = a.Patient.AadhaarNo
                 }).ToListAsync();
 
-            ViewBag.OPDeatils = OPDeatils;
+            ViewBag.OPDeatils = opDetails;
             return PartialView("_BindOPDeatilsReport");
         }
+
+        // Helper method to format the address
+        private string FormatAddress(string? villageName, string? mandalName, string? districtName)
+        {
+            var villagePart = !string.IsNullOrEmpty(villageName) ? $"{villageName} (V)" : "N/A";
+            var mandalPart = !string.IsNullOrEmpty(mandalName) ? $"{mandalName} (M)" : "N/A";
+            var districtPart = !string.IsNullOrEmpty(districtName) ? $"{districtName} (D)" : "N/A";
+
+            return $"{villagePart}, {mandalPart}, {districtPart}";
+        }
+        #endregion
+
     }
 }

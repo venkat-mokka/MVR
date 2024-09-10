@@ -15,12 +15,13 @@
                     <thead>
                         <tr>
                             <th>SrNo</th>
+                            <th>UHID</th>
                             <th>OPID</th>
-                            <th>PatientName</th>
+                            <th>DepartmentName</th>
+                            <th style="width:105px !important">PatientName</th>
                             <th>Age</th>
                             <th>Gender</th>
                             <th>Address</th>
-                            <th>PMRN</th>
                             <th>Diagnosis</th>
                             <th>MobileNo</th>
                             <th>AadhaarNo</th>
@@ -33,12 +34,13 @@
                             {
                                 <tr>
                                     <td>@item.SrNo</td>
+                                    <td>@item.UHID</td>
                                     <td>@item.OPID</td>
+                                    <td>@item.DepartmentName</td>
                                     <td>@item.PatientName</td>
                                     <td>@item.Age</td>
                                     <td>@item.GenderName</td>
-                                    <td>@item.Address</td>
-                                    <td>@item.PMRN</td>
+                                    <td style="width:218px !important">@item.Address</td>
                                     <td>@item.Diagnosis</td>
                                     <td>@item.MobileNo</td>
                                     <td>@item.AadhaarNo</td>
