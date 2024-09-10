@@ -32,23 +32,27 @@ namespace DMLAutomationProcess.Controllers
         public async Task<IActionResult> OPSummaryReport(DateTime fromDate, DateTime toDate, int departmentID)
         {
             var OPSummary = await _context.OPRegistrations
-                .Where(a => a.DepartmentID == departmentID
-                            && a.VisitDate >= fromDate
-                            && a.VisitDate <= toDate)
-                .Include(a => a.Department)
-                .Include(a => a.Patient)
-                .ThenInclude(p => p.Gender)
-                .GroupBy(a => new { a.PatientID, a.DepartmentID, a.Patient.GenderID })
+                .Where(r => r.VisitDate >= fromDate && r.VisitDate <= toDate && (departmentID == 0 || r.DepartmentID == departmentID))
+                .GroupBy(r => r.Department)
                 .Select(g => new OPSummaryReport
                 {
-                    DepartmentName = g.FirstOrDefault().Department.Name,
-                    GenderName = g.FirstOrDefault().Patient.Gender.Name,
-                    Total = g.Count()
-                }).ToListAsync();
+                    DepartmentName = g.Key.Name,
+                    NewMale = g.Count(r => r.IsType == false && r.Patient.GenderID == 1),
+                    NewFemale = g.Count(r => r.IsType == false && r.Patient.GenderID == 2),
+                    NewTotal = g.Count(r => r.IsType == false), // Combine counts of both genders
+                    OldMale = g.Count(r => r.IsType == true && r.Patient.GenderID == 1),
+                    OldFemale = g.Count(r => r.IsType == true && r.Patient.GenderID == 2),
+                    OldTotal = g.Count(r => r.IsType == true), // Combine counts of both genders
+                    GrandTotal = g.Count() // Total registrations (New + Old)
+                })
+                .OrderBy(result => result.DepartmentName)
+                .ToListAsync();
 
             ViewBag.OPSummaries = OPSummary;
             return PartialView("_BindOPSummaryReport");
         }
+
+
 
         [HttpGet]
         public async Task<IActionResult> OPDeatilsReport()

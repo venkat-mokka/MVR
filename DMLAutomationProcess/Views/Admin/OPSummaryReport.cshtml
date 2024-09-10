@@ -48,7 +48,7 @@
                         <br />
                         <div class="form-group">
                             <div class="col-md-3"></div>
-                            <div class="col-md-10" id="UpdateID" style="display:none;">
+                            <div class="col-md-12" id="UpdateID" style="display:none;">
                                 @await Html.PartialAsync("_BindOPSummaryReport")
                             </div>
                             <div class="col-md-3"></div>
@@ -73,9 +73,12 @@
             var fromDate = $("#FromDate").val();
             var toDate = $("#ToDate").val();
             // Validate that all required parameters are provided
-            if (!departmentID || !fromDate || !toDate) {
+            if (!fromDate || !toDate) {
                 alert("Please fill in all required fields.");
                 return;
+            }
+            if (departmentID == '') {
+                departmentID = 0;
             }
             // Construct the URL for the AJAX request
             var url = '@Url.Content("~/")' + "Admin/OPSummaryReport";

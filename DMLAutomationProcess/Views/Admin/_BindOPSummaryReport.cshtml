@@ -30,70 +30,23 @@
                             <th></th>
                         </tr>
                     </thead>
-                    @* <tbody id="">
-                    @if (varmodel != null && varmodel.Count != 0)
-                    {
-                    foreach (var item in varmodel)
-                    {
-                    <tr>
-                    <td>@item.SrNo</td>
-                    <td>@item.OPID</td>
-                    <td>@item.PatientName</td>
-                    <td>@item.Age</td>
-                    <td>@item.GenderName</td>
-                    <td>@item.Address</td>
-                    <td>@item.PMRN</td>
-                    <td>@item.Diagnosis</td>
-                    <td>@item.MobileNo</td>
-                    <td>@item.AadhaarNo</td>
-                    </tr>
-                    }
-                    }
-                    </tbody> *@
                     <tbody id="">
-                        @*    @foreach (var item in Model)
+                        @if (varmodel != null && varmodel.Count != 0)
                         {
-                        <tr>
-                        <td>@item.DepartmentName</td>
-                        <td>@item.NewFemale</td>
-                        <td>@item.NewMale</td>
-                        <td>@item.NewTotal</td>
-                        <td>@item.OldFemale</td>
-                        <td>@item.OldMale</td>
-                        <td>@item.OldTotal</td>
-                        <td>@item.GrandTotal</td>
-                        </tr>
+                            foreach (var item in varmodel)
+                            {
+                                <tr>
+                                    <td>@item.DepartmentName</td>
+                                    <td>@item.NewFemale</td>
+                                    <td>@item.NewMale</td>
+                                    <td>@item.NewTotal</td>
+                                    <td>@item.OldFemale</td>
+                                    <td>@item.OldMale</td>
+                                    <td>@item.OldTotal</td>
+                                    <td>@item.GrandTotal</td>
+                                </tr>
+                            }
                         }
-                        <tr>
-                        <td><strong>Total</strong></td>
-                        <td>@Model.Sum(m => m.NewFemale)</td>
-                        <td>@Model.Sum(m => m.NewMale)</td>
-                        <td>@Model.Sum(m => m.NewTotal)</td>
-                        <td>@Model.Sum(m => m.OldFemale)</td>
-                        <td>@Model.Sum(m => m.OldMale)</td>
-                        <td>@Model.Sum(m => m.OldTotal)</td>
-                        <td>@Model.Sum(m => m.GrandTotal)</td>
-                        </tr> *@
-                        <tr>
-                            <td>General Medicine</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>Casualty</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>2</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

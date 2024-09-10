@@ -52,7 +52,6 @@ namespace DMLAutomationProcess.Controllers
             return View();
         }
 
-
         [HttpGet]
         public ActionResult AddRole()
         {
@@ -166,8 +165,7 @@ namespace DMLAutomationProcess.Controllers
         }
         #endregion
 
-
-        #region Login
+        #region Login & LogOut
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
@@ -234,56 +232,5 @@ namespace DMLAutomationProcess.Controllers
             return RedirectToAction("Login");
         }
         #endregion
-
-        public async Task<bool> CreateRoleAndUserThenUserRoleMapping(LoginViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    model.UserName = "venkat";
-                    model.Password = "Venkat@123";
-
-                    ApplicationRole applicationRole = new ApplicationRole
-                    {
-                        Name = model.UserName,
-                        Description = model.UserName + " Description",
-                        CreatedDate = DateTime.Now
-                    };
-                    IdentityResult roleRuslt = await _roleManager.CreateAsync(applicationRole);
-                    if (roleRuslt.Succeeded)
-                    {
-                        string? roleId = _roleManager.Roles.Where(a => a.Name == model.UserName).Select(a => a.Id).FirstOrDefault();
-                        if (roleId != null)
-                        {
-                            ApplicationUser user = new ApplicationUser
-                            {
-                                Name = model.UserName,
-                                UserName = model.UserName,
-                                Email = model.UserName + "@gmail.com"
-                            };
-                            IdentityResult results = await _userManager.CreateAsync(user, model.Password);
-                            if (results.Succeeded)
-                            {
-                                ApplicationRole applicationRoles = await _roleManager.FindByIdAsync(roleId);
-                                if (applicationRoles != null)
-                                {
-                                    IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRoles.Name);
-                                    if (roleResult.Succeeded)
-                                    {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _telemetryClient.TrackException(ex);
-            }
-            return false;
-        }
     }
 }

@@ -533,11 +533,13 @@ namespace DMLAutomationProcess.Controllers
                 new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
                 new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
                 new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
-                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive)
+                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+                new SqlParameter("@IsCamp", false),
+                new SqlParameter("@IsType", false)
             };
 
                     await _context.Database.ExecuteSqlRawAsync(
-                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
                        parameters);
                 }
 
@@ -692,11 +694,13 @@ namespace DMLAutomationProcess.Controllers
                 new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
                 new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
                 new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
-                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive)
+                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+                new SqlParameter("@IsCamp", false),
+                new SqlParameter("@IsType", true)
             };
 
                         await _context.Database.ExecuteSqlRawAsync(
-                           "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive",
+                           "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
                            parameters);
                     }
 
@@ -938,7 +942,7 @@ namespace DMLAutomationProcess.Controllers
                 try
                 {
                     var result = await _context.Database.ExecuteSqlRawAsync(
-                              "EXEC SendNewOpDummy @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
+                              "EXEC NewDPatientOPEntry @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
                               UHID, OPID, visitDate, departmentId, unitId, doctorId, gender
                           );
                     return result > 0;
@@ -1016,7 +1020,7 @@ namespace DMLAutomationProcess.Controllers
                 {
                     // Execute the stored procedure
                     var result = await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC SendRevisitOpDummy @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @Gender = {5}",
+                        "EXEC RevisitDPatientOPEntry @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @Gender = {5}",
                         UHID, OPID, visitDate, departmentId, unitId, gender
                     );
 

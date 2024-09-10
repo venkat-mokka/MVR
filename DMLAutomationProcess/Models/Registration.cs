@@ -103,7 +103,7 @@ namespace DMLAutomationProcess.Models
         public virtual PatientType? PatientType { get; set; }
 
         [ForeignKey("VillageID")]
-        public virtual Village? Village { get; set; } 
+        public virtual Village? Village { get; set; }
     }
 
     [Table("PatientAddress")]

@@ -122,8 +122,12 @@ namespace DMLAutomationProcess.Models
     {
         public int DepartmentID { get; set; }
         public string? DepartmentName { get; set; }
-        public string PatientType { get; set; }
-        public string? GenderName { get; set; }
-        public int? Total { get; set; }
+        public int? NewFemale { get; set; }
+        public int? NewMale { get; set; }
+        public int? NewTotal { get; set; }
+        public int? OldFemale { get; set; }
+        public int? OldMale { get; set; }
+        public int? OldTotal { get; set; }
+        public int? GrandTotal { get; set; }
     }
 }
