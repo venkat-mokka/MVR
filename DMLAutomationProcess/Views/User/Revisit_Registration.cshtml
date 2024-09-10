@@ -399,7 +399,7 @@
                 // $("#Patients_PrefixID").change(function () {
                 var ddlsource1 = "#Patients_GenderID";
                 var prefixID = $("#Patients_PrefixID option:selected").val();
-                if (prefixID != "8") {
+                if (prefixID != "Baby of") {
                     var url = '@Url.Content("~/")' + "User/GetGenderByPrefix";
                     $.getJSON(url, { prefixID: prefixID }, function (data) {
                         $(ddlsource1).empty();
