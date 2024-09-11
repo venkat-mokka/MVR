@@ -392,10 +392,16 @@
                         $("#FatherNameDiv").show();
                         $("#HusbandNameDiv").hide();
                     } else {
-                        $("#FatherNameDiv").hide();
-                        $("#HusbandNameDiv").show();
+                        if (prefixName == "Miss") {
+                            $("#FatherNameDiv").show();
+                            $("#HusbandNameDiv").hide();
+                        } else {
+                            $("#FatherNameDiv").hide();
+                            $("#HusbandNameDiv").show();
+                        }
                     }
                 });
+
             }
             else {
                 $(ddlsource1).empty();
