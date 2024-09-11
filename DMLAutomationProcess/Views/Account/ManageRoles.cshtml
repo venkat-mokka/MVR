@@ -12,16 +12,7 @@
 
 @section scripts {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
-        $('#table1').DataTable({
-            'aoColumnDefs': [{
-                'bSortable': false,
-                'aTargets': [-1]
-            }]
-        });
         ModalClose1 = function () {
             $("#AddID").html('');
         }
@@ -56,9 +47,7 @@
         $(document).on('click', '#AddRoleclose', function () {
             $('#divpopup').html('');
         });
-
     </script>
-
 
 }
 

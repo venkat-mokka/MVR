@@ -189,7 +189,18 @@ namespace DMLAutomationProcess.Controllers
                     if (result.Succeeded)
                     {
                         _telemetryClient.TrackEvent("Login Ended !");
-                        return RedirectToLocal(returnUrl);
+                        if (User.IsInRole("Admin"))
+                        {
+                            return RedirectToAction(nameof(AdminController.Index), "Admin");
+                        }
+                        if (User.IsInRole("User"))
+                        {
+                            return RedirectToAction(nameof(UserController.Index), "User");
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(HomeController.Index), "Home");
+                        }
                     }
                     else
                     {
@@ -206,16 +217,28 @@ namespace DMLAutomationProcess.Controllers
             return View(model);
         }
 
-        private IActionResult RedirectToLocal(string returnUrl)
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword()
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+            ViewBag.UserId = User.Identity.Name;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ApplicationUser user, ManageUserViewModel model)
+        {
+            //IdentityResult result = _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            //if (result.Succeeded)
+            //{
+            //    await _signInManager.SignOutAsync();
+            //    TempData["success"] = "Your password has been changed successfully!";
+            //}
+            //else
+            //{
+            //    TempData["error"] = "Please Enter Valid Current Password !";
+            //}
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
@@ -231,6 +254,7 @@ namespace DMLAutomationProcess.Controllers
             }
             return RedirectToAction("Login");
         }
+
         #endregion
     }
 }

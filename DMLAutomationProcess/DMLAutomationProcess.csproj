@@ -24,4 +24,13 @@
     <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.21" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\rvm\css\.DS_Store" />
+    <None Include="wwwroot\rvm\css\iCheck\.DS_Store" />
+    <None Include="wwwroot\rvm\img\.DS_Store" />
+    <None Include="wwwroot\rvm\js\.DS_Store" />
+    <None Include="wwwroot\rvm\js\plugins\jqueryKnob\.DS_Store" />
+    <None Include="wwwroot\rvm\js\plugins\jvectormap\.DS_Store" />
+  </ItemGroup>
+
 </Project>

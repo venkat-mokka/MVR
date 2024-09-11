@@ -28,6 +28,12 @@ namespace DMLAutomationProcess.Controllers
             _telemetryClient = telemetryClient;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View("Index");
+        }
+
         #region Manage Users
         [HttpGet]
         public async Task<ActionResult> ManageUsers()
@@ -144,24 +150,24 @@ namespace DMLAutomationProcess.Controllers
                 IdentityResult result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    if (existingRoleId != model.RoleId)
+                    //if (existingRoleId != model.RoleId)
+                    //{
+                    IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
+                    if (roleResult.Succeeded)
                     {
-                        IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
-                        if (roleResult.Succeeded)
+                        ApplicationRole applicationRole = await _roleManager.FindByIdAsync(model.RoleId);
+                        if (applicationRole != null)
                         {
-                            ApplicationRole applicationRole = await _roleManager.FindByIdAsync(model.RoleId);
-                            if (applicationRole != null)
+                            IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
+                            if (newRoleResult.Succeeded)
                             {
-                                IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                                if (newRoleResult.Succeeded)
-                                {
-                                    await ManageUsers();
-                                    TempData["Success"] = "User Updated Successfully";
-                                    return PartialView("_BindUsers");
-                                }
+                                await ManageUsers();
+                                TempData["Success"] = "User Updated Successfully";
+                                return PartialView("_BindUsers");
                             }
                         }
                     }
+                    //}
                 }
             }
             return PartialView("_EditUser", model);

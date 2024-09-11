@@ -1,7 +1,7 @@
 ﻿@model OpRegistrationViewModel
 @using DMLAutomationProcess.Models
 @{
-    ViewBag.Title = "REVISIT Registration";
+    ViewBag.Title = "Revisit Registration";
 }
 <!-- Main content -->
 <section class="content">
@@ -13,12 +13,12 @@
                     <br />
                     <h3 class="box-title">@await Html.PartialAsync("_Msg")</h3>
                 </div>
-                <div class="box-body" style="height:1050px !important" id="GetRevisitDetailsByUhid">
+                <div class="box-body" style="height:800px !important" id="GetRevisitDetailsByUhid">
                     <div class="form-group">
                         <div class="col-md-3">
                             <div class="input-group">
                                 <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control" })
+                                @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control", @autocomplete = "off" })
                                 @Html.ValidationMessageFor(model => model.Patients.UHID, null, new { @class = "text-danger" })
                             </div>
                         </div>
@@ -287,7 +287,7 @@
                         <div class="col-md-2">
                             <div class="input-group">
                                 <label class="control-label">Ref. By<span class="text-danger"> *</span>:</label>
-                                @Html.TextBoxFor(model => model.OPRegistrations.ReferredBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Ref. By", @maxlength = "12", @pattern = @"\d{12}" })
+                                @Html.TextBoxFor(model => model.OPRegistrations.ReferredBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Ref. By" })
                                 @Html.ValidationMessageFor(model => model.OPRegistrations.ReferredBy, null, new { @class = "text-danger" })
                             </div>
                         </div>

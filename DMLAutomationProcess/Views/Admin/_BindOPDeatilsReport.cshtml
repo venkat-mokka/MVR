@@ -2,71 +2,71 @@
     var varmodel = (List<OPDeatilsReport>)ViewBag.OPDeatils;
     Layout = null;
 }
-<div class="col-md-12">
-    <div class="box box-black">
-        <div class="box-title">
-            <h3><i class="fa fa-tasks"></i>OPD CASE REGISTER DETAIL REPORT</h3>
-        </div>
-        <div class="box-content">
-            @await Html.PartialAsync("_Msg")
-            <br /><br />
-            <div class="table-responsive" style="min-height:0px !important">
-                <table class="table table-advance" id="table1">
-                    <thead>
-                        <tr>
-                            <th>SrNo</th>
-                            <th>UHID</th>
-                            <th>OPID</th>
-                            <th>DepartmentName</th>
-                            <th style="width:105px !important">PatientName</th>
-                            <th>Age</th>
-                            <th>Gender</th>
-                            <th>Address</th>
-                            <th>Diagnosis</th>
-                            <th>MobileNo</th>
-                            <th>AadhaarNo</th>
-                        </tr>
-                    </thead>
-                    <tbody id="">
-                        @if (varmodel != null && varmodel.Count != 0)
-                        {
-                            foreach (var item in varmodel)
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">OPD CASE REGISTER DETAIL REPORT</h3>
+                </div><!-- /.box-header -->
+                @await Html.PartialAsync("_Msg")
+                <br /><br />
+                <div class="box-body table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>SrNo</th>
+                                <th>UHID</th>
+                                <th>OPID</th>
+                                <th>DepartmentName</th>
+                                <th style="width:105px !important">PatientName</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Address</th>
+                                <th>Diagnosis</th>
+                                <th>MobileNo</th>
+                                <th>AadhaarNo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="">
+                            @if (varmodel != null && varmodel.Count != 0)
                             {
-                                <tr>
-                                    <td>@item.SrNo</td>
-                                    <td>@item.UHID</td>
-                                    <td>@item.OPID</td>
-                                    <td>@item.DepartmentName</td>
-                                    <td>@item.PatientName</td>
-                                    <td>@item.Age</td>
-                                    <td>@item.GenderName</td>
-                                    <td style="width:218px !important">@item.Address</td>
-                                    <td>@item.Diagnosis</td>
-                                    <td>@item.MobileNo</td>
-                                    <td>@item.AadhaarNo</td>
-                                </tr>
+                                foreach (var item in varmodel)
+                                {
+                                    <tr>
+                                        <td>@item.SrNo</td>
+                                        <td>@item.UHID</td>
+                                        <td>@item.OPID</td>
+                                        <td>@item.DepartmentName</td>
+                                        <td>@item.PatientName</td>
+                                        <td>@item.Age</td>
+                                        <td>@item.GenderName</td>
+                                        <td style="width:242px !important">@item.Address</td>
+                                        <td>@item.Diagnosis</td>
+                                        <td>@item.MobileNo</td>
+                                        <td>@item.AadhaarNo</td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
         </div>
     </div>
-</div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
-<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-<script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
-<script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
-<script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
-
+</section><!-- /.content -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<!-- DATA TABLES -->
+<link href="~/rvm/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+<!-- DATA TABES SCRIPT -->
+<script src="~/rvm/js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="~/rvm/js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $('#table1').DataTable({
-        'aoColumnDefs': [{
-            'bSortable': false,
-            'aTargets': [-1]
-        }]
-    });
+    $("#example1").dataTable();
     setTimeout('$(".autohide").hide()', 5000);
+    //$('#table1').css('width', '');
+
 </script>
+

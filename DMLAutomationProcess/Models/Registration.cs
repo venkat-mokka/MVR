@@ -30,7 +30,6 @@ namespace DMLAutomationProcess.Models
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [Required]
         [MaxLength(50)]
         public string FatherName { get; set; }
 

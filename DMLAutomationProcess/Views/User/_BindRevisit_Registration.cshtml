@@ -12,7 +12,7 @@
         <div class="col-md-3">
             <div class="input-group">
                 <label class="control-label">UHID<span class="text-danger"> *</span>:</label>
-                @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Patients.UHID, new { @class = "form-control", @autocomplete = "off" })
                 @Html.ValidationMessageFor(model => model.Patients.UHID, null, new { @class = "text-danger" })
             </div>
         </div>
@@ -280,7 +280,7 @@
         <div class="col-md-2">
             <div class="input-group">
                 <label class="control-label">Ref. By<span class="text-danger"> *</span>:</label>
-                @Html.TextBoxFor(model => model.OPRegistrations.ReferredBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Ref. By", @maxlength = "12", @pattern = @"\d{12}" })
+                @Html.TextBoxFor(model => model.OPRegistrations.ReferredBy, new { @class = "form-control", @autocomplete = "off", @placeholder = "Enter Ref. By" })
                 @Html.ValidationMessageFor(model => model.OPRegistrations.ReferredBy, null, new { @class = "text-danger" })
             </div>
         </div>

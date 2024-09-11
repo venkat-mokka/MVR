@@ -14,6 +14,12 @@ namespace DMLAutomationProcess.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View("Index");
+        }
+
         #region Summary & Details Reports
         [HttpGet]
         public async Task<IActionResult> OPSummaryReport()
@@ -51,8 +57,6 @@ namespace DMLAutomationProcess.Controllers
             ViewBag.OPSummaries = OPSummary;
             return PartialView("_BindOPSummaryReport");
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> OPDeatilsReport()
@@ -95,8 +99,8 @@ namespace DMLAutomationProcess.Controllers
                     PatientName = $"{a.Patient.FirstName} {a.Patient.LastName}",
                     Age = $"{a.Patient.Age}/Y",
                     GenderName = a.Patient.Gender.Name,
-                    Address = a.Patient.Village.Name + " (V), " + a.Patient.Village.Mandal.Name + " (M) " + ", " +
-                    a.Patient.Village.Mandal.District.Name + " (D) ",
+                    Address = a.Patient.Village.Name != null ? a.Patient.Village.Name + " (V), " + a.Patient.Village.Mandal.Name + " (M) " + ", " +
+                    a.Patient.Village.Mandal.District.Name + " (D) " : "",
 
                     Diagnosis = "", // Populate if available
                     MobileNo = a.Patient.MobileNumber,
