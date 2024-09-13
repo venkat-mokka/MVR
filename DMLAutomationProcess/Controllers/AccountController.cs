@@ -197,6 +197,10 @@ namespace DMLAutomationProcess.Controllers
                         {
                             return RedirectToAction(nameof(UserController.Index), "User");
                         }
+                        if (User.IsInRole("Doctor"))
+                        {
+                            return RedirectToAction(nameof(UserController.Index), "Doctor");
+                        }
                         else
                         {
                             return RedirectToAction(nameof(HomeController.Index), "Home");

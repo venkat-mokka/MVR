@@ -75,25 +75,56 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     string dashboard = "", ManageUsers = "", OrgRegistrations = "", DumRegistrations = "", Reports = "", CMSUsers = "", CMSRoles = "",
-                    OPNew = "", OPRevisit = "", OPNewDummy = "", OPRevisitDummy = "", OPSummaryReport = "", OPDeatilsReport = "", highlight = "";
-                    if (title == "Dashboard") { dashboard = "active open highlight"; }
-                    if (title == "Dashboard") { dashboard = "active"; highlight = "highlight"; }
+                    OPNew = "", OPRevisit = "", OPNewDummy = "", OPRevisitDummy = "", OPSummaryReport = "", OPDeatilsReport = "", highlight = "",
+                    adminDashboard = "", doctorDashboard = "", userDashboard = "", OPPatients = "", IPPatients = "", OTSchedule = "";
+
+                    if (title == "Home") { dashboard = "active open highlight"; }
+                    if (title == "Admin Dashboard") { adminDashboard = "active open highlight"; highlight = "highlight"; }
+                    if (title == "User Dashboard") { userDashboard = "active open highlight"; highlight = "highlight"; }
                     if (title == "Manage Users") { ManageUsers = "active open highlight"; CMSUsers = "active"; }
                     if (title == "Manage Roles") { ManageUsers = "active open highlight"; CMSRoles = "active"; }
                     if (title == "New Registration") { OrgRegistrations = "active open highlight"; OPNew = "active"; }
                     if (title == "Revisit Registration") { OrgRegistrations = "active open highlight"; OPRevisit = "active"; }
                     if (title == "New Op Dummy") { DumRegistrations = "active open highlight"; OPNewDummy = "active"; }
-                    if (title == "Revisit Op Dummy") { DumRegistrations = "active open highlight"; OPRevisitDummy = "active"; }
+                    if (title == "OP Deatils Report") { Reports = "active open highlight"; OPDeatilsReport = "active"; }
                     if (title == "OP Summary Report") { Reports = "active open highlight"; OPSummaryReport = "active"; }
                     if (title == "OP Deatils Report") { Reports = "active open highlight"; OPDeatilsReport = "active"; }
+
+                    if (title == "Doctotor Dashboard") { doctorDashboard = "active open highlight"; highlight = "highlight"; }
+                    if (title == "OP Patients") { OPPatients = "active open highlight"; }
+                    if (title == "IP Patients") { IPPatients = "active open highlight"; }
+                    if (title == "OT Schedule") { OTSchedule = "active open highlight"; }
 
 
                     <!-- sidebar menu: : style can be found in sidebar.less -->
 
                     <ul class="sidebar-menu">
+                        @if (User.IsInRole("Doctor"))
+                        {
+                            <li class="@doctorDashboard">
+                                <a href='@Url.Action("Index", "Doctor")'>
+                                    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="@OPPatients">
+                                <a href='@Url.Action("OPPatients", "Doctor")'>
+                                    <i class="fa fa-bar-chart-o"></i> <span>OP Patients</span>
+                                </a>
+                            </li>
+                            <li class="@IPPatients">
+                                <a href='@Url.Action("IPPatients", "Doctor")'>
+                                    <i class="fa fa-laptop"></i> <span>IP Patients</span>
+                                </a>
+                            </li>
+                            <li class="@OTSchedule">
+                                <a href='@Url.Action("OTSchedule", "Doctor")'>
+                                    <i class="fa fa-edit"></i> <span>OT Schedule</span>
+                                </a>
+                            </li>
+                        }
                         @if (User.IsInRole("User"))
                         {
-                            <li class="@dashboard">
+                            <li class="@userDashboard">
                                 <a href='@Url.Action("Index", "User")'>
                                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                                 </a>
@@ -101,7 +132,7 @@
                             <li class="treeview @OrgRegistrations">
                                 <a href="#">
                                     <i class="fa fa-bar-chart-o"></i>
-                                    <span>OP DEPARTMENT</span>
+                                    <span>OP Registration</span>
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
@@ -112,7 +143,7 @@
                         }
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="@dashboard">
+                            <li class="@adminDashboard">
                                 <a href='@Url.Action("Index", "Admin")'>
                                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                                 </a>
@@ -120,7 +151,7 @@
                             <li class="treeview @OrgRegistrations">
                                 <a href="#">
                                     <i class="fa fa-bar-chart-o"></i>
-                                    <span>OP DEPARTMENT</span>
+                                    <span>OP Registration</span>
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
@@ -155,8 +186,8 @@
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li class="@OPSummaryReport"><a href="@Url.Action("OPSummaryReport", "Admin")"><i class="fa fa-angle-double-right"></i>OP Summary Report</a></li>
-                                    <li class="@OPDeatilsReport"><a href="@Url.Action("OPDeatilsReport", "Admin")"><i class="fa fa-angle-double-right"></i> OP Deatils Report</a></li>
+                                    <li class="@OPSummaryReport"><a href="@Url.Action("OPSummaryReport", "Admin")"><i class="fa fa-angle-double-right"></i>OP NMC Summary Report</a></li>
+                                    <li class="@OPDeatilsReport"><a href="@Url.Action("OPDeatilsReport", "Admin")"><i class="fa fa-angle-double-right"></i> OP NMC Deatils Report</a></li>
                                 </ul>
                             </li>
                         }
@@ -189,7 +220,7 @@
                         @RenderBody()
                         <hr />
                         <footer style="text-align:center">
-                            <p>@DateTime.Now.Year © RVMH.</p>
+                            <p>@DateTime.Now.Year © RVM CHARITABLE TRUST HOSPITAL.</p>
                         </footer>
                     </div>
                 </div>
@@ -237,12 +268,11 @@
 </body>
 </html>
 <script type="text/javascript">
+
     $(".box-tool").hide();
     getmenu = function (id) {
         $("#breadcrumb_item").html(id);
     }
-</script>
-<script>
 
     $(".container").click(function () {
         $('.dropdown-menu').fadeOut("fast");

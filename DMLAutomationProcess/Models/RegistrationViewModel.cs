@@ -130,4 +130,19 @@ namespace DMLAutomationProcess.Models
         public int? OldTotal { get; set; }
         public int? GrandTotal { get; set; }
     }
+
+    public class OPConsulation
+    {
+        public int SrNo { get; set; }
+        public string? UHID { get; set; }
+        public string? OPID { get; set; }
+        public string? DoctorName { get; set; }
+        public string? DepartmentName { get; set; }
+        public string? PatientName { get; set; }
+        public string? Age { get; set; }
+        public string? GenderName { get; set; }
+        public DateTime VisitDate { get; set; }
+        public string? Consulted { get; set; }
+        public string? PatType { get; set; }
+    }
 }
