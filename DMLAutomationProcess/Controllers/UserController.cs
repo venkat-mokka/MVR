@@ -5,11 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Graphics;
 using System.Data;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 
 namespace DMLAutomationProcess.Controllers
 {
@@ -20,6 +16,7 @@ namespace DMLAutomationProcess.Controllers
         private readonly ApplicationDbContext _context;
         private readonly TelemetryClient _telemetryClient;
         private static List<BindRevisitOpDummys> bindRevisitOpDummys1 = new List<BindRevisitOpDummys>();
+        private string? userId = null;
         public UserController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, TelemetryClient telemetryClient)
         {
             _roleManager = roleManager;
@@ -29,8 +26,9 @@ namespace DMLAutomationProcess.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
             return View("Index");
         }
 
@@ -428,6 +426,7 @@ namespace DMLAutomationProcess.Controllers
 
         public async Task<string> GetNewUHID()
         {
+            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
             // Get the current date in YYYYMMDD format
             var currentDatePart = DateTime.Now.ToString("yyyyMMdd");
 
@@ -512,6 +511,7 @@ namespace DMLAutomationProcess.Controllers
             {
                 if (viewModel.Patients != null)
                 {
+                    viewModel.Patients.MiddleName = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
                     _context.Patients.Add(viewModel.Patients);
                     await _context.SaveChangesAsync();
                 }
@@ -975,11 +975,41 @@ namespace DMLAutomationProcess.Controllers
 
             }).ToListAsync();
 
-            ViewBag.Units = await _context.Units.Select(r => new SelectListItem
+            var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
+
+            // Query the database
+            var unitNames = await _context.DepartmentDayUnitMappings
+                .Where(mapping =>
+                    mapping.Departments.DepartmentID == 5 &&
+                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
+                )
+                .OrderBy(mapping => mapping.Units.Name)
+                .Select(mapping => new
+                {
+                    UnitName = mapping.Units.Name,
+                    UnitID = mapping.Units.UnitID
+                })
+                .ToListAsync();
+
+            // Concatenate unit names and IDs
+            var concatenatedNames = string.Join(" & ", unitNames.Select(u => u.UnitName));
+            var concatenatedValues = string.Join(", ", unitNames.Select(u => u.UnitID.ToString()));
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+            // Create the response
+            var response = new SelectListItem
             {
-                Text = r.Name,
-                Value = r.UnitID.ToString()
-            }).ToListAsync();
+                Text = concatenatedNames,
+                Value = concatenatedValues
+            };
+            selectListItems.Add(response);
+
+            ViewBag.Units = selectListItems.ToList();
+
+            //ViewBag.Units = await _context.Units.Select(r => new SelectListItem
+            //{
+            //    Text = r.Name,
+            //    Value = r.UnitID.ToString()
+            //}).ToListAsync();
 
             ViewBag.Genders = await _context.Genders.Select(r => new SelectListItem
             {
@@ -1047,7 +1077,7 @@ namespace DMLAutomationProcess.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUnitNames(int departmentID)
+        public async Task<IActionResult> GetUnitNames1(int departmentID)
         {
             // Get the current day name
             var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
@@ -1070,6 +1100,51 @@ namespace DMLAutomationProcess.Controllers
 
             return Json(units);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUnitNames(int departmentID)
+        {
+            try
+            {
+                // Get the current day name
+                var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
+
+                // Query the database
+                var unitNames = await _context.DepartmentDayUnitMappings
+                    .Where(mapping =>
+                        mapping.Departments.DepartmentID == departmentID &&
+                        mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
+                    )
+                    .OrderBy(mapping => mapping.Units.Name)
+                    .Select(mapping => new
+                    {
+                        UnitName = mapping.Units.Name,
+                        UnitID = mapping.Units.UnitID
+                    })
+                    .ToListAsync();
+
+                // Concatenate unit names and IDs
+                var concatenatedNames = string.Join(" & ", unitNames.Select(u => u.UnitName));
+                var concatenatedValues = string.Join(", ", unitNames.Select(u => u.UnitID.ToString()));
+
+                // Create the response
+                var response = new SelectListItem
+                {
+                    Text = concatenatedNames,
+                    Value = concatenatedValues
+                };
+
+                // Return JSON response
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                // Log exception and return error response
+                // _logger.LogError(ex, "An error occurred while getting unit names.");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetOpDetailsByDate(int departmentID, int unitID, int genderID, DateTime fromDate, DateTime toDate, int noofEntries)

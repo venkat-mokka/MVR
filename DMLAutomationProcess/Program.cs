@@ -1,9 +1,6 @@
 using DMLAutomationProcess.Models;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 var appConfig = builder.Configuration;

@@ -7,13 +7,14 @@ namespace DMLAutomationProcess.Controllers
     public class DoctorController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private string? userId = null;
         public DoctorController(ApplicationDbContext context)
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
             return View();
         }
 

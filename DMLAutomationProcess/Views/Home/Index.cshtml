@@ -1,13 +1,69 @@
 ﻿@{
     ViewBag.Title = "Home";
+    Layout = null;
 }
 
 <div class="row">
     <div class="col-md-12">
         <div class="text-center">
-            <h1 class="display-4">Welcome To RVMH</h1>
+             <h1 class="display-4">Welcome To RVMH</h1>
         </div>
         <div class="row">
+            <form method="POST">
+                <p>
+                    <canvas width="500" height="400" id="signature"
+                            style="border:1px solid black"></canvas><br>
+                    <button type="button" id="accept"
+                            class="btn btn-primary">
+                        Accept signature
+                    </button>
+                    <button type="button" id="save"
+                            class="btn btn-primary">
+                        Save
+                    </button><br>
+                    <img width="500" height="400" id="savetarget"
+                         style="border:1px solid black"><br>
+                    <input id="SignatureDataUrl" type="text">
+                </p>
+                @if (ViewBag.SignatureImage != null)
+                {
+                    <img src="@ViewBag.SignatureImage" alt="Signature" />
+                }
+            </form>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+<script type="text/javascript">
+    var canvas = document.querySelector('#signature');
+    var pad = new SignaturePad(canvas);
+
+    $('#accept').click(function () {
+        var data = pad.toDataURL();
+        $('#savetarget').attr('src', data);
+        $('#SignatureDataUrl').val(data);
+        pad.off();
+    });
+
+
+    $('#save').click(function () {
+        var url = '@Url.Content("~/")' + "Home/GetSignature";
+        var base64png = $('#SignatureDataUrl').val();
+        //alert(base64png);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                base64png: base64png
+            },
+            success: function (data) {
+                console.log("success");
+            },
+            error: function (xhr, status, error) {
+                alert("failed");
+            }
+        });
+    });
+
+</script>

@@ -31,7 +31,7 @@
                                 @Html.ValidationMessageFor(model => model.DepartmentID, null, new { @class = "text-danger" })
                             </div>
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-2">
                             <div class="input-group">
                                 <label class="control-label">Running Unit:</label>
                                 @Html.DropDownListFor(model => model.RUnitID, new SelectList(ViewBag.Units, "Value", "Text"), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>

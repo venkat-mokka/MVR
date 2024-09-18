@@ -32,11 +32,11 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="input-group">
-                <label class="control-label">Is MLC Case:</label>
-                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+            <div class="checkbox">
+                <label>
                     @Html.CheckBoxFor(model => model.OPRegistrations.IsMlcCase.Value)
-                </div>
+                    Is MLC Case:
+                </label>
             </div>
         </div>
     </div>
@@ -285,11 +285,11 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="input-group">
-                <label class="control-label">Is Emergency Case:</label>
-                <div class="icheckbox_minimal" aria-checked="false" aria-disabled="false" style="position: relative;">
+            <div class="checkbox">
+                <label>
                     @Html.CheckBoxFor(model => model.OPRegistrations.IsEmergencyCase.Value)
-                </div>
+                    Is Emergency Case:
+                </label>
             </div>
         </div>
     </div>
@@ -333,142 +333,143 @@
 <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
 <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
+    // $(document).ready(function () {
 
-        setTimeout('$(".autohide").hide()', 2000);
+    setTimeout('$(".autohide").hide()', 2000);
 
-        // $("#PatientAddresss_Village").autocomplete({
-        //     source: function (request, response) {
-        //         $.ajax({
-        //             url: '@Url.Action("GetVillageNamesByAutoSerach", "User")',
-        //             type: 'GET',
-        //             dataType: "json",
-        //             data: {
-        //                 term: request.term
-        //             },
-        //             success: function (data) {
-        //                 response(data);
-        //             },
-        //             error: function (xhr, status, error) {
-        //                 console.error("AJAX Error: " + status + error);
-        //             }
-        //         });
-        //     },
-        //     select: function (event, ui) {
-        //     }
-        // });
+    // $("#PatientAddresss_Village").autocomplete({
+    //     source: function (request, response) {
+    //         $.ajax({
+    //             url: '@Url.Action("GetVillageNamesByAutoSerach", "User")',
+    //             type: 'GET',
+    //             dataType: "json",
+    //             data: {
+    //                 term: request.term
+    //             },
+    //             success: function (data) {
+    //                 response(data);
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.error("AJAX Error: " + status + error);
+    //             }
+    //         });
+    //     },
+    //     select: function (event, ui) {
+    //     }
+    // });
 
 
-        $('#Patients_Age').on('input', function () {
-            var age = $(this).val();
-            var $dobInput = $('#Patients_DOB');
+    $('#Patients_Age').on('input', function () {
+        var age = $(this).val();
+        var $dobInput = $('#Patients_DOB');
 
-            if (age && !isNaN(age)) {
-                var today = new Date();
-                var dobYear = today.getFullYear() - parseInt(age, 10);
-                var dobMonth = today.getMonth(); // Month is zero-based
-                var dobDay = today.getDate();
+        if (age && !isNaN(age)) {
+            var today = new Date();
+            var dobYear = today.getFullYear() - parseInt(age, 10);
+            var dobMonth = today.getMonth(); // Month is zero-based
+            var dobDay = today.getDate();
 
-                // Calculate DOB
-                var dob = new Date(dobYear, dobMonth, dobDay);
+            // Calculate DOB
+            var dob = new Date(dobYear, dobMonth, dobDay);
 
-                // Format DOB as DD-MM-YYYY
-                var day = String(dob.getDate()).padStart(2, '0');
-                var month = String(dob.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
-                var year = dob.getFullYear();
+            // Format DOB as DD-MM-YYYY
+            var day = String(dob.getDate()).padStart(2, '0');
+            var month = String(dob.getMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+            var year = dob.getFullYear();
 
-                var formattedDOB = `${day}-${month}-${year}`;
+            var formattedDOB = `${day}-${month}-${year}`;
 
-                $dobInput.val(formattedDOB);
-            } else {
-                $dobInput.val('');
-            }
-        });
-
-        var patients_ID = $("#Patients_ID").val();
-        if (patients_ID != "0") {
-            var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
-            if (departmentID != null) {
-                var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
-                $.get(url, { departmentID: departmentID }, function (data) {
-                    var parts = data.split('^');
-                    $("#UnitName").val(parts[0])
-                    // Assign the first part to UnitName
-                    var unitName = $("#UnitName").val();
-                    // Assign the second part to UnitIds
-                    $("#UnitIds").val(parts[1]);
-                    var unitIds = $("#UnitIds").val();
-                    if (unitName != null && unitIds != null) {
-                        var ddlsource = "#OPRegistrations_DoctorID";
-                        var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
-                        $.getJSON(urls, { unitIds: unitIds }, function (data) {
-                            $(ddlsource).empty();
-                            $("#OPRegistrations_DoctorID").val('');
-                            $.each(data, function (index, optionData) {
-                                $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
-                            });
-                            $("#OPRegistrations_DoctorID").val(@Model.OPRegistrations.DoctorID);
-                        });
-                    } else {
-                        $("#OPRegistrations_DoctorID").val('');
-                    }
-                });
-            }
+            $dobInput.val(formattedDOB);
+        } else {
+            $dobInput.val('');
         }
+    });
 
-        $("#OPRegistrations_DepartmentID").change(function () {
-            var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
-            if (departmentID != null) {
-                var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
-                $.get(url, { departmentID: departmentID }, function (data) {
-                    var parts = data.split('^');
-                    $("#UnitName").val(parts[0])
-                    // Assign the first part to UnitName
-                    var unitName = $("#UnitName").val();
-                    // Assign the second part to UnitIds
-                    $("#UnitIds").val(parts[1]);
-                    var unitIds = $("#UnitIds").val();
-                    if (unitName != null && unitIds != null) {
-                        var ddlsource = "#OPRegistrations_DoctorID";
-                        var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
-                        $.getJSON(urls, { unitIds: unitIds }, function (data) {
-                            $(ddlsource).empty();
-                            $("#OPRegistrations_DoctorID").val('');
-                            $.each(data, function (index, optionData) {
-                                $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
-                            });
-                        });
-                    } else {
+
+    var patients_ID = $("#Patients_ID").val();
+    if (patients_ID != "0") {
+        var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
+        if (departmentID != null) {
+            var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
+            $.get(url, { departmentID: departmentID }, function (data) {
+                var parts = data.split('^');
+                $("#UnitName").val(parts[0])
+                // Assign the first part to UnitName
+                var unitName = $("#UnitName").val();
+                // Assign the second part to UnitIds
+                $("#UnitIds").val(parts[1]);
+                var unitIds = $("#UnitIds").val();
+                if (unitName != null && unitIds != null) {
+                    var ddlsource = "#OPRegistrations_DoctorID";
+                    var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
+                    $.getJSON(urls, { unitIds: unitIds }, function (data) {
+                        $(ddlsource).empty();
                         $("#OPRegistrations_DoctorID").val('');
-                    }
-                });
-            }
-        });
-
-
-        $("#PatientAddresss_Village").change(function () {
-            var villageName = $("#PatientAddresss_Village").val();
-            if (villageName != null) {
-                var url1 = '@Url.Content("~/")' + "User/GetMandalByVillageName";
-                $.getJSON(url1, { villageName: villageName }, function (data) {
-                    $("#PatientAddresss_Mandal").val('');
-                    $("#atientAddresss_District").val('');
-                    $("#PatientAddresss_State").val('');
-                    $("#PatientAddresss_PinCode").val('');
-                    $.each(data, function (index, optionData) {
-                        $("#Patients_VillageID").val(optionData.villageID);
-                        $("#PatientAddresss_Mandal").val(optionData.mandalName);
-                        $("#PatientAddresss_District").val(optionData.districtName);
-                        $("#PatientAddresss_State").val(optionData.stateName);
-                        $("#PatientAddresss_PinCode").val(optionData.pinCode);
+                        $.each(data, function (index, optionData) {
+                            $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                        });
+                        $("#OPRegistrations_DoctorID").val(@Model.OPRegistrations.DoctorID);
                     });
-                });
-            } else {
+                } else {
+                    $("#OPRegistrations_DoctorID").val('');
+                }
+            });
+        }
+    }
+
+    $("#OPRegistrations_DepartmentID").change(function () {
+        var departmentID = $("#OPRegistrations_DepartmentID option:selected").val();
+        if (departmentID != null) {
+            var url = '@Url.Content("~/")' + "User/GetFormattedUnitNames";
+            $.get(url, { departmentID: departmentID }, function (data) {
+                var parts = data.split('^');
+                $("#UnitName").val(parts[0])
+                // Assign the first part to UnitName
+                var unitName = $("#UnitName").val();
+                // Assign the second part to UnitIds
+                $("#UnitIds").val(parts[1]);
+                var unitIds = $("#UnitIds").val();
+                if (unitName != null && unitIds != null) {
+                    var ddlsource = "#OPRegistrations_DoctorID";
+                    var urls = '@Url.Content("~/")' + "User/GetDoctorsByUnit";
+                    $.getJSON(urls, { unitIds: unitIds }, function (data) {
+                        $(ddlsource).empty();
+                        $("#OPRegistrations_DoctorID").val('');
+                        $.each(data, function (index, optionData) {
+                            $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                        });
+                    });
+                } else {
+                    $("#OPRegistrations_DoctorID").val('');
+                }
+            });
+        }
+    });
+
+
+    $("#PatientAddresss_Village").change(function () {
+        var villageName = $("#PatientAddresss_Village").val();
+        if (villageName != null) {
+            var url1 = '@Url.Content("~/")' + "User/GetMandalByVillageName";
+            $.getJSON(url1, { villageName: villageName }, function (data) {
                 $("#PatientAddresss_Mandal").val('');
                 $("#atientAddresss_District").val('');
                 $("#PatientAddresss_State").val('');
                 $("#PatientAddresss_PinCode").val('');
-            }
-        });
+                $.each(data, function (index, optionData) {
+                    $("#Patients_VillageID").val(optionData.villageID);
+                    $("#PatientAddresss_Mandal").val(optionData.mandalName);
+                    $("#PatientAddresss_District").val(optionData.districtName);
+                    $("#PatientAddresss_State").val(optionData.stateName);
+                    $("#PatientAddresss_PinCode").val(optionData.pinCode);
+                });
+            });
+        } else {
+            $("#PatientAddresss_Mandal").val('');
+            $("#atientAddresss_District").val('');
+            $("#PatientAddresss_State").val('');
+            $("#PatientAddresss_PinCode").val('');
+        }
     });
+    // });
 </script>

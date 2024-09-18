@@ -1,22 +1,28 @@
 ﻿using DMLAutomationProcess.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 namespace DMLAutomationProcess.Controllers
 {
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private string? userId = null;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
             return View("Index");
         }
 
@@ -24,6 +30,7 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<IActionResult> OPSummaryReport()
         {
+            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
             ViewBag.Departments = await _context.Departments.Select(r => new SelectListItem
             {
                 Text = r.Name,
@@ -111,15 +118,6 @@ namespace DMLAutomationProcess.Controllers
             return PartialView("_BindOPDeatilsReport");
         }
 
-        // Helper method to format the address
-        private string FormatAddress(string? villageName, string? mandalName, string? districtName)
-        {
-            var villagePart = !string.IsNullOrEmpty(villageName) ? $"{villageName} (V)" : "N/A";
-            var mandalPart = !string.IsNullOrEmpty(mandalName) ? $"{mandalName} (M)" : "N/A";
-            var districtPart = !string.IsNullOrEmpty(districtName) ? $"{districtName} (D)" : "N/A";
-
-            return $"{villagePart}, {mandalPart}, {districtPart}";
-        }
         #endregion
 
     }
