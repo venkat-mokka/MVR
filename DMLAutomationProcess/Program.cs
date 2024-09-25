@@ -1,4 +1,5 @@
-using DMLAutomationProcess.Models;
+using DMLAutomationProcess.Domain.Interfaces;
+using DMLAutomationProcess.Infra.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,12 +8,18 @@ var appConfig = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<DMLAutomationProcess.Infra.Dbcontext.ApplicationDbContext>(options =>
              options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), options => options.CommandTimeout(120)));
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
+builder.Services.AddIdentity<DMLAutomationProcess.Domain.Entities.ApplicationUser, DMLAutomationProcess.Domain.Entities.ApplicationRole>()
+    .AddEntityFrameworkStores<DMLAutomationProcess.Infra.Dbcontext.ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IDataBindingService, DataBindingService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddApplicationInsightsTelemetry(appConfig);
 
@@ -25,6 +32,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

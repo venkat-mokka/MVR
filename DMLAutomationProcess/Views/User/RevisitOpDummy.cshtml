@@ -1,5 +1,5 @@
 ﻿@model RevistPatientsModel
-@using DMLAutomationProcess.Models
+@using DMLAutomationProcess.Domain.Entities
 @{
     ViewBag.Title = "Revisit Op Dummy";
 }
@@ -173,11 +173,6 @@
     <script type="text/javascript">
         // setTimeout('$(".autohide").hide()', 5000);
 
-        $('#viewOpSummary').click(function () {
-            // Example: View OP summary
-            alert('Viewing OP Summary.');
-        });
-
         $('#closeWindow').click(function () {
             $("input[type='text']").val('');
         });
@@ -187,15 +182,19 @@
             var departmentName = $("#DepartmentID option:selected").text();
             if (departmentID != null) {
                 var ddlsource = "#RUnitID";
+                var ddlsource1 = "#FUnitID";
                 var url = '@Url.Content("~/")' + "User/GetUnitNames";
                 $.get(url, { departmentID: departmentID }, function (data) {
                     $(ddlsource).empty();
                     $("#RUnitID").val('');
+                    $(ddlsource1).empty();
+                    $("#FUnitID").val('');
                     $.each(data, function (index, optionData) {
                         $(ddlsource).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
+                         $(ddlsource1).append("<option value='" + optionData.value + "'>" + optionData.text + "</option>");
                     });
                     $("#FDepartmentID").val($("#DepartmentID").val());
-                    $("#FUnitID").val($("#RUnitID").val());
+                    //$("#FUnitID").val($("#RUnitID").val());
                     if (departmentName == "Gynecology" || departmentName == "Obstetrics") {
                         $("#GenderID").val(2);
                     }
@@ -216,7 +215,7 @@
                     type: 'GET',
                     data: {
                         departmentID: FDepartmentID,
-                        unitID: FUnitID,
+                        unitIDs: FUnitID,
                         genderID: genderID,
                         fromDate: fromDate,
                         toDate: toDate,

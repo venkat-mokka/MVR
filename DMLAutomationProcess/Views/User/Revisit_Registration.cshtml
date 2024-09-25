@@ -1,5 +1,5 @@
 ﻿@model OpRegistrationViewModel
-@using DMLAutomationProcess.Models
+@using DMLAutomationProcess.Domain.Entities
 @{
     ViewBag.Title = "Revisit Registration";
 }
@@ -54,7 +54,7 @@
                         <div class="col-md-1">
                             <div class="input-group">
                                 <label class="control-label">Title<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.Patients.PrefixID, new SelectList(ViewBag.Prefixs, "Value", "Text", Model.Patients.PrefixID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.DropDownListFor(model => model.Patients.PrefixID, new SelectList(ViewBag.Prefixes, "Value", "Text", Model.Patients.PrefixID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                                 @Html.ValidationMessageFor(model => model.Patients.PrefixID, null, new { @class = "text-danger" })
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                         <div class="col-md-2">
                             <div class="input-group">
                                 <label class="control-label">Speciality:</label>
-                                @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialitys, "Value", "Text", Model.OPRegistrations.SpecialityID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                @Html.DropDownListFor(model => model.OPRegistrations.SpecialityID, new SelectList(ViewBag.Specialities, "Value", "Text", Model.OPRegistrations.SpecialityID), new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -197,7 +197,7 @@
                         <div class="col-md-2">
                             <div class="input-group">
                                 <label class="control-label">Marital Status<span class="text-danger"> *</span>:</label>
-                                @Html.DropDownListFor(model => model.Patients.MaritalStatusID, new SelectList(ViewBag.MaritalStatuss, "Value", "Text", Model.Patients.MaritalStatusID), new { @class = "form-control" }) <i></i>
+                                @Html.DropDownListFor(model => model.Patients.MaritalStatusID, new SelectList( ViewBag.MaritalStatuses, "Value", "Text", Model.Patients.MaritalStatusID), new { @class = "form-control" }) <i></i>
                                 @Html.ValidationMessageFor(model => model.Patients.MaritalStatusID, null, new { @class = "text-danger" })
                             </div>
                         </div>
@@ -340,9 +340,6 @@
     @* <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> *@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css" />
-    <script type="text/javascript" src="~/assets/data-tables/jquery.dataTables.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/datatables.min.js"></script>
-    <script type="text/javascript" src="~/assets/data-tables/bootstrap3/dataTables.bootstrap.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             setTimeout('$(".autohide").hide()', 2000);

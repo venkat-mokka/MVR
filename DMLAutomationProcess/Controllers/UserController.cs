@@ -1,34 +1,35 @@
-﻿using DMLAutomationProcess.Models;
+﻿using DMLAutomationProcess.Domain.Entities;
 using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using DMLAutomationProcess.Infra.Dbcontext;
+using DMLAutomationProcess.Domain.Interfaces;
 
-namespace DMLAutomationProcess.Controllers
+namespace DMLAutomationProcess.Web.Controllers
 {
     public class UserController : Controller
     {
-        private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly IDataBindingService _dataBindingService;
+        private readonly IUserService _userService;
         private readonly TelemetryClient _telemetryClient;
-        private static List<BindRevisitOpDummys> bindRevisitOpDummys1 = new List<BindRevisitOpDummys>();
+        private static List<BindRevisitOpDummys> lstBindRevisitOpDummys = new List<BindRevisitOpDummys>();
         private string? userId = null;
-        public UserController(RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, TelemetryClient telemetryClient)
+        private readonly ApplicationDbContext _context;
+        public UserController(IDataBindingService dataBindingService, IUserService userService, TelemetryClient telemetryClient, ApplicationDbContext context)
         {
-            _roleManager = roleManager;
-            _userManager = userManager;
-            _context = context;
+            _dataBindingService = dataBindingService;
+            _userService = userService;
             _telemetryClient = telemetryClient;
+            _context = context;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
+            var userId = await _userService.GetCurrentUserIdAsync(User?.Identity?.Name);
             return View("Index");
         }
 
@@ -36,173 +37,104 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<ActionResult> ManageUsers()
         {
-            // Fetch all users
-            var users = await _userManager.Users.ToListAsync();
-
-            // Fetch all roles and create a dictionary for quick role lookup
-            var roles = await _roleManager.Roles.ToListAsync();
-            var roleNamesToIds = roles.ToDictionary(r => r.Name, r => r.Id);
-
-            // Create a list of ApplicationUsersListViewModel
-            var model = new List<ApplicationUsersListViewModel>();
-
-            foreach (var user in users)
-            {
-                var roleNames = await _userManager.GetRolesAsync(user);
-
-                // Handle users with multiple roles or if roles are not found
-                var roleName = roleNames
-                    .Select(roleName => roleNamesToIds.TryGetValue(roleName, out var roleId) ? roleId.ToString() : "Unknown")
-                    .FirstOrDefault(); // Assuming you need the first role or default to "Unknown"
-
-                model.Add(new ApplicationUsersListViewModel
-                {
-                    Name = user.Name,
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    RoleName = await _roleManager.Roles.Where(a => a.Id == roleName).Select(a => a.Name).FirstOrDefaultAsync()
-                });
-            }
-
-            // Pass the model to the view
-            ViewBag.Users = model;
+            var users = await _userService.GetAllUsersAsync();
+            ViewBag.Users = users; // Assuming this method returns the list of users
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> AddUser()
         {
-            ViewBag.Roles = await _roleManager.Roles.OrderByDescending(f => f.Id).Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.Id
-            }).ToListAsync();
-
+            ViewBag.Roles = await _userService.GetRolesAsync();
             return PartialView("_AddUser");
         }
 
         [HttpPost]
         public async Task<IActionResult> AddUser(RegisterViewModel model)
         {
-            ApplicationUser user = new ApplicationUser
-            {
-                Name = model.UserName,
-                UserName = model.UserName,
-                Email = model.Email
-            };
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            if (!ModelState.IsValid) return PartialView("_AddUser", model);
+
+            var result = await _userService.CreateUserAsync(model);
             if (result.Succeeded)
             {
-                ApplicationRole applicationRole = await _roleManager.FindByIdAsync(model?.RoleId);
-                if (applicationRole != null)
-                {
-                    IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                    if (roleResult.Succeeded)
-                    {
-                        await ManageUsers();
-                        TempData["Success"] = "User Added Successfully";
-                        return PartialView("_BindUsers");
-                    }
-                }
+                TempData["Success"] = "User Added Successfully";
+                return PartialView("_BindUsers");
             }
-            return View(model);
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return PartialView("_AddUser", model);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditUser(string id)
         {
-            EditUserViewModel model = new EditUserViewModel();
-            ViewBag.Roles = await _roleManager.Roles.OrderByDescending(f => f.Id).Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.Id
-            }).ToListAsync();
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
 
-            if (!string.IsNullOrEmpty(id))
+            var model = new EditUserViewModel
             {
-                ApplicationUser user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                {
-                    model.Id = user.Id;
-                    model.Name = user.Name;
-                    model.UserName = user.UserName;
-                    model.Email = user.Email;
-                    model.RoleId = _roleManager.Roles.Single(r => r.Name == _userManager.GetRolesAsync(user).Result.Single()).Id;
-                }
-            }
+                Id = user.Id,
+                Name = user.Name,
+                UserName = user.UserName,
+                Email = user.Email,
+                RoleId = (await _userService.GetRolesByIdAsync(id)) // Adjust to use the userService
+            };
+
+            ViewBag.Roles = await _userService.GetRolesAsync();
             return PartialView("_EditUser", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(string id, EditUserViewModel model)
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            if (!ModelState.IsValid) return PartialView("_EditUser", model);
+
+            var result = await _userService.UpdateUserAsync(model);
+            if (result.Succeeded)
             {
-                user.Name = model.UserName;
-                model.UserName = model.UserName;
-                user.Email = model.Email;
-                string existingRole = _userManager.GetRolesAsync(user).Result.Single();
-                string existingRoleId = _roleManager.Roles.Single(r => r.Name == existingRole).Id;
-                IdentityResult result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    //if (existingRoleId != model.RoleId)
-                    //{
-                    IdentityResult roleResult = await _userManager.RemoveFromRoleAsync(user, existingRole);
-                    if (roleResult.Succeeded)
-                    {
-                        ApplicationRole applicationRole = await _roleManager.FindByIdAsync(model.RoleId);
-                        if (applicationRole != null)
-                        {
-                            IdentityResult newRoleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                            if (newRoleResult.Succeeded)
-                            {
-                                await ManageUsers();
-                                TempData["Success"] = "User Updated Successfully";
-                                return PartialView("_BindUsers");
-                            }
-                        }
-                    }
-                    //}
-                }
+                TempData["Success"] = "User Updated Successfully";
+                return PartialView("_BindUsers");
             }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
             return PartialView("_EditUser", model);
         }
 
         [HttpGet]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            EditUserViewModel model = new EditUserViewModel();
-            if (!string.IsNullOrEmpty(id))
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null) return NotFound();
+
+            var model = new EditUserViewModel
             {
-                ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
-                model.Id = applicationUser.Id;
-                model.UserName = applicationUser.UserName;
-                return PartialView("_DeleteUserConfirm", model);
-            }
-            return PartialView("_DeleteUserConfirm");
+                Id = user.Id,
+                UserName = user.UserName
+            };
+
+            return PartialView("_DeleteUserConfirm", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteUserConfirm(string id)
         {
-            if (!string.IsNullOrEmpty(id))
+            var result = await _userService.DeleteUserAsync(id);
+            if (result.Succeeded)
             {
-                ApplicationUser applicationUser = await _userManager.FindByIdAsync(id);
-                if (applicationUser != null)
-                {
-                    IdentityResult result = await _userManager.DeleteAsync(applicationUser);
-                    if (result.Succeeded)
-                    {
-                        await ManageUsers();
-                        TempData["Success"] = "User Deleted Successfully";
-                        return PartialView("_BindUsers");
-                    }
-                }
+                TempData["Success"] = "User Deleted Successfully";
+                return PartialView("_BindUsers");
             }
-            return View();
+
+            // Handle errors accordingly
+            return View("Error"); // You could show an error view instead
         }
         #endregion
 
@@ -213,12 +145,8 @@ namespace DMLAutomationProcess.Controllers
         {
             if (!string.IsNullOrEmpty(term))
             {
-                List<string> _datas = await _context.Villages
-                     .Where(v => v.Name.ToLower().StartsWith(term.ToLower()))
-                     .Select(v => v.Name)
-                     .ToListAsync();
-
-                return Json(_datas);
+                var villages = await _userService.GetVillageNamesAsync(term);
+                return Json(villages);
             }
             else
             {
@@ -229,124 +157,34 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<IActionResult> GetGenderByPrefix(int prefixID)
         {
-            var result = await _context.Prefixes
-                .Where(v => v.PrefixID == prefixID)
-                .Include(v => v.Gender)
-                .Select(v => new
-                {
-                    genderID = v.GenderID,
-                    genderName = v.Gender.Name
-                })
-                .ToListAsync();
-
-            return Json(result);
+            var gender = await _userService.GetGenderByPrefixAsync(prefixID);
+            return Json(gender);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetMandalByVillageName(string villageName)
         {
-            var result = await _context.Villages
-                .Where(v => v.Name == villageName)
-                .Include(v => v.Mandal)
-                .ThenInclude(m => m.District)
-                .ThenInclude(d => d.State)
-                .Select(v => new
-                {
-                    villageID = v.VillageID,
-                    pinCode = v.Pincode,
-                    mandalName = v.Mandal.Name,
-                    districtName = v.Mandal.District.Name,
-                    stateName = v.Mandal.District.State.Name
-                })
-                .ToListAsync();
-
-            return Json(result);
+            var mandal = await _userService.GetMandalByVillageNameAsync(villageName);
+            return Json(mandal);
         }
 
         public async Task<bool> BindData()
         {
-            ViewBag.Prefixs = await _context.Prefixes.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.PrefixID.ToString()
+            var model = new DataBindingModel();
+            await _dataBindingService.BindDataAsync(model);
 
-            }).ToListAsync();
-
-            ViewBag.Genders = await _context.Genders.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.GenderID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.PatientTypes = await _context.PatientTypes.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.PatientTypeID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.Departments = await _context.Departments.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.DepartmentID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.Specialitys = await _context.Specialities.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.SpecialityID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.Doctors = new List<SelectListItem>
-            {
-                new SelectListItem { Text = "", Value = "" }
-            };
-
-            ViewBag.FeeTypes = await _context.FeeTypes.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.FeeTypeID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.AgeTypes = await _context.AgeTypes.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.AgeTypeID.ToString()
-
-            }).ToListAsync();
-
-
-            // Patient Contact Details 
-            ViewBag.MaritalStatuss = await _context.MaritalStatuses.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.MaritalStatusID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.Religions = await _context.Religions.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.ReligionID.ToString()
-
-            }).ToListAsync();
-
-            ViewBag.BloodGroups = await _context.BloodGroups.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.BloodGroupID.ToString()
-
-            }).ToListAsync();
-            ViewBag.IdProofs = await _context.IDProofTypes.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.IDProofTypeID.ToString()
-
-            }).ToListAsync();
+            ViewBag.Prefixes = model.Prefixes;
+            ViewBag.Genders = model.Genders;
+            ViewBag.PatientTypes = model.PatientTypes;
+            ViewBag.Departments = model.Departments;
+            ViewBag.Specialities = model.Specialities;
+            ViewBag.Doctors = model.Doctors;
+            ViewBag.FeeTypes = model.FeeTypes;
+            ViewBag.AgeTypes = model.AgeTypes;
+            ViewBag.MaritalStatuses = model.MaritalStatuses;
+            ViewBag.Religions = model.Religions;
+            ViewBag.BloodGroups = model.BloodGroups;
+            ViewBag.IdProofs = model.IdProofs;
 
             return true;
         }
@@ -354,55 +192,15 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<string> GetFormattedUnitNames(int departmentID)
         {
-            // Get the current day name
-            var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
-            //currentDayName = "TUE";
-            var unitNames = await _context.DepartmentDayUnitMappings
-                .Where(mapping =>
-                    mapping.Departments.DepartmentID == departmentID &&
-                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
-                )
-                .OrderBy(mapping => mapping.Units.Name)
-                //.Select(mapping => mapping.Units.Name)
-                .Select(mapping => new { UnitName = mapping.Units.Name, UnitID = mapping.Units.UnitID })
-                .ToListAsync();
-
-            var formattedUnitNames = unitNames.Any()
-                ? "UNIT -" + string.Join(" & ", unitNames.Select((unit, index) =>
-                    index == 0 ? unit.UnitName.Replace("UNIT -", "").Trim() : unit.UnitName.Replace("UNIT -", "").Trim()))
-                : string.Empty;
-
-            // Format Unit IDs: Just join them with commas
-            var formattedUnitIds = unitNames.Any()
-                ? string.Join(",", unitNames.Select(unit => unit.UnitID.ToString()))
-                : string.Empty;
-
-            var formattedUnitNamesAndUnitIds = formattedUnitNames + "^" + formattedUnitIds;
-
-            return formattedUnitNamesAndUnitIds;
+            var res = await _userService.GetFormattedUnitNamesAsync(departmentID);
+            return res;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetDoctorsByUnit(string unitIds)
         {
-            // Split unitIds into a list of integers
-            var unitIdList = unitIds.Split(',')
-                                     .Select(id => int.Parse(id))
-                                     .ToList();
-
-            // Query the database
-            var result = await _context.UnitDoctorMappings
-                .Where(v => unitIdList.Contains(v.UnitID))  // Use the list of unit IDs for filtering
-                .Include(v => v.Doctors)
-                .Select(v => new SelectListItem
-                {
-                    Text = v.Doctors.Name,                // Set Text as the doctor's name
-                    Value = v.DoctorID.ToString()         // Set Value as the doctor's ID
-                }).OrderBy(a => a.Text)
-                .ToListAsync();
-
-            // Return the result as JSON
-            return Json(result);
+            var res = await _userService.GetDoctorsByUnitAsync(unitIds);
+            return Json(res);
         }
 
         [HttpGet]
@@ -426,82 +224,14 @@ namespace DMLAutomationProcess.Controllers
 
         public async Task<string> GetNewUHID()
         {
-            userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
-            // Get the current date in YYYYMMDD format
-            var currentDatePart = DateTime.Now.ToString("yyyyMMdd");
-
-            // Get the maximum UHID for the current date
-            var maxUHID = await _context.Patients
-                .Where(p => p.UHID.StartsWith(currentDatePart))
-                .OrderByDescending(p => p.UHID)
-                .Select(p => p.UHID)
-                .FirstOrDefaultAsync();
-
-            // Handle the case when no UHID exists for today
-            if (maxUHID == null)
-            {
-                return currentDatePart + "0001";
-            }
-
-            // Extract the numeric part from maxUHID
-            var numericPart = maxUHID.Substring(8); // XXXX
-
-            if (!int.TryParse(numericPart, out var currentMaxNumber))
-            {
-                throw new InvalidOperationException("UHID format is not as expected.");
-            }
-
-            // Increment the numeric part for today's UHID
-            var nextNumber = currentMaxNumber + 1;
-            var nextUHIDNumericPart = nextNumber.ToString("D4"); // Pad with leading zeros
-
-            return currentDatePart + nextUHIDNumericPart;
+            var res = await _userService.GetNewUHIDAsync();
+            return res;
         }
 
         public async Task<string> GetNewOPID()
         {
-            // Get the current date in "yyMMdd" format
-            var currentDatePart = DateTime.Now.ToString("yyMMdd");
-
-            // Get the maximum OPID for the current date
-            var maxOPID = await _context.OPRegistrations
-                .Where(p => p.OPID.StartsWith("OP." + currentDatePart))
-                .OrderByDescending(p => p.OPID)
-                .Select(p => p.OPID)
-                .FirstOrDefaultAsync();
-
-            // Handle the case when no OPID exists for today
-            if (maxOPID == null)
-            {
-                // Generate OPID for the current day, starting with "0001"
-                return "OP." + currentDatePart + "0001";
-            }
-
-            // Ensure that the OPID format is as expected
-            if (!maxOPID.StartsWith("OP.") || maxOPID.Length != 13)
-            {
-                throw new InvalidOperationException("OPID format is not as expected.");
-            }
-
-            // Extract the numeric part from maxOPID
-            var numericPartString = maxOPID.Substring(9); // Extract "0001"
-
-            // Try parsing the numeric part to an integer
-            if (!int.TryParse(numericPartString, out var numericPart))
-            {
-                throw new InvalidOperationException("Numeric part of OPID is not as expected.");
-            }
-
-            // Increment the numeric value by 1
-            numericPart += 1;
-
-            // Convert the incremented number to a string with leading zeros (assuming 4-digit format)
-            var incrementedNumericPartString = numericPart.ToString("D4"); // Pads with leading zeros
-
-            // Generate the new OPID with today's date and incremented number
-            var nextOPID = "OP." + currentDatePart + incrementedNumericPartString;
-
-            return nextOPID;
+            var res = await _userService.GetNewOPIDAsync();
+            return res;
         }
 
         [HttpPost]
@@ -617,24 +347,10 @@ namespace DMLAutomationProcess.Controllers
             return View(opRegistrationViewModel);
         }
 
-        public async Task<string> GetOpIdListAsync(int numIDs)
+        public async Task<string?> GetOpIdListAsync(int numIDs)
         {
-            // Define the output parameter
-            var outputParameter = new SqlParameter
-            {
-                ParameterName = "@result",
-                SqlDbType = System.Data.SqlDbType.NVarChar,
-                Size = -1, // Max size for NVARCHAR
-                Direction = System.Data.ParameterDirection.Output
-            };
-
-            // Execute the stored procedure
-            await _context.Database.ExecuteSqlRawAsync("EXEC GenerateOPIDList @numIDs, @result OUTPUT",
-                new SqlParameter("@numIDs", numIDs),
-                outputParameter);
-
-            // Retrieve the output value
-            return (string)outputParameter.Value;
+            var res = _userService.GetOpIdListAsync(numIDs);
+            return res.ToString();
         }
 
         [HttpPost]
@@ -644,31 +360,7 @@ namespace DMLAutomationProcess.Controllers
             {
                 await BindData();
                 // Create a new instance of the ViewModel
-                var opRegistrationViewModel = new OpRegistrationViewModel();
-
-                // Query the Patient by UHID
-                var patient = await _context.Patients
-                    .Where(x => x.UHID == UHID)
-                    .FirstOrDefaultAsync();
-
-                // Query the PatientAddress and OPRegistration for the found patient
-                var patientAddress = await _context.PatientAddresses
-                    .Where(x => x.PatientID == patient.ID)
-                    .FirstOrDefaultAsync();
-
-                var opRegistration = await _context.OPRegistrations
-                    .Where(x => x.PatientID == patient.ID).OrderByDescending(a => a.ID)
-                    .Include(a => a.Speciality)
-                    .Include(a => a.Department)
-                    .FirstOrDefaultAsync();
-
-                // Assign the retrieved data to the ViewModel
-                opRegistrationViewModel.Patients = patient;
-                opRegistrationViewModel.PatientAddresss = patientAddress;
-                opRegistration.OPID = await GetNewOPID();
-                opRegistration.VisitDate = DateTime.Now;
-                opRegistrationViewModel.OPRegistrations = opRegistration;
-
+                var opRegistrationViewModel = _userService.BindRevisitDetailsByUHID(UHID);
                 return PartialView("_BindRevisit_Registration", opRegistrationViewModel);
             }
             else
@@ -743,362 +435,79 @@ namespace DMLAutomationProcess.Controllers
         public async Task<IActionResult> NewOpDummy(NewPatientsModel model)
         {
             model.VisitDate = model.VisitDate;
-            var (departments, genders) = await GetDepartmentIdsAsync(model);
-            bool isDone = await SaveDummy(departments, genders, model.VisitDate);
+            var (departments, genders) = await _userService.GetDepartmentIdsAsync(model);
+            bool isDone = await _userService.SaveDummyAsync(departments, genders, model.VisitDate);
             return Json(isDone);
-        }
-
-        public async Task<(List<int> departments, List<string> genders)> GetDepartmentIdsAsync(NewPatientsModel model)
-        {
-            var departments = new List<int>();
-            var genders = new List<string>();
-
-            // Helper method to get department ID
-            async Task<int?> GetDepartmentIdAsync(string departmentName)
-            {
-                return await _context.Departments
-                                     .Where(d => d.Name == departmentName)
-                                     .Select(d => d.DepartmentID)
-                                     .FirstOrDefaultAsync();
-            }
-
-            // Check and add Casualty department ID
-            if (model.CasualtyMale > 0 || model.CasualtyFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Casualty");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.CasualtyMale > 0) genders.Add("M");
-                    if (model.CasualtyFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add General Medicine department ID
-            if (model.GeneralMedicineMale > 0 || model.GeneralMedicineFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("General Medicine");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.GeneralMedicineMale > 0) genders.Add("M");
-                    if (model.GeneralMedicineFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Paediatrics department ID
-            if (model.PaediatricsMale > 0 || model.PaediatricsFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Paediatrics");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.PaediatricsMale > 0) genders.Add("M");
-                    if (model.PaediatricsFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Respiratory Medicine department ID
-            if (model.RespiratoryMedicineMale > 0 || model.RespiratoryMedicineFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Respiratory Medicine");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.RespiratoryMedicineMale > 0) genders.Add("M");
-                    if (model.RespiratoryMedicineFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add DVL department ID
-            if (model.DVLMale > 0 || model.DVLFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Dvl");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.DVLMale > 0) genders.Add("M");
-                    if (model.DVLFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Psychiatry department ID
-            if (model.PsychiatryMale > 0 || model.PsychiatryFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Psychiatry");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.PsychiatryMale > 0) genders.Add("M");
-                    if (model.PsychiatryFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add General Surgery department ID
-            if (model.GeneralSurgeryMale > 0 || model.GeneralSurgeryFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("General Surgery");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.GeneralSurgeryMale > 0) genders.Add("M");
-                    if (model.GeneralSurgeryFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Orthopaedics department ID
-            if (model.OrthopaedicsMale > 0 || model.OrthopaedicsFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Orthopaedics");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.OrthopaedicsMale > 0) genders.Add("M");
-                    if (model.OrthopaedicsFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Ophthalmology department ID
-            if (model.OphthalmologyMale > 0 || model.OphthalmologyFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Ophthalmology");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.OphthalmologyMale > 0) genders.Add("M");
-                    if (model.OphthalmologyFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add ENT department ID
-            if (model.ENTMale > 0 || model.ENTFemale > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("ENT");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    if (model.ENTMale > 0) genders.Add("M");
-                    if (model.ENTFemale > 0) genders.Add("F");
-                }
-            }
-
-            // Check and add Obstetrics department ID
-            if (model.Obstetrics > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Obstetrics");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    genders.Add("F");
-                }
-            }
-
-            // Check and add Gynecology department ID
-            if (model.Gynecology > 0)
-            {
-                var departmentId = await GetDepartmentIdAsync("Gynecology");
-                if (departmentId.HasValue)
-                {
-                    departments.Add(departmentId.Value);
-                    genders.Add("F");
-                }
-            }
-            return (departments, genders);
-        }
-
-        public async Task<bool> SaveDummy(List<int> departments, List<string> genders, DateTime visitDate)
-        {
-            Random random = new Random(); // Create a random number generator
-
-            foreach (int departmentId in departments)
-            {
-                // Get the formatted unit names and parse the unit IDs
-                var res = await GetFormattedUnitNames(departmentId);
-                string unitIds = res.Split("^")[1];
-                var unitIdList = unitIds.Split(',').Select(a => int.Parse(a)).ToList();
-
-                // Get doctor IDs associated with these units
-                var doctorIdList = await _context.UnitDoctorMappings
-                    .Where(v => unitIdList.Contains(v.UnitID))
-                    .Select(v => v.DoctorID)
-                    .ToListAsync();
-
-                // If there are any units and doctors, pick random ones
-                if (unitIdList.Any() && doctorIdList.Any())
-                {
-                    // Select a random unitId from the list
-                    int randomUnitId = unitIdList[random.Next(unitIdList.Count)];
-
-                    // Select a random doctorId from the list
-                    int randomDoctorId = doctorIdList[random.Next(doctorIdList.Count)];
-
-                    // Send to stored procedure with the random unitId and doctorId
-                    await SendNewOpDummy(visitDate, departmentId, randomUnitId, randomDoctorId, genders[departments.IndexOf(departmentId)]);
-                }
-            }
-            return true;
-        }
-
-        public async Task<bool> SendNewOpDummy(DateTime visitDate, int departmentId, int unitId, int doctorId, string gender)
-        {
-            string UHID = await GetNewUHID();
-            string OPID = await GetNewOPID();
-            if (!string.IsNullOrEmpty(UHID) && !string.IsNullOrEmpty(OPID))
-            {
-                try
-                {
-                    var result = await _context.Database.ExecuteSqlRawAsync(
-                              "EXEC NewDPatientOPEntry @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @DoctorID = {5}, @Gender = {6}",
-                              UHID, OPID, visitDate, departmentId, unitId, doctorId, gender
-                          );
-                    return result > 0;
-                }
-                catch (Exception ex)
-                {
-
-                }
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         [HttpGet]
         public async Task<IActionResult> RevisitOpDummy()
         {
-            ViewBag.Departments = await _context.Departments.Select(r => new SelectListItem
+            var model = new DataBindingModel();
+            await _dataBindingService.BindDataAsync(model);
+
+            // Check if Departments is null or empty
+            if (model.Departments == null || !model.Departments.Any())
             {
-                Text = r.Name,
-                Value = r.DepartmentID.ToString()
+                // Handle the case where there are no departments available
+                ViewBag.Departments = new List<SelectListItem>(); // Return an empty list
+                ViewBag.Units = string.Empty; // No units to display
+                ViewBag.Genders = model.Genders; // Return genders if available
+                return View(model); // Return the model to the view
+            }
 
-            }).ToListAsync();
+            // Store departments in ViewBag
+            ViewBag.Departments = model.Departments;
 
+            // Get the current day name in the desired format
             var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
 
-            // Query the database
-            var unitNames = await _context.DepartmentDayUnitMappings
-                .Where(mapping =>
-                    mapping.Departments.DepartmentID == 5 &&
-                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
-                )
-                .OrderBy(mapping => mapping.Units.Name)
-                .Select(mapping => new
-                {
-                    UnitName = mapping.Units.Name,
-                    UnitID = mapping.Units.UnitID
-                })
-                .ToListAsync();
+            // Get the selected department ID (if any)
+            var selectedDepartment = model.Departments.FirstOrDefault();
+            int departmentId = selectedDepartment != null ? Convert.ToInt32(selectedDepartment.Value) : 0;
 
-            // Concatenate unit names and IDs
-            var concatenatedNames = string.Join(" & ", unitNames.Select(u => u.UnitName));
-            var concatenatedValues = string.Join(", ", unitNames.Select(u => u.UnitID.ToString()));
-            List<SelectListItem> selectListItems = new List<SelectListItem>();
-            // Create the response
-            var response = new SelectListItem
+            // Optional: Check if departmentId is valid
+            if (departmentId <= 0)
             {
-                Text = concatenatedNames,
-                Value = concatenatedValues
-            };
-            selectListItems.Add(response);
+                ViewBag.Units = string.Empty; // Set units to an empty string or handle appropriately
+                ViewBag.Genders = model.Genders; // Return genders if available
+                return View(model); // Return the model to the view
+            }
 
-            ViewBag.Units = selectListItems.ToList();
+            // Fetch the units for the given department and day
+            var units = await _userService.GetUnitsAsync(departmentId, currentDayName);
 
-            //ViewBag.Units = await _context.Units.Select(r => new SelectListItem
-            //{
-            //    Text = r.Name,
-            //    Value = r.UnitID.ToString()
-            //}).ToListAsync();
+            // Store the units in ViewBag
+            ViewBag.Units = units; // Assuming GetUnitsAsync returns a formatted string
+            ViewBag.Genders = model.Genders; // Store genders for the view
 
-            ViewBag.Genders = await _context.Genders.Select(r => new SelectListItem
-            {
-                Text = r.Name,
-                Value = r.GenderID.ToString()
-
-            }).ToListAsync();
-
-            var model = new RevistPatientsModel
+            // Prepare a new model for patient revisit
+            var revisitModel = new RevistPatientsModel
             {
                 VisitDate = DateTime.Now,
                 FromDate = DateTime.Now,
                 ToDate = DateTime.Now
             };
-            return View(model);
+
+            return View(revisitModel); // Return the new model to the view
         }
+
 
         [HttpPost]
         public async Task<IActionResult> RevisitOpDummy(DateTime visitDate)
         {
             bool isDone = false;
-            if (bindRevisitOpDummys1.Count > 0 && visitDate != null)
+            if (lstBindRevisitOpDummys.Count > 0 && visitDate != null)
             {
-                foreach (var item in bindRevisitOpDummys1)
+                foreach (var item in lstBindRevisitOpDummys)
                 {
-                    isDone = await SendRevisitOpDummy(item.UHID, visitDate, item.DepartmentID, item.UnitID, item.GenderName.Substring(0, 1));
+                    isDone = await _userService.SendRevisitOpDummy(item.UHID, visitDate, item.DepartmentID, item.UnitID, item.GenderName.Substring(0, 1));
                 }
-                bindRevisitOpDummys1.Clear();
-                ViewBag.bindRevisitOpDummys = bindRevisitOpDummys1;
+                lstBindRevisitOpDummys.Clear();
+                ViewBag.lstBindRevisitOpDummys = lstBindRevisitOpDummys;
                 return PartialView("_BindRevisitOpDummys");
             }
             return Json(isDone);
-        }
-
-        public async Task<bool> SendRevisitOpDummy(string UHID, DateTime visitDate, int departmentId, int unitId, string gender)
-        {
-            try
-            {
-                // Retrieve a new OPID value
-                string OPID = await GetNewOPID();
-
-                // Check if UHID and OPID are not null or empty
-                if (!string.IsNullOrEmpty(UHID) && !string.IsNullOrEmpty(OPID))
-                {
-                    // Execute the stored procedure
-                    var result = await _context.Database.ExecuteSqlRawAsync(
-                        "EXEC RevisitDPatientOPEntry @UHID = {0}, @OPID = {1}, @VisitDate = {2}, @DepartmentID = {3}, @UnitID = {4}, @Gender = {5}",
-                        UHID, OPID, visitDate, departmentId, unitId, gender
-                    );
-
-                    // Return true if the operation affected more than 0 rows
-                    return result > 0;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log or handle the exception as needed
-                // For example: _logger.LogError(ex, "An error occurred while sending RevisitOpDummy.");
-                return false;
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetUnitNames1(int departmentID)
-        {
-            // Get the current day name
-            var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
-            //currentDayName = "TUE";
-            var unitNames = await _context.DepartmentDayUnitMappings
-                .Where(mapping =>
-                    mapping.Departments.DepartmentID == departmentID &&
-                    mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
-                )
-                .OrderBy(mapping => mapping.Units.Name)
-                .Select(mapping => new { UnitName = mapping.Units.Name, UnitID = mapping.Units.UnitID })
-                .ToListAsync();
-
-            var units = unitNames.Select(r => new SelectListItem
-            {
-                Text = r.UnitName,
-                Value = r.UnitID.ToString()
-
-            }).ToList();
-
-            return Json(units);
         }
 
         [HttpGet]
@@ -1106,36 +515,10 @@ namespace DMLAutomationProcess.Controllers
         {
             try
             {
-                // Get the current day name
                 var currentDayName = DateTime.Now.ToString("dddd").Substring(0, 3).ToUpper();
-
-                // Query the database
-                var unitNames = await _context.DepartmentDayUnitMappings
-                    .Where(mapping =>
-                        mapping.Departments.DepartmentID == departmentID &&
-                        mapping.DaywiseSchedules.Name.Substring(0, 3).ToUpper() == currentDayName
-                    )
-                    .OrderBy(mapping => mapping.Units.Name)
-                    .Select(mapping => new
-                    {
-                        UnitName = mapping.Units.Name,
-                        UnitID = mapping.Units.UnitID
-                    })
-                    .ToListAsync();
-
-                // Concatenate unit names and IDs
-                var concatenatedNames = string.Join(" & ", unitNames.Select(u => u.UnitName));
-                var concatenatedValues = string.Join(", ", unitNames.Select(u => u.UnitID.ToString()));
-
-                // Create the response
-                var response = new SelectListItem
-                {
-                    Text = concatenatedNames,
-                    Value = concatenatedValues
-                };
-
+                var units = await _userService.GetUnitsAsync(departmentID, currentDayName);
                 // Return JSON response
-                return Json(response);
+                return Json(units);
             }
             catch (Exception ex)
             {
@@ -1145,42 +528,17 @@ namespace DMLAutomationProcess.Controllers
             }
         }
 
-
         [HttpGet]
-        public async Task<IActionResult> GetOpDetailsByDate(int departmentID, int unitID, int genderID, DateTime fromDate, DateTime toDate, int noofEntries)
+        public async Task<IActionResult> GetOpDetailsByDate(int departmentID, string unitIDs, int genderID, DateTime fromDate, DateTime toDate, int noofEntries)
         {
-            // Filter and group OPRegistrations by PatientID for the specified department and gender within the date range
-            var bindRevisitOpDummys = await _context.OPRegistrations
-                .Where(a => a.DepartmentID == departmentID
-                            && a.Patient.GenderID == genderID
-                            && a.VisitDate >= fromDate
-                            && a.VisitDate <= toDate)
-                .Include(a => a.Department)  // Include Department details
-                .Include(a => a.Patient)     // Include Patient details
-                .ThenInclude(p => p.Gender)  // Include Gender via Patient
-                .GroupBy(a => new { a.PatientID, a.DepartmentID, a.Patient.GenderID })  // Group by PatientID, Department, and Gender
-                .Select(g => new BindRevisitOpDummys
-                {
-                    SNo = g.FirstOrDefault().ID,                     // Take the first entry's ID as SNo
-                    UHID = g.FirstOrDefault().Patient.UHID,          // Get UHID from the first entry
-                    DepartmentID = departmentID,
-                    UnitID = unitID,
-                    DepartmentName = g.FirstOrDefault().Department.Name, // Department Name
-                    GenderName = g.FirstOrDefault().Patient.Gender.Name, // Gender Name
-                    Total = g.Count()                          // Count number of entries for each patient
-                })
-                .OrderBy(a => a.SNo)    // Sort by SNo or ID
-                .Take(noofEntries)      // Limit the number of records returned
-                .ToListAsync();         // Execute asynchronously
-
-            bindRevisitOpDummys1.AddRange(bindRevisitOpDummys);
-            ViewBag.bindRevisitOpDummys = bindRevisitOpDummys1;
+            var bindRevisitOpDummys = await _userService.GetOpDetailsByDateAsync(departmentID, unitIDs, genderID, fromDate, toDate, noofEntries);
+            lstBindRevisitOpDummys.AddRange(bindRevisitOpDummys);
+            ViewBag.lstBindRevisitOpDummys = lstBindRevisitOpDummys;
 
             // Return partial view
             return PartialView("_BindRevisitOpDummys");
         }
 
         #endregion
-
     }
 }

@@ -1,27 +1,21 @@
-﻿using DMLAutomationProcess.Models;
+﻿using DMLAutomationProcess.Domain.Entities;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Threading.Channels;
+using DMLAutomationProcess.Domain.Interfaces;
+using DMLAutomationProcess.Infra.Services;
 
-namespace DMLAutomationProcess.Controllers
+namespace DMLAutomationProcess.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly IRoleService _roleService;
+        private readonly IAccountService _accountService;
         private readonly TelemetryClient _telemetryClient;
-        public AccountController(SignInManager<ApplicationUser> signInManager, RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, TelemetryClient telemetryClient)
+        public AccountController(IRoleService roleService, IAccountService accountService, TelemetryClient telemetryClient)
         {
-            _signInManager = signInManager;
-            _roleManager = roleManager;
-            _userManager = userManager;
-            _context = context;
+            _roleService = roleService;
+            _accountService = accountService;
             _telemetryClient = telemetryClient;
         }
 
@@ -30,24 +24,8 @@ namespace DMLAutomationProcess.Controllers
         [HttpGet]
         public async Task<ActionResult> ManageRoles()
         {
-            await CreateRoleAndUser();
-            // Fetch all roles
-            var roles = await _roleManager.Roles.ToListAsync();
-
-            // Prepare the model list
-            var model = new List<ApplicationRoleListViewModel>();
-
-            // Iterate over each role and get the number of users
-            foreach (var role in roles)
-            {
-                var usersInRole = await _userManager.GetUsersInRoleAsync(role.Name);
-                model.Add(new ApplicationRoleListViewModel
-                {
-                    RoleName = role.Name,
-                    Id = role.Id,
-                    NumberOfUsers = usersInRole.Count
-                });
-            }
+            // Fetch roles and their user counts
+            var model = await _roleService.GetRolesWithUserCountsAsync();
             ViewBag.Roles = model;
             return View();
         }
@@ -58,111 +36,46 @@ namespace DMLAutomationProcess.Controllers
             return PartialView("_AddRole");
         }
 
-        public async Task<bool> CreateRoleAndUser()
-        {
-            ApplicationRole applicationRole = new ApplicationRole();
-            applicationRole.Name = "Admin";
-            applicationRole.CreatedDate = DateTime.Now;
-            IdentityResult roleRuslt = await _roleManager.CreateAsync(applicationRole);
-
-            ApplicationUser user = new ApplicationUser
-            {
-                Name = "venkat",
-                UserName = "venkat",
-                Email = "venkat@gmail.com",
-                CreatedDate = DateTime.Now,
-                IsActive = true,
-            };
-            IdentityResult result = await _userManager.CreateAsync(user, "Venkat@123");
-            if (result.Succeeded)
-            {
-                if (applicationRole != null)
-                {
-                    IdentityResult roleResult = await _userManager.AddToRoleAsync(user, applicationRole.Name);
-                    if (roleResult.Succeeded)
-                    {
-                        return roleRuslt.Succeeded;
-                    }
-                }
-            }
-            return false;
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddRole(string id, ApplicationRoleViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            bool isExist = !string.IsNullOrEmpty(id);
-            ApplicationRole? applicationRole = isExist ? await _roleManager.FindByIdAsync(id) :
-           new ApplicationRole
-           {
-               Name = model.RoleName,
-               CreatedDate = DateTime.Now
-           };
-            IdentityResult roleRuslt = isExist ? await _roleManager.UpdateAsync(applicationRole)
-                                                : await _roleManager.CreateAsync(applicationRole);
-            if (roleRuslt.Succeeded)
+            if (ModelState.IsValid)
             {
-                await ManageRoles();
-                if (isExist)
-                    TempData["Success"] = "Role Updated Successfully";
-                else
-                    TempData["Success"] = "Role Added Successfully";
-                return PartialView("_BindRoles");
+                bool isExist = !string.IsNullOrEmpty(id);
+                if (await _roleService.AddOrUpdateRoleAsync(model))
+                {
+                    TempData["Success"] = isExist ? "Role Updated Successfully" : "Role Added Successfully";
+                    return PartialView("_BindRoles");
+                }
             }
-            //}
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult EditRole(string id)
+        public async Task<IActionResult> EditRole(string id)
         {
-            var res = _roleManager.Roles.Where(a => a.Id == id).Select(r => new ApplicationRoleViewModel
-            {
-                RoleName = r.Name,
-                Id = r.Id,
-            }).FirstOrDefault();
-            return PartialView("_EditRole", res);
+            var roleViewModel = await _roleService.GetRoleByIdAsync(id);
+            return PartialView("_EditRole", roleViewModel);
         }
 
         [HttpGet]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            ApplicationRoleListViewModel model = new ApplicationRoleListViewModel();
-            if (!string.IsNullOrEmpty(id))
-            {
-                var res = await _roleManager.FindByIdAsync(id);
-                var usersInRole = await _userManager.GetUsersInRoleAsync(res?.Name);
-                model = new ApplicationRoleListViewModel
-                {
-                    RoleName = res?.Name,
-                    Id = id,
-                    NumberOfUsers = usersInRole.Count
-                };
-            }
+            var model = await _roleService.GetRoleForDeletionAsync(id);
             return PartialView("_DeleteRoleConfirm", model);
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteRoleConfirm(string id)
         {
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id) && await _roleService.DeleteRoleAsync(id))
             {
-                ApplicationRole applicationRole = await _roleManager.FindByIdAsync(id);
-                if (applicationRole != null)
-                {
-                    IdentityResult roleRuslt = _roleManager.DeleteAsync(applicationRole).Result;
-                    if (roleRuslt.Succeeded)
-                    {
-                        await ManageRoles();
-                        TempData["Success"] = "Role Deleted Successfully";
-                        return PartialView("_BindRoles");
-                    }
-                }
+                TempData["Success"] = "Role Deleted Successfully";
+                return PartialView("_BindRoles");
             }
             return View();
         }
+
         #endregion
 
         #region Login & LogOut
@@ -180,15 +93,12 @@ namespace DMLAutomationProcess.Controllers
         {
             try
             {
-                _telemetryClient.TrackEvent("Login Started !");
                 ViewData["ReturnUrl"] = returnUrl;
                 if (ModelState.IsValid)
                 {
-                    //await CreateRoleAndUserThenUserRoleMapping(model);
-                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                    var result = await _accountService.LoginAsync(model);
                     if (result.Succeeded)
                     {
-                        _telemetryClient.TrackEvent("Login Ended !");
                         if (User.IsInRole("Admin"))
                         {
                             return RedirectToAction(nameof(AdminController.Index), "Admin");
@@ -209,14 +119,13 @@ namespace DMLAutomationProcess.Controllers
                     else
                     {
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        _telemetryClient.TrackEvent("Login Failed !");
                         return View(model);
                     }
                 }
             }
             catch (Exception ex)
             {
-                _telemetryClient.TrackException(ex);
+                // Handle exception
             }
             return View(model);
         }
@@ -230,34 +139,68 @@ namespace DMLAutomationProcess.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ApplicationUser user, ManageUserViewModel model)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ManageUserViewModel model)
         {
-            //IdentityResult result = _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            //if (result.Succeeded)
-            //{
-            //    await _signInManager.SignOutAsync();
-            //    TempData["success"] = "Your password has been changed successfully!";
-            //}
-            //else
-            //{
-            //    TempData["error"] = "Please Enter Valid Current Password !";
-            //}
-            return RedirectToAction("Login", "Account");
+            var user = await _accountService.GetUserByNameAsync(User.Identity.Name);
+            if (user == null) return NotFound("User not found.");
+
+            var result = await _accountService.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                await _accountService.LogOffAsync();
+                TempData["success"] = "Your password has been changed successfully!";
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> LogOff()
         {
-            try
-            {
-                await _signInManager.SignOutAsync();
-            }
-            catch (Exception ex)
-            {
-                _telemetryClient.TrackException(ex);
-            }
+            await _accountService.LogOffAsync();
             return RedirectToAction("Login");
         }
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> ChangePassword(ApplicationUser user, ManageUserViewModel model)
+        //{
+        //    //IdentityResult result = _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        //    //if (result.Succeeded)
+        //    //{
+        //    //    await _signInManager.SignOutAsync();
+        //    //    TempData["success"] = "Your password has been changed successfully!";
+        //    //}
+        //    //else
+        //    //{
+        //    //    TempData["error"] = "Please Enter Valid Current Password !";
+        //    //}
+        //    return RedirectToAction("Login", "Account");
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> LogOff()
+        //{
+        //    try
+        //    {
+        //        await _signInManager.SignOutAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _telemetryClient.TrackException(ex);
+        //    }
+        //    return RedirectToAction("Login");
+        //}
 
         #endregion
     }

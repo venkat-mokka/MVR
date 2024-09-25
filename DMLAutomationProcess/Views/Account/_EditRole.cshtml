@@ -1,5 +1,5 @@
 ﻿@model ApplicationRoleViewModel
-@using DMLAutomationProcess.Models
+@using DMLAutomationProcess.Domain.Entities
 
 <form asp-action="AddRole" asp-controller="Account" data-ajax="true" data-ajax-method="POST" data-ajax-update="#UpdateID" data-ajax-loading="#LoadingID" data-ajax-complete="ModalClose1" data-ajax-success="ModalClose">
     @Html.HiddenFor(m => m.Id)

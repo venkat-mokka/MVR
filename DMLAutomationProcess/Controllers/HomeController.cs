@@ -1,17 +1,9 @@
-using DMLAutomationProcess.Models;
+using DMLAutomationProcess.Domain.Entities;
+using DMLAutomationProcess.Infra.Dbcontext;
 using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
-using ZXing.Common;
-using ZXing;
-using QRCoder.Core;
-using IronBarCode;
-using Microsoft.Maui.Storage;
-using static System.Net.Mime.MediaTypeNames;
-namespace DMLAutomationProcess.Controllers
+namespace DMLAutomationProcess.Web.Controllers
 {
     //[Authorize]
     public class HomeController : Controller
@@ -21,9 +13,9 @@ namespace DMLAutomationProcess.Controllers
         private readonly ApplicationDbContext _context;
         private readonly TelemetryClient _telemetryClient;
         private readonly IConfiguration _configuration;
-        private readonly string _barcodesPath = Path.Combine(Directory.GetCurrentDirectory(), "Helpers", "BarCodes");
-        private readonly string _qrcodesPath = Path.Combine(Directory.GetCurrentDirectory(), "Helpers", "QRCodes");
-        private readonly string _signaturesPath = Path.Combine(Directory.GetCurrentDirectory(), "Helpers", "Signatures");
+        private readonly string _barcodesPath;
+        private readonly string _qrcodesPath;
+        private readonly string _signaturesPath;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, TelemetryClient telemetryClient, IConfiguration configuration)
         {
@@ -31,6 +23,10 @@ namespace DMLAutomationProcess.Controllers
             _context = context;
             _telemetryClient = telemetryClient;
             _configuration = configuration;
+            var basePath = Directory.GetCurrentDirectory();
+            _barcodesPath = Path.Combine(basePath, _configuration["Paths:Barcodes"]);
+            _qrcodesPath = Path.Combine(basePath, _configuration["Paths:QRCodes"]);
+            _signaturesPath = Path.Combine(basePath, _configuration["Paths:Signatures"]);
         }
 
         public IActionResult Index()

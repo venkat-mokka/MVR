@@ -1,0 +1,104 @@
+﻿@model OPSummaryReport
+@using DMLAutomationProcess.Domain.Entities
+@{
+    ViewBag.Title = "OP Deatils Report";
+}
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-danger">
+                <div class="box-header" style="text-align:center">
+                    <h3 class="box-title">OP Deatils Report</h3>
+                    <br />
+                </div>
+                <div class="box-body" style="height:1050px !important">
+                    <form asp-action="OPDeatilsReport" asp-controller="Admin" method="post">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">From Date<span class="text-danger">*</span>:</label>
+                                    <input id="FromDate" type="date" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">To Date<span class="text-danger">*</span>:</label>
+                                    <input id="ToDate" type="date" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label">Department<span class="text-danger">*</span>:</label>
+                                    @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Departments, "Value", "Text"), "--All--", new { @class = "form-control", @autofocus = "autofocus", @autocomplete = "off" }) <i></i>
+                                    @Html.ValidationMessageFor(model => model.DepartmentID, null, new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <label class="control-label" style="visibility:hidden">Search</label>
+                                    <button type="button" class="btn btn-primary" id="Search">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-12" id="UpdateID" style="display:none;">
+                            @await Html.PartialAsync("_BindOPDeatilsReport")
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                    <br />
+                    <div class="clearfix"></div>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts {
+    <link href="~/rvm/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <link href="~/Content/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript">
+        $('#Search').click(function () {
+            // Retrieve values from the form inputs
+            var departmentID = $("#DepartmentID option:selected").val();
+            var fromDate = $("#FromDate").val();
+            var toDate = $("#ToDate").val();
+            // Validate that all required parameters are provided
+            if (!fromDate || !toDate) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+            if (departmentID == '') {
+                departmentID = 0;
+            }
+            // Construct the URL for the AJAX request
+            var url = '@Url.Content("~/")' + "Admin/OPDetailsReport";
+            // Perform the AJAX POST request
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: {
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    departmentID: departmentID
+                },
+                success: function (data) {
+                    $("#UpdateID").html(data);
+                    $("#UpdateID").show();
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                    alert("An error occurred while processing your request.");
+                }
+            });
+        });
+    </script>
+}

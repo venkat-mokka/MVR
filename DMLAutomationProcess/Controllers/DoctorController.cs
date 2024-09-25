@@ -1,8 +1,9 @@
-﻿using DMLAutomationProcess.Models;
+﻿using DMLAutomationProcess.Domain.Entities;
+using DMLAutomationProcess.Infra.Dbcontext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace DMLAutomationProcess.Controllers
+namespace DMLAutomationProcess.Web.Controllers
 {
     public class DoctorController : Controller
     {
