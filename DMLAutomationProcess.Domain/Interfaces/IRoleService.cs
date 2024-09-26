@@ -17,21 +17,5 @@ namespace DMLAutomationProcess.Domain.Interfaces
         Task<bool> AddOrUpdateRoleAsync(ApplicationRoleViewModel model);
         Task<ApplicationRoleListViewModel> GetRoleForDeletionAsync(string id);
         Task<bool> DeleteRoleAsync(string id);
-    }
-
-    public interface IAccountService
-    {
-        Task<SignInResult> LoginAsync(LoginViewModel model);
-        Task<ApplicationUser> GetUserByNameAsync(string userName);
-        Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string oldPassword, string newPassword);
-        Task LogOffAsync();
-    }
-
-    public interface IAdminService
-    {
-        Task<string> GetCurrentUserIdAsync(string username);
-        Task<List<SelectListItem>> GetDepartmentsAsync();
-        Task<List<OPSummaryReport>> GetOPSummaryReportAsync(DateTime fromDate, DateTime toDate, int departmentID);
-        Task<List<OPDeatilsReport>> GetOPDetailsReportAsync(DateTime fromDate, DateTime toDate, int departmentID);
-    }
+    }  
 }

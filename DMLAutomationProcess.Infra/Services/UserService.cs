@@ -3,6 +3,7 @@ using DMLAutomationProcess.Domain.Interfaces;
 using DMLAutomationProcess.Infra.Dbcontext;
 using DMLAutomationProcess.MoDomain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -558,6 +559,97 @@ namespace DMLAutomationProcess.Infra.Services
             selectListItems.Add(response);
 
             return selectListItems;
+        }
+
+        public async Task<bool> RegisterAsync(OpRegistrationViewModel viewModel, string userName)
+        {
+            try
+            {
+                if (viewModel.Patients != null)
+                {
+                    viewModel.Patients.MiddleName = await Helper.GetCurrentUserId(_context, userName);
+                    _context.Patients.Add(viewModel.Patients);
+                    await _context.SaveChangesAsync();
+                }
+
+                if (viewModel.PatientAddresss != null) // Fixed property name
+                {
+                    viewModel.PatientAddresss.PatientID = viewModel.Patients?.ID ?? 0; // Assuming PatientID is required for PatientAddress
+                    _context.PatientAddresses.Add(viewModel.PatientAddresss);
+                    await _context.SaveChangesAsync();
+                }
+
+                if (viewModel.OPRegistrations != null)
+                {
+                    var parameters = new[]
+                    {
+                    new SqlParameter("@PatientID", viewModel.Patients?.ID),
+                    new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
+                    new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
+                    new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
+                    new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
+                    new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+                    new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+                    new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
+                    new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
+                    new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
+                    new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
+                    new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+                    new SqlParameter("@IsCamp", false),
+                    new SqlParameter("@IsType", false)
+                };
+
+                    await _context.Database.ExecuteSqlRawAsync(
+                        "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp, @IsType",
+                        parameters);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> Revisit_RegistrationAsync(OpRegistrationViewModel viewModel, string userName)
+        {
+            try
+            {
+                if (viewModel.Patients?.ID != 0)
+                {
+                    if (viewModel.OPRegistrations != null)
+                    {
+                        // Create parameters for the stored procedure
+                        var parameters = new[]
+                        {
+                new SqlParameter("@PatientID", viewModel.Patients?.ID),
+                new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
+                new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
+                new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
+                new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
+                new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+                new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
+                new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
+                new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
+                new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
+                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+                new SqlParameter("@IsCamp", false),
+                new SqlParameter("@IsType", true)
+                        };
+
+                        await _context.Database.ExecuteSqlRawAsync(
+                           "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
+                           parameters);
+                    }
+
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 using DMLAutomationProcess.Domain.Interfaces;
 using DMLAutomationProcess.Infra.Services;
+using DMLAutomationProcess.Web.Controllers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,15 +27,28 @@ builder.Services.AddApplicationInsightsTelemetry(appConfig);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+//// Configure the HTTP request pipeline.
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseExceptionHandler("/Home/Error");
+//    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//    app.UseHsts();
+//}
 
-//app.UseExceptionHandler();
+app.UseStatusCodePages(async context =>
+{
+    HttpResponse response = context.HttpContext.Response;
+    if (response.StatusCode == 404)
+    {
+        // Alternatively, redirect to a view:
+        response.Redirect("/Home/AccessDenied");
+    }
+    else if (response.StatusCode == 501)
+    {
+        // Alternatively, redirect to a view:
+         response.Redirect("/Home/Error");
+    }
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

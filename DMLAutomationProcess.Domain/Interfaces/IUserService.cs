@@ -43,5 +43,8 @@ namespace DMLAutomationProcess.Domain.Interfaces
         Task<List<BindRevisitOpDummys>> GetOpDetailsByDateAsync(int departmentID, string unitIDs, int genderID, DateTime fromDate, DateTime toDate, int noofEntries);
         Task<bool> SaveDummyAsync(List<int> departments, List<string> genders, DateTime visitDate);
         Task<List<SelectListItem>> GetUnitsAsync(int departmentId, string dayName);
+
+        Task<bool> RegisterAsync(OpRegistrationViewModel viewModel, string userName);
+        Task<bool> Revisit_RegistrationAsync(OpRegistrationViewModel viewModel, string userName);
     }
 }

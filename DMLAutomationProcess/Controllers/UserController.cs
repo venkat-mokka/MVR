@@ -2,11 +2,8 @@
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using DMLAutomationProcess.Infra.Dbcontext;
 using DMLAutomationProcess.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DMLAutomationProcess.Web.Controllers
 {
@@ -17,13 +14,11 @@ namespace DMLAutomationProcess.Web.Controllers
         private readonly TelemetryClient _telemetryClient;
         private static List<BindRevisitOpDummys> lstBindRevisitOpDummys = new List<BindRevisitOpDummys>();
         private string? userId = null;
-        private readonly ApplicationDbContext _context;
-        public UserController(IDataBindingService dataBindingService, IUserService userService, TelemetryClient telemetryClient, ApplicationDbContext context)
+        public UserController(IDataBindingService dataBindingService, IUserService userService, TelemetryClient telemetryClient)
         {
             _dataBindingService = dataBindingService;
             _userService = userService;
             _telemetryClient = telemetryClient;
-            _context = context;
         }
 
         [HttpGet]
@@ -239,46 +234,7 @@ namespace DMLAutomationProcess.Web.Controllers
         {
             try
             {
-                if (viewModel.Patients != null)
-                {
-                    viewModel.Patients.MiddleName = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
-                    _context.Patients.Add(viewModel.Patients);
-                    await _context.SaveChangesAsync();
-                }
-
-                if (viewModel.PatientAddresss != null)
-                {
-                    viewModel.PatientAddresss.PatientID = viewModel.Patients?.ID ?? 0; // Assuming PatientID is required for PatientAddress
-                    _context.PatientAddresses.Add(viewModel.PatientAddresss);
-                    await _context.SaveChangesAsync();
-                }
-
-                if (viewModel.OPRegistrations != null)
-                {
-                    // Create parameters for the stored procedure
-                    var parameters = new[]
-                    {
-                new SqlParameter("@PatientID", viewModel.Patients?.ID),
-                new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
-                new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
-                new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
-                new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
-                new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
-                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
-                new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
-                new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
-                new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
-                new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
-                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
-                new SqlParameter("@IsCamp", false),
-                new SqlParameter("@IsType", false)
-            };
-
-                    await _context.Database.ExecuteSqlRawAsync(
-                       "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
-                       parameters);
-                }
-
+                await _userService.RegisterAsync(viewModel, userId);
                 TempData["Success"] = "New UHID " + viewModel.Patients?.UHID + " Created Successfully";
                 await BindData();
                 return RedirectToAction("Registration");
@@ -291,6 +247,63 @@ namespace DMLAutomationProcess.Web.Controllers
             }
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Registration(OpRegistrationViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (viewModel.Patients != null)
+        //        {
+        //            viewModel.Patients.MiddleName = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
+        //            _context.Patients.Add(viewModel.Patients);
+        //            await _context.SaveChangesAsync();
+        //        }
+
+        //        if (viewModel.PatientAddresss != null)
+        //        {
+        //            viewModel.PatientAddresss.PatientID = viewModel.Patients?.ID ?? 0; // Assuming PatientID is required for PatientAddress
+        //            _context.PatientAddresses.Add(viewModel.PatientAddresss);
+        //            await _context.SaveChangesAsync();
+        //        }
+
+        //        if (viewModel.OPRegistrations != null)
+        //        {
+        //            // Create parameters for the stored procedure
+        //            var parameters = new[]
+        //            {
+        //        new SqlParameter("@PatientID", viewModel.Patients?.ID),
+        //        new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
+        //        new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
+        //        new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
+        //        new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
+        //        new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+        //        new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+        //        new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
+        //        new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
+        //        new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
+        //        new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
+        //        new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+        //        new SqlParameter("@IsCamp", false),
+        //        new SqlParameter("@IsType", false)
+        //    };
+
+        //            await _context.Database.ExecuteSqlRawAsync(
+        //               "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
+        //               parameters);
+        //        }
+
+        //        TempData["Success"] = "New UHID " + viewModel.Patients?.UHID + " Created Successfully";
+        //        await BindData();
+        //        return RedirectToAction("Registration");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _telemetryClient.TrackException(ex);
+        //        TempData["Error"] = "An error occurred while processing UHID " + (viewModel.Patients?.UHID ?? "unknown") + ".";
+        //        return View();
+        //    }
+        //}
+
         [HttpGet]
         public async Task<IActionResult> Revisit_Registration(string? redirect = null)
         {
@@ -298,25 +311,25 @@ namespace DMLAutomationProcess.Web.Controllers
             await BindData();
             if (redirect != null)
             {
-                // Query the Patient by UHID
-                var patient = await _context.Patients
-                    .Where(x => x.UHID == "")
-                    .FirstOrDefaultAsync();
+                //// Query the Patient by UHID
+                //var patient = await _context.Patients
+                //    .Where(x => x.UHID == "")
+                //    .FirstOrDefaultAsync();
 
-                if (patient != null)
-                {
+                //if (patient != null)
+                //{
 
-                    // Query the PatientAddress and OPRegistration for the found patient
-                    var patientAddress = await _context.PatientAddresses
-                        .Where(x => x.PatientID == patient.ID)
-                        .FirstOrDefaultAsync();
+                //    // Query the PatientAddress and OPRegistration for the found patient
+                //    var patientAddress = await _context.PatientAddresses
+                //        .Where(x => x.PatientID == patient.ID)
+                //        .FirstOrDefaultAsync();
 
-                    var opRegistration = await _context.OPRegistrations
-                        .Where(x => x.PatientID == patient.ID).OrderByDescending(a => a.ID)
-                        .Include(a => a.Speciality)
-                        .Include(a => a.Department)
-                        .FirstOrDefaultAsync();
-                }
+                //    var opRegistration = await _context.OPRegistrations
+                //        .Where(x => x.PatientID == patient.ID).OrderByDescending(a => a.ID)
+                //        .Include(a => a.Speciality)
+                //        .Include(a => a.Department)
+                //        .FirstOrDefaultAsync();
+                //}
 
                 Patient patients = new Patient();
                 PatientAddress patientAddresss = new PatientAddress();
@@ -349,7 +362,7 @@ namespace DMLAutomationProcess.Web.Controllers
 
         public async Task<string?> GetOpIdListAsync(int numIDs)
         {
-            var res = _userService.GetOpIdListAsync(numIDs);
+            var res = await _userService.GetOpIdListAsync(numIDs);
             return res.ToString();
         }
 
@@ -369,44 +382,13 @@ namespace DMLAutomationProcess.Web.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Revisit_Registration(OpRegistrationViewModel viewModel)
         {
             try
             {
-                if (viewModel.Patients?.ID != 0)
-                {
-                    if (viewModel.OPRegistrations != null)
-                    {
-                        // Create parameters for the stored procedure
-                        var parameters = new[]
-                        {
-                new SqlParameter("@PatientID", viewModel.Patients?.ID),
-                new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
-                new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
-                new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
-                new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
-                new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
-                new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
-                new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
-                new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
-                new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
-                new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
-                new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
-                new SqlParameter("@IsCamp", false),
-                new SqlParameter("@IsType", true)
-            };
-
-                        await _context.Database.ExecuteSqlRawAsync(
-                           "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
-                           parameters);
-                    }
-
-                    TempData["Success"] = "Revisit UHID " + viewModel.Patients?.UHID + " Updated Successfully";
-
-                    await BindData();
-                    return RedirectToAction("Revisit_Registration", new { redirect = "redirect" });
-                }
+                await _userService.Revisit_RegistrationAsync(viewModel, userId);
             }
             catch (Exception ex)
             {
@@ -416,6 +398,54 @@ namespace DMLAutomationProcess.Web.Controllers
             }
             return View();
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Revisit_Registration(OpRegistrationViewModel viewModel)
+        //{
+        //    try
+        //    {
+        //        if (viewModel.Patients?.ID != 0)
+        //        {
+        //            if (viewModel.OPRegistrations != null)
+        //            {
+        //                // Create parameters for the stored procedure
+        //                var parameters = new[]
+        //                {
+        //        new SqlParameter("@PatientID", viewModel.Patients?.ID),
+        //        new SqlParameter("@OPID", viewModel.OPRegistrations.OPID),
+        //        new SqlParameter("@VisitDate", viewModel.OPRegistrations.VisitDate),
+        //        new SqlParameter("@IsMlcCase", viewModel.OPRegistrations.IsMlcCase.HasValue ? (object)viewModel.OPRegistrations.IsMlcCase.Value : DBNull.Value),
+        //        new SqlParameter("@IsEmergencyCase", viewModel.OPRegistrations.IsEmergencyCase.HasValue ? (object)viewModel.OPRegistrations.IsEmergencyCase.Value : DBNull.Value),
+        //        new SqlParameter("@DepartmentID", viewModel.OPRegistrations.DepartmentID.HasValue ? (object)viewModel.OPRegistrations.DepartmentID.Value : DBNull.Value),
+        //        new SqlParameter("@DoctorID", viewModel.OPRegistrations.DoctorID.HasValue ? (object)viewModel.OPRegistrations.DoctorID.Value : DBNull.Value),
+        //        new SqlParameter("@SpecialityID", viewModel.OPRegistrations.SpecialityID.HasValue ? (object)viewModel.OPRegistrations.SpecialityID.Value : DBNull.Value),
+        //        new SqlParameter("@FeeTypeID", viewModel.OPRegistrations.FeeTypeID.HasValue ? (object)viewModel.OPRegistrations.FeeTypeID.Value : DBNull.Value),
+        //        new SqlParameter("@ReferredBy", viewModel.OPRegistrations.ReferredBy),
+        //        new SqlParameter("@CreatedDate", viewModel.OPRegistrations.CreatedDate.HasValue ? (object)viewModel.OPRegistrations.CreatedDate.Value : DBNull.Value),
+        //        new SqlParameter("@IsActive", viewModel.OPRegistrations.IsActive),
+        //        new SqlParameter("@IsCamp", false),
+        //        new SqlParameter("@IsType", true)
+        //    };
+
+        //                await _context.Database.ExecuteSqlRawAsync(
+        //                   "EXEC InsertOPRegistration @PatientID, @OPID, @VisitDate, @IsMlcCase, @IsEmergencyCase, @DepartmentID, @DoctorID, @SpecialityID, @FeeTypeID, @ReferredBy, @CreatedDate, @IsActive, @IsCamp,@IsType",
+        //                   parameters);
+        //            }
+
+        //            TempData["Success"] = "Revisit UHID " + viewModel.Patients?.UHID + " Updated Successfully";
+
+        //            await BindData();
+        //            return RedirectToAction("Revisit_Registration", new { redirect = "redirect" });
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _telemetryClient.TrackException(ex);
+        //        TempData["Error"] = "An error occurred while processing UHID " + (viewModel.Patients?.UHID ?? "unknown") + ".";
+        //        return View();
+        //    }
+        //    return View();
+        //}
 
         #endregion
 

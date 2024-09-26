@@ -134,7 +134,7 @@ namespace DMLAutomationProcess.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword()
         {
-            ViewBag.UserId = User.Identity.Name;
+            ViewBag.UserId = await _accountService.GetUserByNameAsync(User?.Identity?.Name);
             return View();
         }
 

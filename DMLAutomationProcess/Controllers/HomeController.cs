@@ -29,6 +29,7 @@ namespace DMLAutomationProcess.Web.Controllers
             _signaturesPath = Path.Combine(basePath, _configuration["Paths:Signatures"]);
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             //string text = "venkat mokka";
@@ -38,12 +39,13 @@ namespace DMLAutomationProcess.Web.Controllers
             return View("Index");
         }
 
+        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+       [HttpGet]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

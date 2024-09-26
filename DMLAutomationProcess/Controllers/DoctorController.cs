@@ -1,5 +1,6 @@
 ﻿using DMLAutomationProcess.Domain.Entities;
 using DMLAutomationProcess.Infra.Dbcontext;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,8 @@ namespace DMLAutomationProcess.Web.Controllers
         {
             _context = context;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             userId = await Helper.GetCurrentUserId(_context, User?.Identity?.Name);
