@@ -10,7 +10,6 @@ namespace DMLAutomationProcess.Domain.Interfaces
 {
     public interface IAdminService
     {
-        Task<string> GetCurrentUserIdAsync(string username);
         Task<List<SelectListItem>> GetDepartmentsAsync();
         Task<List<OPSummaryReport>> GetOPSummaryReportAsync(DateTime fromDate, DateTime toDate, int departmentID);
         Task<List<OPDeatilsReport>> GetOPDetailsReportAsync(DateTime fromDate, DateTime toDate, int departmentID);

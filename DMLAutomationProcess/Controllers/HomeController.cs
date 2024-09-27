@@ -1,5 +1,4 @@
 using DMLAutomationProcess.Domain.Entities;
-using DMLAutomationProcess.Infra.Dbcontext;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -8,19 +7,16 @@ namespace DMLAutomationProcess.Web.Controllers
     //[Authorize]
     public class HomeController : Controller
     {
-
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
         private readonly TelemetryClient _telemetryClient;
         private readonly IConfiguration _configuration;
         private readonly string _barcodesPath;
         private readonly string _qrcodesPath;
         private readonly string _signaturesPath;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, TelemetryClient telemetryClient, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger,TelemetryClient telemetryClient, IConfiguration configuration)
         {
             _logger = logger;
-            _context = context;
             _telemetryClient = telemetryClient;
             _configuration = configuration;
             var basePath = Directory.GetCurrentDirectory();
@@ -45,7 +41,7 @@ namespace DMLAutomationProcess.Web.Controllers
             return View();
         }
 
-       [HttpGet]
+        [HttpGet]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

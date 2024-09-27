@@ -3,6 +3,7 @@ using DMLAutomationProcess.Infra.Dbcontext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace DMLAutomationProcess.Web.Controllers
 {
@@ -10,9 +11,12 @@ namespace DMLAutomationProcess.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private string? userId = null;
-        public DoctorController(ApplicationDbContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public DoctorController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
+            _httpContextAccessor = httpContextAccessor;
             _context = context;
+            userId = _httpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
 
         [HttpGet]

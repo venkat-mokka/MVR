@@ -13,7 +13,6 @@ namespace DMLAutomationProcess.Domain.Interfaces
 {
     public interface IUserService
     {
-        Task<string> GetCurrentUserIdAsync(string username);
         Task<List<ApplicationUsersListViewModel>> GetAllUsersAsync();
         Task<ApplicationUser> GetUserByIdAsync(string id);
         Task<IdentityResult> CreateUserAsync(RegisterViewModel model);

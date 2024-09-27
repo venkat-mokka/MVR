@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using DMLAutomationProcess.Domain.Interfaces;
 using DMLAutomationProcess.Infra.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace DMLAutomationProcess.Web.Controllers
 {
@@ -93,23 +96,32 @@ namespace DMLAutomationProcess.Web.Controllers
         {
             try
             {
+                HttpContext.Session.Clear();
                 ViewData["ReturnUrl"] = returnUrl;
                 if (ModelState.IsValid)
                 {
                     var result = await _accountService.LoginAsync(model);
                     if (result.Succeeded)
                     {
+                        //var claims = new List<Claim>()
+                        //{
+                        //    new Claim("UserName", model.UserName)
+                        //};
+                        //var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        //var principal = new ClaimsPrincipal(userIdentity);
+                        //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
                         if (User.IsInRole("Admin"))
                         {
                             return RedirectToAction(nameof(AdminController.Index), "Admin");
                         }
                         if (User.IsInRole("User"))
                         {
-                            return RedirectToAction(nameof(UserController.Index), "User");
+                            //return RedirectToAction(nameof(UserController.Index), "User");
                         }
                         if (User.IsInRole("Doctor"))
                         {
-                            return RedirectToAction(nameof(UserController.Index), "Doctor");
+                            return RedirectToAction(nameof(DoctorController.Index), "Doctor");
                         }
                         else
                         {

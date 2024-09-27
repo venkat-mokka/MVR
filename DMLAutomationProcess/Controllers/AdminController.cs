@@ -1,21 +1,25 @@
 ﻿using DMLAutomationProcess.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 namespace DMLAutomationProcess.Web.Controllers
 {
+    //[TypeFilter(typeof(AuthorizationFilterAttribute))]
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;
         private string? userId = null;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IHttpContextAccessor? httpContextAccessor)
         {
             _adminService = adminService;
+            _httpContextAccessor = httpContextAccessor;
+            userId = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = await _adminService.GetCurrentUserIdAsync(User?.Identity?.Name);
             return View("Index");
         }
 

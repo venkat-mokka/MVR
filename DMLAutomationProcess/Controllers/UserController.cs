@@ -3,7 +3,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DMLAutomationProcess.Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DMLAutomationProcess.Web.Controllers
 {
@@ -14,17 +14,19 @@ namespace DMLAutomationProcess.Web.Controllers
         private readonly TelemetryClient _telemetryClient;
         private static List<BindRevisitOpDummys> lstBindRevisitOpDummys = new List<BindRevisitOpDummys>();
         private string? userId = null;
-        public UserController(IDataBindingService dataBindingService, IUserService userService, TelemetryClient telemetryClient)
+        private readonly IHttpContextAccessor? _httpContextAccessor;
+        public UserController(IDataBindingService dataBindingService, IUserService userService, TelemetryClient telemetryClient, IHttpContextAccessor? httpContextAccessor)
         {
             _dataBindingService = dataBindingService;
             _userService = userService;
             _telemetryClient = telemetryClient;
+            _httpContextAccessor = httpContextAccessor;
+            userId = _httpContextAccessor?.HttpContext?.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userId = await _userService.GetCurrentUserIdAsync(User?.Identity?.Name);
             return View("Index");
         }
 

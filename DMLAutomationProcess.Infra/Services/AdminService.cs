@@ -19,12 +19,7 @@ namespace DMLAutomationProcess.Infra.Services
         {
             _context = context;
         }
-
-        public async Task<string> GetCurrentUserIdAsync(string username)
-        {
-            return await Helper.GetCurrentUserId(_context, username);
-        }
-
+        
         public async Task<List<SelectListItem>> GetDepartmentsAsync()
         {
             return await _context.Departments.Select(r => new SelectListItem

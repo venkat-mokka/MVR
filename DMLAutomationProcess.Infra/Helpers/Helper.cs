@@ -67,3 +67,8 @@ public static class Helper
     }
 }
 
+public static class Constants
+{
+    public const string UserName = "UserName";
+    public const string EmailOTP = "email";
+}
