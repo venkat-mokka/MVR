@@ -84,10 +84,10 @@ app.UseStatusCodePages(async context =>
 // Middleware pipeline configuration
 app.UseHttpsRedirection(); // Redirect HTTP requests to HTTPS
 app.UseStaticFiles(); // Serve static files
-app.UseSession(); // Enable session support
 app.UseRouting(); // Enable routing
 
 app.UseAuthorization(); // Enable authorization middleware
+app.UseSession(); // Enable session support
 
 // Configure default route for the application
 app.MapControllerRoute(
