@@ -143,4 +143,9 @@ namespace DMLAutomationProcess.Domain.Entities
         public string? Consulted { get; set; }
         public string? PatType { get; set; }
     }
+
+    public class NoteData
+    {
+        public string Image { get; set; }
+    }
 }

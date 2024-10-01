@@ -1,6 +1,7 @@
 ﻿using DMLAutomationProcess.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text;
 namespace DMLAutomationProcess.Web.Controllers
 {
     //[TypeFilter(typeof(AuthorizationFilterAttribute))]

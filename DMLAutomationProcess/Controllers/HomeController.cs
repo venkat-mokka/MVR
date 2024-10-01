@@ -13,8 +13,9 @@ namespace DMLAutomationProcess.Web.Controllers
         private readonly string _barcodesPath;
         private readonly string _qrcodesPath;
         private readonly string _signaturesPath;
+        private readonly string _stylusNotes;
 
-        public HomeController(ILogger<HomeController> logger,TelemetryClient telemetryClient, IConfiguration configuration)
+        public HomeController(ILogger<HomeController> logger, TelemetryClient telemetryClient, IConfiguration configuration)
         {
             _logger = logger;
             _telemetryClient = telemetryClient;
@@ -23,6 +24,7 @@ namespace DMLAutomationProcess.Web.Controllers
             _barcodesPath = Path.Combine(basePath, _configuration["Paths:Barcodes"]);
             _qrcodesPath = Path.Combine(basePath, _configuration["Paths:QRCodes"]);
             _signaturesPath = Path.Combine(basePath, _configuration["Paths:Signatures"]);
+            _stylusNotes = Path.Combine(basePath, _configuration["Paths:StylusNotes"]);
         }
 
         [HttpGet]
@@ -87,6 +89,18 @@ namespace DMLAutomationProcess.Web.Controllers
         private string GenerateUniqueFileName(string prefix, string extension)
         {
             return $"{prefix}{DateTime.Now:yyyyMMddHHmmss}_{Guid.NewGuid()}.{extension}";
+        }
+
+        [HttpPost]
+        public IActionResult SaveNotes([FromBody] NoteData data)
+        {
+            // Decode the base64 image and save it as a file or in a database
+            var base64Data = data.Image.Split(',')[1];
+            var bytes = Convert.FromBase64String(base64Data);
+            var fileName = GenerateUniqueFileName("StylusNotes_", "png");
+            var filePath = Path.Combine(_stylusNotes, fileName);
+            System.IO.File.WriteAllBytes(filePath, bytes);
+            return Ok();
         }
     }
 }

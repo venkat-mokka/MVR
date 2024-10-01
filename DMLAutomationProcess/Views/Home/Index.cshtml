@@ -6,30 +6,39 @@
 <div class="row">
     <div class="col-md-12">
         <div class="text-center">
-             <h1 class="display-4">Welcome To RVMH</h1>
+            <h1 class="display-4">Welcome To RVMH</h1>
         </div>
         <div class="row">
-            <form method="POST">
-                <p>
-                    <canvas width="500" height="400" id="signature"
-                            style="border:1px solid black"></canvas><br>
-                    <button type="button" id="accept"
-                            class="btn btn-primary">
-                        Accept signature
-                    </button>
-                    <button type="button" id="save"
-                            class="btn btn-primary">
-                        Save
-                    </button><br>
-                    <img width="500" height="400" id="savetarget"
-                         style="border:1px solid black"><br>
-                    <input id="SignatureDataUrl" type="text">
-                </p>
-                @if (ViewBag.SignatureImage != null)
-                {
-                    <img src="@ViewBag.SignatureImage" alt="Signature" />
-                }
+              <form method="POST">
+            <p>
+            <canvas width="500" height="400" id="signature"
+            style="border:1px solid black"></canvas><br>
+            <button type="button" id="accept"
+            class="btn btn-primary">
+            Accept signature
+            </button>
+            <button type="button" id="save"
+            class="btn btn-primary">
+            Save
+            </button>
+            <button type="button" id="clear" class="btn btn-secondary">
+            Clear Signature
+            </button>
+            <br>
+            <img width="500" height="400" id="savetarget"
+            style="border:1px solid black"><br>
+            <input id="SignatureDataUrl" type="text">
+            </p>
+            @if (ViewBag.SignatureImage != null)
+            {
+            <img src="@ViewBag.SignatureImage" alt="Signature" />
+            }
             </form>
+            <h2>Handwritten Notes</h2>
+            <canvas id="notesCanvas" width="800" height="600" style="border:1px solid #000;"></canvas>
+            <br />
+            <button id="clearButton">Clear Canvas</button>
+            <button id="saveButton">Save Notes</button>
         </div>
     </div>
 </div>
@@ -66,4 +75,71 @@
         });
     });
 
+    $('#clear').click(function () {
+    pad.clear(); // Clear the signature pad
+    $('#savetarget').attr('src', ''); // Clear the displayed image
+    $('#SignatureDataUrl').val(''); // Clear the hidden input
+});
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        const canvas = $('#notesCanvas')[0];
+        const context = canvas.getContext('2d');
+        let drawing = false;
+
+        function getMousePos(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top
+            };
+        }
+
+        $('#notesCanvas').on('mousedown touchstart', function (event) {
+            drawing = true;
+            const pos = getMousePos(event);
+            context.beginPath();
+            context.moveTo(pos.x, pos.y);
+            event.preventDefault();
+        });
+
+        $('#notesCanvas').on('mousemove touchmove', function (event) {
+            if (!drawing) return;
+            const pos = getMousePos(event);
+            context.lineTo(pos.x, pos.y);
+            context.stroke();
+            event.preventDefault();
+        });
+
+        $('#notesCanvas').on('mouseup touchend mouseleave', function () {
+            drawing = false;
+            context.closePath();
+        });
+
+        // Save drawing to server
+        $('#saveButton').on('click', function () {
+            const dataURL = canvas.toDataURL();
+            $.ajax({
+                url: '/Home/SaveNotes',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ image: dataURL }),
+                success: function () {
+                    alert("Notes saved successfully!");
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+                },
+                error: function () {
+                    alert("Error saving notes.");
+                }
+            });
+        });
+
+        // Clear canvas
+        $('#clearButton').on('click', function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    });
 </script>
